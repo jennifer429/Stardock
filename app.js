@@ -174,10 +174,10 @@ function viewBoats() {
           <div class="mono" style="font-weight:600;font-size:24px;color:var(--color-accent-700);white-space:nowrap">${esc(b.price)}</div>
         </div>
         <p class="text-muted" style="font-size:13px;margin:0;line-height:1.45">${esc(b.blurb)}</p>
-        <a class="btn btn-primary btn-block" href="${telHref()}" style="margin-top:2px">${PHONE_SVG} Call or Text</a>
+        <a class="btn btn-primary btn-block phone-link" data-phone="tel" href="#" style="margin-top:2px">${PHONE_SVG} Call or Text</a>
         <div style="display:flex;gap:8px">
           <a class="btn btn-secondary" href="#/boats/${esc(b.slug)}" style="flex:1;text-align:center;justify-content:center">View details</a>
-          <a class="btn btn-secondary" href="${smsHref("Hi Stardock — is the " + b.name + " still available?")}" style="flex:1">Still available?</a>
+          <a class="btn btn-secondary phone-link" data-phone="sms" data-sms-body="${esc("Hi Stardock — is the " + b.name + " still available?")}" href="#" style="flex:1">Still available?</a>
         </div>
       </div>
     </article>`).join("");
@@ -227,8 +227,8 @@ function viewDetail(boat) {
       <p style="font-size:14px;margin:0;line-height:1.55">${esc(boat.desc)}</p>
       ${financing}
 
-      <a class="btn btn-primary btn-block" href="${telHref()}">${PHONE_SVG} Call or Text about this boat</a>
-      <a class="btn btn-secondary btn-block" href="${smsHref("Hi Stardock — is the " + boat.name + " still available?")}" style="margin-top:0">Is this still available?</a>
+      <a class="btn btn-primary btn-block phone-link" data-phone="tel" href="#">${PHONE_SVG} Call or Text about this boat</a>
+      <a class="btn btn-secondary btn-block phone-link" data-phone="sms" data-sms-body="${esc("Hi Stardock — is the " + boat.name + " still available?")}" href="#" style="margin-top:0">Is this still available?</a>
       <a class="btn btn-ghost btn-block" href="#/boats/${esc(boat.slug)}/sign" style="margin-top:0">Printable "For Sale" sign &amp; QR</a>
     </main>`;
 }
@@ -273,7 +273,7 @@ function viewRepair() {
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Mobile boat &amp;<br>engine repair</h2>
         <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, anywhere in Florida. Certified Mercury Marine mechanic.</p>
-        <a class="btn btn-block" href="${telHref()}" style="margin-top:14px;background:var(--color-bg);color:var(--color-accent-900);border-color:var(--color-bg)">${PHONE_SVG} Call or Text Us</a>
+        <a class="btn btn-block phone-link" data-phone="tel" href="#" style="margin-top:14px;background:var(--color-bg);color:var(--color-accent-900);border-color:var(--color-bg)">${PHONE_SVG} Call or Text Us</a>
       </section>
 
       <section style="padding:22px 18px 6px">
@@ -452,21 +452,48 @@ function render() {
     app.innerHTML = viewBoats();
   }
 
+  refreshPhoneLinks();   // wire freshly-rendered Call/Text buttons to the reveal state
   window.scrollTo(0, 0);
 }
 
-// --- wire the static call/text links + boot ---------------------------------
-function applyPhoneLinks() {
-  document.querySelectorAll("[data-tel]").forEach(a => (a.href = telHref()));
-  document.querySelectorAll("[data-sms]").forEach(a =>
-    (a.href = smsHref("Hi " + CONFIG.businessName + " — I've got a boat that needs service.")));
-  document.querySelectorAll("[data-callbar-label]").forEach(el =>
-    (el.textContent = "Call or Text " + CONFIG.phone));
-  document.title = CONFIG.businessName + " · Marine Sales & Repair · Florida";
+// --- tap-to-reveal phone links ----------------------------------------------
+// Anti-scrape guard: the number is NOT written into the page or the Call/Text
+// links until a real visitor taps one. Bots that fetch the page (or don't run
+// JS / don't click) never get a dialable number or a tel:/sms: link. The first
+// tap reveals the number site-wide and does not dial; after that every phone
+// button is a normal live link.
+let phoneRevealed = false;
+
+function defaultSmsBody() {
+  return "Hi " + CONFIG.businessName + " — I've got a boat that needs service.";
 }
+
+function refreshPhoneLinks() {
+  document.querySelectorAll(".phone-link").forEach(a => {
+    if (phoneRevealed) {
+      a.href = a.getAttribute("data-phone") === "sms"
+        ? smsHref(a.getAttribute("data-sms-body") || defaultSmsBody())
+        : telHref();
+    } else {
+      a.setAttribute("href", "#");
+    }
+  });
+  document.querySelectorAll("[data-callbar-label]").forEach(el =>
+    (el.textContent = phoneRevealed ? "Call or Text " + CONFIG.phone : "Tap to show number"));
+}
+
+// First tap on any Call/Text control just reveals the number; the tap does not
+// dial. Subsequent taps use the now-live tel:/sms: link.
+document.addEventListener("click", (e) => {
+  const link = e.target.closest(".phone-link");
+  if (!link || phoneRevealed) return;
+  e.preventDefault();
+  phoneRevealed = true;
+  refreshPhoneLinks();
+});
 
 window.addEventListener("hashchange", render);
 document.addEventListener("DOMContentLoaded", () => {
-  applyPhoneLinks();
-  render();
+  document.title = CONFIG.businessName + " · Marine Sales & Repair · Florida";
+  render();   // render() calls refreshPhoneLinks() for both static and rendered buttons
 });
