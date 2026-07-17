@@ -39,6 +39,23 @@
       display: flex; gap: 9px;
     }
 
+    /* Boats: single column on phones, responsive grid on wider screens. */
+    .boat-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    /* Reading views (a single boat, the repair page, the sign) keep a
+       comfortable column width instead of stretching across a desktop. */
+    .view-narrow { max-width: 620px; margin-inline: auto; width: 100%; }
+
+    /* ===== Tablet / desktop: fill the screen instead of a phone frame ===== */
+    @media (min-width: 720px) {
+      .bg { background: var(--color-neutral-200); }
+      .shell {
+        width: 100%; max-width: 1080px; box-shadow: var(--shadow-md);
+        padding-bottom: 32px;
+      }
+      .callbar { display: none; }   /* the header Call/Text button covers desktop */
+      .boat-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); align-items: start; }
+    }
+
     /* Print: only the sign card prints, full page, no chrome */
     @media print {
       body, .bg { background: #fff; }

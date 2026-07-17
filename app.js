@@ -183,13 +183,13 @@ function viewBoats() {
     </article>`).join("");
 
   return `
-    <main style="padding:18px 18px 26px;display:flex;flex-direction:column;gap:20px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between">
+    <main style="padding:18px 18px 26px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px">
         <h3 style="margin:0">Boats for Sale</h3>
         <span class="text-muted" style="font-size:12px">${CONFIG.boats.length} available</span>
       </div>
-      ${cards}
-      <p class="text-muted" style="font-size:12px;text-align:center;line-height:1.5;margin:4px 0 0">Every boat has its own page &amp; QR code.<br>See one at the dock? Scan its sign for that exact boat.</p>
+      <div class="boat-grid">${cards}</div>
+      <p class="text-muted" style="font-size:12px;text-align:center;line-height:1.5;margin:22px 0 0">Every boat has its own page &amp; QR code.<br>See one at the dock? Scan its sign for that exact boat.</p>
     </main>`;
 }
 
@@ -202,7 +202,7 @@ function viewDetail(boat) {
     </div>` : "";
 
   return `
-    <main style="padding:14px 18px 26px;display:flex;flex-direction:column;gap:16px">
+    <main class="view-narrow" style="padding:14px 18px 26px;display:flex;flex-direction:column;gap:16px">
       <a href="#/boats" class="btn btn-ghost" style="align-self:flex-start;padding-left:0">${BACK_SVG} All boats</a>
 
       <figure class="blueprint duotone" style="margin:0">
@@ -236,7 +236,7 @@ function viewDetail(boat) {
 function viewSign(boat) {
   const url = boatUrl(boat.slug);
   return `
-    <main style="padding:14px 18px 26px;display:flex;flex-direction:column;gap:14px">
+    <main class="view-narrow" style="padding:14px 18px 26px;display:flex;flex-direction:column;gap:14px">
       <a href="#/boats/${esc(boat.slug)}" class="btn btn-ghost no-print" style="align-self:flex-start;padding-left:0">${BACK_SVG} Back to listing</a>
       <div class="text-muted no-print" style="font-size:12px;line-height:1.5">
         Print this at roughly letter size — the QR ends up about 4×4 in, readable from several feet. Zip-tie or laminate it to the boat.
@@ -268,7 +268,7 @@ function viewRepair() {
     </div>`).join("");
 
   return `
-    <main style="padding:0 0 26px">
+    <main class="view-narrow" style="padding:0 0 26px">
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Mobile boat &amp;<br>engine repair</h2>
