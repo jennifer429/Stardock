@@ -24,7 +24,7 @@ const CONFIG = {
 
   // Your Gmail (or any email). Used as the mailto fallback address, and shown
   // as the reply-to on relayed messages.
-  notifyEmail: "jennifer@newlantern.ai",
+  notifyEmail: "info@starling-enterprises-inc.com",
 
   /* --- Repair-tab options ------------------------------------------------ */
   defaultTab: "boats",              // "boats" or "repair" — which tab shows first.
