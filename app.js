@@ -9,7 +9,7 @@
 const CONFIG = {
 
   /* --- Business ---------------------------------------------------------- */
-  phone: "(386) 555-0142",          // Your call/text number. Shown on the site + QR signs.
+  phone: "(802) 745-8503",          // Your call/text number. Shown on the site + QR signs.
   businessName: "Stardock Incorporated",
   websiteUrl: "https://stardock.com", // Your live web address (used to build each boat's shareable link + QR).
 
