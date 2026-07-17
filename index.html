@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stardock Incorporated · Marine Sales & Repair · Florida</title>
+  <meta name="description" content="Stardock Incorporated — boats for sale and certified mobile marine repair anywhere in Florida. Call or text us.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    html, body { margin: 0; }
+    body { background: #dfdfe1; }
+    .mono { font-family: "Barlow Condensed", system-ui, sans-serif; }
+
+    /* Phone-frame shell (matches the prototype's 420px column) */
+    .bg {
+      min-height: 100vh; display: flex; justify-content: center;
+      background:
+        repeating-linear-gradient(90deg, transparent 0 39px, color-mix(in srgb, var(--color-text) 4%, transparent) 39px 40px),
+        repeating-linear-gradient(0deg,  transparent 0 39px, color-mix(in srgb, var(--color-text) 4%, transparent) 39px 40px),
+        #dfdfe1;
+    }
+    .shell {
+      width: 420px; max-width: 100%; background: var(--color-bg);
+      min-height: 100vh; position: relative; box-shadow: var(--shadow-lg);
+      padding-bottom: 78px;
+    }
+    header.site {
+      padding: 16px 18px 12px; border-bottom: 1px solid var(--color-divider);
+      position: sticky; top: 0; z-index: 20;
+      background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+      backdrop-filter: blur(8px);
+    }
+    .tabs { display: flex; border-bottom: 1px solid var(--color-divider); position: sticky; top: 0; z-index: 10; background: var(--color-bg); }
+    .callbar {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 420px; max-width: 100%; z-index: 30; padding: 10px 14px;
+      background: color-mix(in srgb, var(--color-bg) 94%, transparent);
+      backdrop-filter: blur(8px); border-top: 1px solid var(--color-divider);
+      display: flex; gap: 9px;
+    }
+
+    /* Print: only the sign card prints, full page, no chrome */
+    @media print {
+      body, .bg { background: #fff; }
+      .shell { box-shadow: none; width: 100%; padding: 0; }
+      header.site, .tabs, .callbar, .no-print { display: none !important; }
+      #app { padding: 0; }
+      .sign-card { border: 2px solid #000 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <div class="shell">
+      <!-- Header -->
+      <header class="site">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+          <a href="#/boats" style="text-decoration:none;text-align:left">
+            <div class="mono" style="font-weight:600;font-size:23px;line-height:.95;letter-spacing:-.01em;color:var(--color-text)">STARDOCK<br>INCORPORATED</div>
+            <div class="text-muted" style="font-size:11px;letter-spacing:.04em;margin-top:5px;text-transform:uppercase">Marine Sales &amp; Repair · Florida</div>
+          </a>
+          <a class="btn btn-primary" data-tel style="flex:none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call / Text
+          </a>
+        </div>
+      </header>
+
+      <!-- Tabs -->
+      <div class="tabs no-print">
+        <a href="#/boats"  data-tab="boats"  class="mono">Boats for Sale</a>
+        <a href="#/repair" data-tab="repair" class="mono">Mobile Marine Repair &amp; Maintenance</a>
+      </div>
+
+      <!-- Views render here -->
+      <div id="app"></div>
+
+      <!-- Sticky call bar -->
+      <div class="callbar no-print">
+        <a class="btn btn-primary" data-tel style="flex:2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span data-callbar-label>Call or Text</span>
+        </a>
+        <a class="btn btn-secondary" data-sms style="flex:none;width:52px" aria-label="Text us">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vendored QR generator (no external dependency) -->
+  <script src="qrcode.js"></script>
+  <!-- Site logic + everything you'd edit lives in app.js -->
+  <script src="app.js"></script>
+</body>
+</html>
