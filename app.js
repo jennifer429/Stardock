@@ -11,7 +11,7 @@ const CONFIG = {
   /* --- Business ---------------------------------------------------------- */
   phone: "(802) 745-8503",          // Your call/text number. Shown on the site + QR signs.
   businessName: "Stardock Incorporated",
-  websiteUrl: "https://stardock.com", // Your live web address (used to build each boat's shareable link + QR).
+  websiteUrl: "https://stardockmarine.com", // Your live web address (used to build each boat's shareable link + QR).
 
   /* --- Where the "Request service" form goes ----------------------------- */
   // The form emails you through the free Web3Forms relay. To turn it on:
@@ -56,7 +56,7 @@ const CONFIG = {
       slug:   "mckee-140",
       name:   "14′ McKee Craft",
       year:   "1977",
-      price:  "Call for price",                // add a dollar amount here to list one (e.g. "$12,500")
+      price:  "$15,000",
       engine: "50 HP Mariner FourStroke BigFoot",
       badge:  "For sale",
       hp:     "50 HP Mariner BigFoot 4-stroke (1997)",
@@ -117,6 +117,28 @@ function svgIcon(name, size) {
 }
 const PHONE_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
 const BACK_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>`;
+const SMS_SVG = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`;
+
+// Call + Text button pair. First tap on either reveals the number; after that
+// Call dials and Text opens the SMS app with a prefilled message. `dark` styles
+// them for the navy hero. `smsBody` is the prefilled text message.
+function callTextButtons(smsBody, dark) {
+  const callStyle = dark ? "flex:1;background:var(--color-bg);color:var(--color-accent-900);border-color:var(--color-bg)" : "flex:1";
+  const textStyle = dark ? "flex:1;background:transparent;color:var(--color-bg);border-color:var(--color-bg)" : "flex:1";
+  const textClass = dark ? "btn phone-link" : "btn btn-secondary phone-link";
+  return `<div style="display:flex;gap:8px">
+      <a class="btn btn-primary phone-link" data-phone="tel" href="#" style="${callStyle}">${PHONE_SVG} Call</a>
+      <a class="${textClass}" data-phone="sms" data-sms-body="${esc(smsBody)}" href="#" style="${textStyle}">${SMS_SVG} Text</a>
+    </div>`;
+}
+
+// A line that reveals the actual number as readable text once unlocked, so a
+// visitor (especially on a computer) can copy it to call or text. `dark` uses
+// light text for the navy hero.
+function phoneOut(dark) {
+  const color = dark ? "color:var(--color-bg);opacity:.85" : "color:color-mix(in srgb,var(--color-text) 60%,transparent)";
+  return `<div class="phone-out" style="display:none;font-size:13px;text-align:center;${color}"></div>`;
+}
 
 // --- QR (real, scannable) ---------------------------------------------------
 function qrSvg(text, size) {
@@ -174,11 +196,8 @@ function viewBoats() {
           <div class="mono" style="font-weight:600;font-size:${/^\s*\$/.test(b.price) ? "24px" : "16px"};color:var(--color-accent-700);white-space:nowrap">${esc(b.price)}</div>
         </div>
         <p class="text-muted" style="font-size:13px;margin:0;line-height:1.45">${esc(b.blurb)}</p>
-        <a class="btn btn-primary btn-block phone-link" data-phone="tel" href="#" style="margin-top:2px">${PHONE_SVG} Call or Text</a>
-        <div style="display:flex;gap:8px">
-          <a class="btn btn-secondary" href="#/boats/${esc(b.slug)}" style="flex:1;text-align:center;justify-content:center">View details</a>
-          <a class="btn btn-secondary phone-link" data-phone="sms" data-sms-body="${esc("Hi Stardock — is the " + b.name + " still available?")}" href="#" style="flex:1">Still available?</a>
-        </div>
+        <div style="margin-top:2px">${callTextButtons("Hi Stardock — is the " + b.name + " still available?", false)}</div>
+        <a class="btn btn-secondary btn-block" href="#/boats/${esc(b.slug)}" style="margin-top:8px;text-align:center;justify-content:center">View details</a>
       </div>
     </article>`).join("");
 
@@ -188,6 +207,7 @@ function viewBoats() {
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Marine sales · Florida</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Boats for sale</h2>
         <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Clean, well-kept boats ready to fish. Call or text to come take a look — every boat has its own page and QR code.</p>
+        <div class="phone-out" style="display:none;font-size:15px;color:var(--color-bg);opacity:.95;margin-top:12px;font-weight:600"></div>
       </section>
 
       <section style="padding:22px 18px 6px">
@@ -237,8 +257,8 @@ function viewDetail(boat) {
       <p style="font-size:14px;margin:0;line-height:1.55;white-space:pre-line">${esc(boat.desc)}</p>
       ${financing}
 
-      <a class="btn btn-primary btn-block phone-link" data-phone="tel" href="#">${PHONE_SVG} Call or Text about this boat</a>
-      <a class="btn btn-secondary btn-block phone-link" data-phone="sms" data-sms-body="${esc("Hi Stardock — is the " + boat.name + " still available?")}" href="#" style="margin-top:0">Is this still available?</a>
+      ${callTextButtons("Hi Stardock — is the " + boat.name + " still available?", false)}
+      ${phoneOut(false)}
       <a class="btn btn-ghost btn-block" href="#/boats/${esc(boat.slug)}/sign" style="margin-top:0">Printable "For Sale" sign &amp; QR</a>
     </main>`;
 }
@@ -283,7 +303,8 @@ function viewRepair() {
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Mobile boat &amp;<br>engine repair</h2>
         <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, anywhere in Florida. Certified Mercury Marine mechanic.</p>
-        <a class="btn btn-block phone-link" data-phone="tel" href="#" style="margin-top:14px;background:var(--color-bg);color:var(--color-accent-900);border-color:var(--color-bg)">${PHONE_SVG} Call or Text Us</a>
+        <div style="margin-top:14px">${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}</div>
+        ${phoneOut(true)}
       </section>
 
       <section style="padding:22px 18px 6px">
@@ -490,6 +511,10 @@ function refreshPhoneLinks() {
   });
   document.querySelectorAll("[data-callbar-label]").forEach(el =>
     (el.textContent = phoneRevealed ? "Call or Text " + CONFIG.phone : "Tap to show number"));
+  document.querySelectorAll(".phone-out").forEach(el => {
+    if (phoneRevealed) { el.textContent = "Call or text " + CONFIG.phone; el.style.display = "block"; }
+    else { el.style.display = "none"; }
+  });
 }
 
 // First tap on any Call/Text control just reveals the number; the tap does not
