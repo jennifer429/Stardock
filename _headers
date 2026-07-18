@@ -1,0 +1,11 @@
+# Cloudflare Pages headers.
+# Always revalidate the HTML and code files so site updates appear
+# immediately instead of being served stale from the browser cache.
+/index.html
+  Cache-Control: no-cache
+/app.js
+  Cache-Control: no-cache
+/styles.css
+  Cache-Control: no-cache
+/qrcode.js
+  Cache-Control: no-cache
