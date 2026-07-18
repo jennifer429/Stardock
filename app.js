@@ -302,7 +302,7 @@ function viewRepair() {
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Mobile boat &amp;<br>engine repair</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, anywhere in Florida. Certified Mercury Marine mechanic.</p>
+        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, anywhere in Florida. Mercury Outboard Certified mechanic.</p>
         <div style="margin-top:14px">${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}</div>
         ${phoneOut(true)}
       </section>
@@ -315,11 +315,11 @@ function viewRepair() {
       <section style="padding:20px 18px 6px">
         <div class="blueprint" style="padding:16px 15px;background:color-mix(in srgb,var(--color-accent) 6%,transparent)">
           <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          <div style="display:flex;gap:13px;align-items:flex-start">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px"><path d="M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"/><path d="M8.5 8.5 12 12l3.5-3.5"/><path d="m8.5 14 -1.5 7 5-3 5 3-1.5-7"/></svg>
+          <div style="display:flex;gap:16px;align-items:center">
+            <img src="images/mercury-certified.png?v=5" alt="Mercury Outboard Certified" style="width:108px;height:108px;flex:none">
             <div>
-              <div class="mono" style="font-weight:600;font-size:17px;line-height:1.1">Certified Mercury Marine Mechanic</div>
-              <p class="text-muted" style="font-size:13px;margin:6px 0 0;line-height:1.5">Factory-trained and family-run. Straight answers, fair rates, and work we stand behind — the way it should be.</p>
+              <div class="mono" style="font-weight:600;font-size:18px;line-height:1.12">Mercury Outboard Certified</div>
+              <p class="text-muted" style="font-size:13px;margin:6px 0 0;line-height:1.5">Factory-trained, Mercury Outboard Certified technician — family-run. Straight answers, fair rates, and work we stand behind.</p>
             </div>
           </div>
         </div>
