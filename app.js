@@ -11,6 +11,7 @@ const CONFIG = {
   /* --- Business ---------------------------------------------------------- */
   phone: "(802) 745-8503",          // Your call/text number. Shown on the site + QR signs.
   businessName: "Stardock Incorporated",
+  techName: "",                     // Name of your Mercury Outboard Certified technician (shown on the repair tab).
   websiteUrl: "https://stardockmarine.com", // Your live web address (used to build each boat's shareable link + QR).
 
   /* --- Where the "Request service" form goes ----------------------------- */
@@ -307,22 +308,20 @@ function viewRepair() {
         ${phoneOut(true)}
       </section>
 
+      <section style="padding:20px 18px 2px">
+        <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 9%,transparent);display:flex;gap:16px;align-items:center">
+          <img src="images/mercury-certified.png?v=6" alt="Mercury Outboard Certified" style="width:120px;height:120px;flex:none">
+          <div>
+            <div class="mono" style="font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">Mercury Outboard Certified</div>
+            <div class="mono" style="font-weight:600;font-size:23px;line-height:1.05;margin-top:2px">${esc(CONFIG.techName || "Our certified technician")}</div>
+            <p class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.5">Factory-trained and family-run. Straight answers, fair rates, and work we stand behind.</p>
+          </div>
+        </div>
+      </section>
+
       <section style="padding:22px 18px 6px">
         <h3 style="margin:0 0 14px">What we service</h3>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
-      </section>
-
-      <section style="padding:20px 18px 6px">
-        <div class="blueprint" style="padding:16px 15px;background:color-mix(in srgb,var(--color-accent) 6%,transparent)">
-          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          <div style="display:flex;gap:16px;align-items:center">
-            <img src="images/mercury-certified.png?v=5" alt="Mercury Outboard Certified" style="width:108px;height:108px;flex:none">
-            <div>
-              <div class="mono" style="font-weight:600;font-size:18px;line-height:1.12">Mercury Outboard Certified</div>
-              <p class="text-muted" style="font-size:13px;margin:6px 0 0;line-height:1.5">Factory-trained, Mercury Outboard Certified technician — family-run. Straight answers, fair rates, and work we stand behind.</p>
-            </div>
-          </div>
-        </div>
       </section>
 
       <section style="padding:22px 18px 6px">
