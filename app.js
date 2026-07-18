@@ -55,16 +55,16 @@ const CONFIG = {
     {
       slug:   "mckee-140",
       name:   "14′ McKee Craft",
-      year:   "",                              // add the model year here when you have it
-      price:  "Call for price",                // put a dollar amount here to list one
-      engine: "50 HP Mariner FourStroke",
+      year:   "1977",
+      price:  "Call for price",                // add a dollar amount here to list one (e.g. "$12,500")
+      engine: "50 HP Mariner FourStroke BigFoot",
       badge:  "For sale",
-      hp:     "50 HP Mariner FourStroke",
+      hp:     "50 HP Mariner BigFoot 4-stroke (1997)",
       hull:   "Center console",
       extra:  "Galvanized trailer included",
       photos: ["images/mckee-5.jpg", "images/mckee-1.jpg", "images/mckee-6.jpg", "images/mckee-3.jpg", "images/mckee-4.jpg", "images/mckee-2.jpg", "images/mckee-brochure.jpg"],
-      blurb:  "The famously unsinkable McKee Craft — a tough double-hull skiff with a 50 HP Mariner four-stroke. A great first boat or backwater fishing rig.",
-      desc:   "A clean 14-foot McKee Craft center console powered by a 50 HP Mariner (Mercury) FourStroke, on a galvanized single-axle trailer. McKee's double-hull design with full-foam flotation is famously unsinkable, and the cathedral hull runs dry and stable. Rigged with a Garmin fish/depth finder, bow rails and stainless fittings — light, easy to launch, and right at home in the skinny water.",
+      blurb:  "A classic 1977 McKee Craft — the legendary “unsinkable” skiff, lovingly restored. 1997 Mariner 50 BigFoot four-stroke, hydraulic steering, Bose sound & GPS.",
+      desc:   "A true Florida classic. From the 1960s on, McKee Craft earned its nickname — “The Unsinkables” — with a double-hull, full-foam-flotation design that keeps the boat afloat even when swamped, built over a cathedral hull that runs dry and stable in a chop. Decades later they're still prized as tough, safe, seaworthy boats that punch well above their size.\n\nThis 1977 14-footer has been lovingly restored — original, beautifully finished woodwork blended with modern upgrades throughout. Power is a 1997 50 HP Mariner FourStroke BigFoot outboard, with hydraulic steering, a new Bose sound system, GPS and fishfinder, and professionally rewired electrics. It's been fully serviced and inspected by a certified Mercury technician, with strong compression on all four cylinders. Light, unsinkable by design, and easy to launch — a one-of-a-kind first boat, backwater skiff or weekend fishing rig. Comes on a galvanized trailer.",
     },
   ],
 
@@ -234,7 +234,7 @@ function viewDetail(boat) {
         <div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--color-divider)"><span class="text-muted" style="font-size:13px">Included</span><span class="mono" style="font-weight:600;font-size:14px;text-align:right">${esc(boat.extra)}</span></div>
       </div>
 
-      <p style="font-size:14px;margin:0;line-height:1.55">${esc(boat.desc)}</p>
+      <p style="font-size:14px;margin:0;line-height:1.55;white-space:pre-line">${esc(boat.desc)}</p>
       ${financing}
 
       <a class="btn btn-primary btn-block phone-link" data-phone="tel" href="#">${PHONE_SVG} Call or Text about this boat</a>
