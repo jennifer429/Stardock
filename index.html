@@ -44,6 +44,8 @@
     /* Reading views (a single boat, the repair page, the sign) keep a
        comfortable column width instead of stretching across a desktop. */
     .view-narrow { max-width: 620px; margin-inline: auto; width: 100%; }
+    /* Drop the blueprint "+" registration marks — cleaner, less rustic. */
+    .blueprint > .corner { display: none; }
 
     /* ===== Tablet / desktop: fill the screen instead of a phone frame ===== */
     @media (min-width: 720px) {

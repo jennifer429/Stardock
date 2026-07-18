@@ -41,30 +41,30 @@ const CONFIG = {
     {
       slug:   "key-largo-176",                 // short id used in the web address (letters/numbers/dashes)
       name:   "17′ Key Largo",
-      year:   "2019",
+      year:   "2004",
       price:  "$20,000",
-      engine: "90 HP Mercury outboard",
+      engine: "90 HP Mercury Command Thrust",
       badge:  "For sale",
-      hp:     "90 HP Mercury",
+      hp:     "90 HP Mercury Command Thrust",
       hull:   "Center console",
-      extra:  "Trailer included",
-      photos: [],
-      blurb:  "Clean center console, low hours, runs strong. Great all-around fishing and family boat.",
-      desc:   "A well-kept 17-foot Key Largo center console with a 90 HP Mercury outboard. Low hours, recent service, and it comes on a matching aluminum trailer. Fishes great and easy to tow — a solid, dependable boat for the whole family.",
+      extra:  "Aluminum trailer included",
+      photos: ["images/keylargo-1.jpg", "images/keylargo-4.jpg", "images/keylargo-2.jpg", "images/keylargo-3.jpg"],
+      blurb:  "Well-kept 17-foot center console with a brand-new 90 HP Mercury and a fully transferable 7-year warranty. Turn-key and ready to fish.",
+      desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard — fully transferable 7-year warranty. Recently serviced and professionally rewired, with a GPS fishfinder, live well, and a digital motor interface that connects to your phone over Bluetooth. Comes on a matching aluminum trailer — turn-key and ready to fish.",
     },
     {
       slug:   "mckee-140",
       name:   "14′ McKee Craft",
-      year:   "2014",
-      price:  "$15,000",
-      engine: "50 HP Mercury outboard",
+      year:   "",                              // add the model year here when you have it
+      price:  "Call for price",                // put a dollar amount here to list one
+      engine: "50 HP Mariner FourStroke",
       badge:  "For sale",
-      hp:     "50 HP Mercury",
+      hp:     "50 HP Mariner FourStroke",
       hull:   "Center console",
-      extra:  "Trailer included",
-      photos: [],
-      blurb:  "Tough little McKee with a 50 HP Merc. Perfect first boat or backwater skiff.",
-      desc:   "A tough, well-built 14-foot McKee Craft with a 50 HP Mercury outboard. Aluminum trailer included, new bilge pump. Light, easy to launch, and gets you into the skinny water — an ideal first boat or backwater skiff.",
+      extra:  "Galvanized trailer included",
+      photos: ["images/mckee-5.jpg", "images/mckee-1.jpg", "images/mckee-6.jpg", "images/mckee-3.jpg", "images/mckee-4.jpg", "images/mckee-2.jpg", "images/mckee-brochure.jpg"],
+      blurb:  "The famously unsinkable McKee Craft — a tough double-hull skiff with a 50 HP Mariner four-stroke. A great first boat or backwater fishing rig.",
+      desc:   "A clean 14-foot McKee Craft center console powered by a 50 HP Mariner (Mercury) FourStroke, on a galvanized single-axle trailer. McKee's double-hull design with full-foam flotation is famously unsinkable, and the cathedral hull runs dry and stable. Rigged with a Garmin fish/depth finder, bow rails and stainless fittings — light, easy to launch, and right at home in the skinny water.",
     },
   ],
 
@@ -143,7 +143,7 @@ function qrSvg(text, size) {
 // --- photo block (real <img> if provided, else the blueprint placeholder) ---
 function photoBlock(boat, height) {
   if (boat.photos && boat.photos.length) {
-    return `<img src="${esc(boat.photos[0])}" alt="${esc(boat.name)}" style="width:100%;height:${height}px;object-fit:cover;display:block;border-bottom:1px solid var(--color-divider)">`;
+    return `<img src="${esc(boat.photos[0])}" alt="${esc(boat.name)}" loading="lazy" style="width:100%;height:${height}px;object-fit:cover;object-position:center 60%;display:block;border-bottom:1px solid var(--color-divider)">`;
   }
   return `
     <div style="height:${height}px;border-bottom:1px solid var(--color-divider);display:grid;place-items:center;position:relative;background:color-mix(in srgb,var(--color-accent) 6%,transparent)">
@@ -171,7 +171,7 @@ function viewBoats() {
             <div class="mono" style="font-weight:600;font-size:19px;line-height:1">${esc(b.name)}</div>
             <div class="text-muted" style="font-size:12px;margin-top:3px">${esc(b.engine)}</div>
           </div>
-          <div class="mono" style="font-weight:600;font-size:24px;color:var(--color-accent-700);white-space:nowrap">${esc(b.price)}</div>
+          <div class="mono" style="font-weight:600;font-size:${/^\s*\$/.test(b.price) ? "24px" : "16px"};color:var(--color-accent-700);white-space:nowrap">${esc(b.price)}</div>
         </div>
         <p class="text-muted" style="font-size:13px;margin:0;line-height:1.45">${esc(b.blurb)}</p>
         <a class="btn btn-primary btn-block phone-link" data-phone="tel" href="#" style="margin-top:2px">${PHONE_SVG} Call or Text</a>
@@ -183,13 +183,21 @@ function viewBoats() {
     </article>`).join("");
 
   return `
-    <main style="padding:18px 18px 26px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px">
-        <h3 style="margin:0">Boats for Sale</h3>
-        <span class="text-muted" style="font-size:12px">${CONFIG.boats.length} available</span>
-      </div>
-      <div class="boat-grid">${cards}</div>
-      <p class="text-muted" style="font-size:12px;text-align:center;line-height:1.5;margin:22px 0 0">Every boat has its own page &amp; QR code.<br>See one at the dock? Scan its sign for that exact boat.</p>
+    <main style="padding:0 0 26px">
+      <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
+        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Marine sales · Florida</div>
+        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Boats for sale</h2>
+        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Clean, well-kept boats ready to fish. Call or text to come take a look — every boat has its own page and QR code.</p>
+      </section>
+
+      <section style="padding:22px 18px 6px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px">
+          <h3 style="margin:0">Available now</h3>
+          <span class="text-muted" style="font-size:12px">${CONFIG.boats.length} boats</span>
+        </div>
+        <div class="boat-grid">${cards}</div>
+        <p class="text-muted" style="font-size:12px;text-align:center;line-height:1.5;margin:22px 0 0">See one at the dock? Scan its sign to open that exact boat.</p>
+      </section>
     </main>`;
 }
 
@@ -205,15 +213,17 @@ function viewDetail(boat) {
     <main class="view-narrow" style="padding:14px 18px 26px;display:flex;flex-direction:column;gap:16px">
       <a href="#/boats" class="btn btn-ghost" style="align-self:flex-start;padding-left:0">${BACK_SVG} All boats</a>
 
-      <figure class="blueprint duotone" style="margin:0">
-        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <figure class="blueprint" style="margin:0">
         ${boat.photos && boat.photos.length
-          ? `<img src="${esc(boat.photos[0])}" alt="${esc(boat.name)}" style="width:100%;height:230px;object-fit:cover;display:block">`
+          ? `<img id="detail-hero" src="${esc(boat.photos[0])}" alt="${esc(boat.name)}" style="width:100%;max-height:74vh;object-fit:contain;display:block;background:var(--color-neutral-200)">`
           : `<div style="height:230px;display:grid;place-items:center;background:color-mix(in srgb,var(--color-accent) 8%,transparent)"><span class="text-muted mono" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase">Hero Photo</span></div>`}
       </figure>
+      ${boat.photos && boat.photos.length > 1
+        ? `<div style="display:flex;flex-wrap:wrap;gap:8px">${boat.photos.map(p => `<img src="${esc(p)}" alt="" loading="lazy" onclick="var h=document.getElementById('detail-hero');if(h)h.src=this.src" style="width:74px;height:56px;object-fit:cover;object-position:center 60%;border:1px solid var(--color-divider);cursor:pointer;background:var(--color-neutral-200)">`).join("")}</div>`
+        : ""}
 
       <div>
-        <div class="text-muted mono" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">${esc(boat.year)}</div>
+        ${boat.year ? `<div class="text-muted mono" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">${esc(boat.year)}</div>` : ""}
         <h2 style="margin:2px 0 4px">${esc(boat.name)}</h2>
         <div class="mono" style="font-weight:600;font-size:34px;color:var(--color-accent-700);line-height:1">${esc(boat.price)}</div>
       </div>
@@ -248,7 +258,7 @@ function viewSign(boat) {
         <div class="mono" style="border:2px solid var(--color-text);padding:6px 4px;font-weight:600;font-size:15px;letter-spacing:.08em">${esc(CONFIG.businessName).toUpperCase()}</div>
         <div class="mono" style="font-weight:600;font-size:46px;color:var(--color-accent-700);margin:16px 0 0;line-height:.9">FOR SALE</div>
         <div class="mono" style="font-weight:600;font-size:34px;margin:2px 0 10px">${esc(boat.price)}</div>
-        <div class="mono" style="font-weight:600;font-size:20px;line-height:1.05">${esc(boat.year)} ${esc(boat.name)}</div>
+        <div class="mono" style="font-weight:600;font-size:20px;line-height:1.05">${esc([boat.year, boat.name].filter(Boolean).join(" "))}</div>
         <div class="text-muted" style="font-size:14px">${esc(boat.engine)}</div>
         <div class="text-muted mono" style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin:16px 0 12px">Scan for photos, specs &amp; price</div>
         <div style="display:flex;justify-content:center">${qrSvg(url, 190)}</div>
