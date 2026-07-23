@@ -11,16 +11,17 @@
     body { background: #dfdfe1; }
     .mono { font-family: "Barlow Condensed", system-ui, sans-serif; }
 
-    /* Phone-frame shell (matches the prototype's 420px column) */
+    /* Mobile-first shell: fills the screen edge-to-edge on phones, foldables
+       and small tablets. It only becomes the centered "phone frame in a
+       blueprint field" on genuinely large (desktop) screens — see the
+       min-width query below. A fixed-width column here made the page look
+       tiny (a narrow strip with empty gray bars) on larger phones. */
     .bg {
       min-height: 100vh; display: flex; justify-content: center;
-      background:
-        repeating-linear-gradient(90deg, transparent 0 39px, color-mix(in srgb, var(--color-text) 4%, transparent) 39px 40px),
-        repeating-linear-gradient(0deg,  transparent 0 39px, color-mix(in srgb, var(--color-text) 4%, transparent) 39px 40px),
-        #dfdfe1;
+      background: #dfdfe1;
     }
     .shell {
-      width: 420px; max-width: 100%; background: var(--color-bg);
+      width: 100%; max-width: 100%; background: var(--color-bg);
       min-height: 100vh; position: relative; box-shadow: var(--shadow-lg);
       padding-bottom: 78px;
     }
@@ -33,29 +34,40 @@
     .tabs { display: flex; border-bottom: 1px solid var(--color-divider); position: sticky; top: 0; z-index: 10; background: var(--color-bg); }
     .callbar {
       position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 420px; max-width: 100%; z-index: 30; padding: 10px 14px;
+      width: 100%; max-width: 640px; z-index: 30; padding: 10px 14px;
       background: color-mix(in srgb, var(--color-bg) 94%, transparent);
       backdrop-filter: blur(8px); border-top: 1px solid var(--color-divider);
       display: flex; gap: 9px;
     }
 
-    /* Boats: single column on phones, responsive grid on wider screens. */
-    .boat-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    /* Boats: one per row on phones, and automatically two-up once there's
+       room (larger phones, foldables, tablets) — no layout switch needed. */
+    .boat-grid {
+      display: grid; gap: 20px; align-items: start;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
     /* Reading views (a single boat, the repair page, the sign) keep a
        comfortable column width instead of stretching across a desktop. */
     .view-narrow { max-width: 620px; margin-inline: auto; width: 100%; }
     /* Drop the blueprint "+" registration marks — cleaner, less rustic. */
     .blueprint > .corner { display: none; }
 
-    /* ===== Tablet / desktop: fill the screen instead of a phone frame ===== */
-    @media (min-width: 720px) {
-      .bg { background: var(--color-neutral-200); }
+    /* ===== Desktop: center the page in the blueprint field, wider grid =====
+       Kept high (860px) so phones, unfolded foldables and small tablets get
+       the full-bleed mobile landing page rather than a shrunk desktop grid. */
+    @media (min-width: 860px) {
+      .bg {
+        background:
+          repeating-linear-gradient(90deg, transparent 0 39px, color-mix(in srgb, var(--color-text) 4%, transparent) 39px 40px),
+          repeating-linear-gradient(0deg,  transparent 0 39px, color-mix(in srgb, var(--color-text) 4%, transparent) 39px 40px),
+          var(--color-neutral-200);
+      }
       .shell {
-        width: 100%; max-width: 1080px; box-shadow: var(--shadow-md);
+        max-width: 1080px; box-shadow: var(--shadow-md);
         padding-bottom: 32px;
       }
       .callbar { display: none; }   /* the header Call/Text button covers desktop */
-      .boat-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); align-items: start; }
+      .boat-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
     }
 
     /* Print: only the sign card prints, full page, no chrome */
