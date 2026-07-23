@@ -40,11 +40,14 @@
       display: flex; gap: 9px;
     }
 
-    /* Boats: one per row on phones, and automatically two-up once there's
-       room (larger phones, foldables, tablets) — no layout switch needed. */
+    /* Boats: one per row on phones, and automatically balancing to fill the
+       row once there's room (larger phones, foldables, tablets) — no layout
+       switch needed. auto-fit (not auto-fill) collapses empty tracks so a
+       small inventory stays centered/balanced instead of crammed to the left
+       with dead space on the right. */
     .boat-grid {
       display: grid; gap: 20px; align-items: start;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
     /* Reading views (a single boat, the repair page, the sign) keep a
        comfortable column width instead of stretching across a desktop. */
@@ -67,7 +70,7 @@
         padding-bottom: 32px;
       }
       .callbar { display: none; }   /* the header Call/Text button covers desktop */
-      .boat-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+      .boat-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
     }
 
     /* Print: only the sign card prints, full page, no chrome */
