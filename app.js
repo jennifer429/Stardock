@@ -43,7 +43,7 @@ const CONFIG = {
       slug:   "key-largo-176",                 // short id used in the web address (letters/numbers/dashes)
       name:   "17′ Key Largo",
       year:   "2004",
-      price:  "$20,000",
+      price:  "$22,500",
       engine: "90 HP Mercury Command Thrust",
       badge:  "For sale",
       hp:     "90 HP Mercury Command Thrust",
@@ -51,7 +51,7 @@ const CONFIG = {
       extra:  "Aluminum trailer included",
       photos: ["images/keylargo-4.jpg", "images/keylargo-2.jpg", "images/keylargo-3.jpg"],
       blurb:  "Well-kept 17-foot center console with a brand-new 90 HP Mercury and a fully transferable 7-year warranty. Turn-key and ready to fish.",
-      desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard — fully transferable 7-year warranty. Recently serviced and professionally rewired, with a GPS fishfinder, live well, and a digital motor interface that connects to your phone over Bluetooth. Comes on a matching aluminum trailer — turn-key and ready to fish.",
+      desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard backed by a fully transferable 7-year warranty. The boat has been professionally rewired and updated and is equipped with a Simrad GPS/fishfinder, livewell, and a new sound system.\n\nThe helm features a Mercury VesselView interface, allowing you to monitor engine data and performance in real time, along with a convenient wireless phone charger built into the console.\n\nThe boat comes on a matching aluminum trailer and is truly turnkey — there are no issues, deferred maintenance, or projects to tackle. Just hitch it up, launch it, and go fishing.\n\n$22,500 or OBO\nFinancing available.",
     },
     {
       slug:   "mckee-140",
