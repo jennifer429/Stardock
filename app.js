@@ -11,7 +11,6 @@ const CONFIG = {
   /* --- Business ---------------------------------------------------------- */
   phone: "(802) 745-8503",          // Your call/text number. Shown on the site + QR signs.
   businessName: "Stardock Incorporated",
-  businessAddress: "",              // Optional. Your address — shown as the Seller on Bills of Sale. Leave "" to omit.
   techName: "",                     // Name of your Mercury Outboard Certified technician (shown on the repair tab).
   websiteUrl: "https://stardockmarine.com", // Your live web address (used to build each boat's shareable link + QR).
 
@@ -262,7 +261,6 @@ function viewDetail(boat) {
       ${callTextButtons("Hi Stardock — is the " + boat.name + " still available?", false)}
       ${phoneOut(false)}
       <a class="btn btn-ghost btn-block" href="#/boats/${esc(boat.slug)}/sign" style="margin-top:0">Printable "For Sale" sign &amp; QR</a>
-      <a class="btn btn-secondary btn-block" href="#/boats/${esc(boat.slug)}/bill" style="margin-top:0">Bill of Sale &amp; receipt</a>
     </main>`;
 }
 
@@ -289,158 +287,6 @@ function viewSign(boat) {
         <div class="mono" style="font-weight:600;font-size:16px;color:var(--color-accent-700)">${esc(url.replace(/^https?:\/\//, ""))}</div>
       </div>
     </main>`;
-}
-
-// --- Bill of Sale + receipt -------------------------------------------------
-// Front-end only: the seller fills the form and the document(s) update live,
-// then Print (or "Save as PDF") makes the electronic/printable copy. In Florida
-// a vessel and its trailer are titled separately, so this defaults to TWO
-// Bills of Sale (boat + trailer). Nothing is sent anywhere; this is a local
-// document helper, not legal advice.
-function billNum(v) { return Number(String(v == null ? "" : v).replace(/[^0-9.]/g, "")) || 0; }
-function billMoney(v) {
-  return "$" + billNum(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-function billRow(label, val) {
-  return `<tr>
-    <td class="text-muted" style="width:46%;font-size:12px;padding:5px 6px;border-bottom:1px solid var(--color-divider)">${esc(label)}</td>
-    <td class="mono" style="font-weight:600;font-size:13px;padding:5px 6px;border-bottom:1px solid var(--color-divider)">${esc(val || "—")}</td>
-  </tr>`;
-}
-function billParties(v) {
-  const seller = [CONFIG.businessName, CONFIG.businessAddress, CONFIG.phone].filter(Boolean);
-  const buyer = [v.buyer, v.buyerAddr].filter(Boolean);
-  const col = (label, lines) => `<div style="flex:1;min-width:190px">
-      <div class="text-muted mono" style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">${label}</div>
-      <div style="font-size:13px;line-height:1.5">${lines.length ? lines.map(esc).join("<br>") : "—"}</div>
-    </div>`;
-  return `<div style="display:flex;gap:22px;flex-wrap:wrap;margin-bottom:12px">
-      ${col("Seller", seller)}${col("Buyer", buyer)}
-      <div style="min-width:110px"><div class="text-muted mono" style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">Date of sale</div><div class="mono" style="font-size:13px">${esc(v.date || "—")}</div></div>
-    </div>`;
-}
-function billDocFrame(title, subtitle, partiesHtml, bodyHtml, priceLabel, priceVal, breakAfter) {
-  return `
-    <section class="bill-doc blueprint" style="padding:24px 22px 26px;background:var(--color-bg)${breakAfter ? ";page-break-after:always" : ""}">
-      <div style="text-align:center;border-bottom:2px solid var(--color-text);padding-bottom:9px;margin-bottom:13px">
-        <div class="mono" style="font-weight:600;font-size:21px;letter-spacing:.02em">${esc(title)}</div>
-        <div class="text-muted mono" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-top:2px">${esc(subtitle)}</div>
-      </div>
-      ${partiesHtml}${bodyHtml}
-      <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--color-divider);padding-top:10px;margin-top:6px">
-        <span class="mono" style="font-weight:600;font-size:14px">${esc(priceLabel)}</span>
-        <span class="mono" style="font-weight:600;font-size:22px;color:var(--color-accent-700)">${esc(priceVal)}</span>
-      </div>
-      <p class="text-muted" style="font-size:11px;line-height:1.5;margin:12px 0 14px">
-        Sold <b>as-is, where-is</b>, with no warranties expressed or implied by the seller except any manufacturer warranty that transfers with the item. Buyer has inspected the item and accepts it in its present condition. Seller certifies they are the lawful owner with the right to sell, free of liens except as noted above.
-      </p>
-      <div style="display:flex;gap:22px;flex-wrap:wrap">
-        <div style="flex:1;min-width:190px"><div style="border-top:1px solid var(--color-text);margin-top:26px"></div><div class="mono" style="font-size:12px;padding-top:4px">Seller signature &amp; date</div></div>
-        <div style="flex:1;min-width:190px"><div style="border-top:1px solid var(--color-text);margin-top:26px"></div><div class="mono" style="font-size:12px;padding-top:4px">Buyer signature &amp; date</div></div>
-      </div>
-    </section>`;
-}
-function billReceipt(v, boat) {
-  const total = billNum(v.boatPrice) + billNum(v.trailerPrice);
-  const recv = billNum(v.amountRecv);
-  const bal = Math.max(0, total - recv);
-  const rows =
-    billRow("Received from", v.buyer) +
-    billRow("For", [boat.year, boat.name].filter(Boolean).join(" ") + (billNum(v.trailerPrice) ? " + trailer" : "")) +
-    billRow("Payment method", v.payMethod) +
-    billRow("Sale total", billMoney(total)) +
-    billRow("Amount received", billMoney(recv)) +
-    billRow("Balance due", billMoney(bal));
-  return `
-    <section class="bill-doc blueprint" style="padding:24px 22px 26px;background:var(--color-bg)">
-      <div style="text-align:center;border-bottom:2px solid var(--color-text);padding-bottom:9px;margin-bottom:13px">
-        <div class="mono" style="font-weight:600;font-size:21px">RECEIPT</div>
-        <div class="text-muted mono" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-top:2px">${esc(CONFIG.businessName)} · ${esc(v.date || "")}</div>
-      </div>
-      <table class="table" style="width:100%"><tbody>${rows}</tbody></table>
-      <p class="text-muted" style="font-size:11px;line-height:1.5;margin:12px 0 0">Thank you. ${bal > 0 ? "Balance above is due per your agreed terms." : "Paid in full."}</p>
-    </section>`;
-}
-function billDocsHtml(v, boat) {
-  const parties = billParties(v);   // shared header block for each frame
-  const vesselRows =
-    billRow("Year / make / model", [boat.year, boat.name].filter(Boolean).join(" ")) +
-    billRow("Hull ID (HIN)", v.hin) +
-    billRow("FL registration #", v.reg) +
-    billRow("Length", v.length) +
-    billRow("Hull type", boat.hull) +
-    billRow("Engine", boat.hp);
-  const trailerRows =
-    billRow("Year", v.trYear) +
-    billRow("Make", v.trMake) +
-    billRow("VIN", v.trVin);
-  const table = rows => `<table class="table" style="width:100%;margin-bottom:12px"><tbody>${rows}</tbody></table>`;
-
-  if (v.mode === "combined") {
-    const subHead = `<tr><td colspan="2" class="mono" style="font-weight:600;font-size:13px;padding:10px 6px 4px">Trailer</td></tr>`;
-    const body = table(vesselRows + subHead + trailerRows);
-    const total = billMoney(billNum(v.boatPrice) + billNum(v.trailerPrice));
-    return billDocFrame("Bill of Sale", "Vessel & trailer", parties, body, "Total sale price", total, true) + billReceipt(v, boat);
-  }
-  return billDocFrame("Bill of Sale", "Vessel", parties, table(vesselRows), "Vessel sale price", billMoney(v.boatPrice), true)
-       + billDocFrame("Bill of Sale", "Boat trailer", parties, table(trailerRows), "Trailer sale price", billMoney(v.trailerPrice), true)
-       + billReceipt(v, boat);
-}
-function viewBill(boat) {
-  const f = (label, name, ph, type) =>
-    `<div class="field"><label>${label}</label><input class="input" name="${name}" ${type ? `type="${type}"` : ""} placeholder="${esc(ph || "")}"/></div>`;
-  const two = (a, b) => `<div style="display:flex;gap:10px">${a}${b}</div>`;
-  return `
-    <main class="view-narrow" style="padding:14px 18px 26px;display:flex;flex-direction:column;gap:16px">
-      <a href="#/boats/${esc(boat.slug)}" class="btn btn-ghost no-print" style="align-self:flex-start;padding-left:0">${BACK_SVG} Back to listing</a>
-      <div class="no-print">
-        <h2 style="margin:0 0 4px">Bill of Sale &amp; receipt</h2>
-        <p class="text-muted" style="font-size:13px;margin:0 0 6px;line-height:1.5">Fill in the buyer and prices — the documents below update as you type. Then tap <b>Print</b> and choose "Save as PDF" for an electronic copy, or print it. Boat and trailer are titled separately in Florida, so this makes <b>two</b> Bills of Sale by default. Document helper only — not legal advice.</p>
-        <form id="bill-form" style="display:flex;flex-direction:column;gap:11px;margin-top:8px">
-          ${f("Date of sale", "date", "", "date")}
-          ${f("Buyer — full name", "buyer", "First and last")}
-          ${f("Buyer — address", "buyerAddr", "Street, city, state, ZIP")}
-          <div class="hr" style="margin:4px 0"></div>
-          <div class="mono" style="font-weight:600;font-size:14px">Vessel (boat)</div>
-          ${two(f("Hull ID (HIN)", "hin", "12-char HIN"), f("FL registration #", "reg", "FL 0000 AA"))}
-          ${two(f("Length", "length", "e.g. 17 ft"), f("Vessel price", "boatPrice", "$"))}
-          <div class="hr" style="margin:4px 0"></div>
-          <div class="mono" style="font-weight:600;font-size:14px">Trailer</div>
-          ${two(f("Year", "trYear", "e.g. 2004"), f("Make", "trMake", "e.g. Magic Tilt"))}
-          ${two(f("VIN", "trVin", "17-char VIN"), f("Trailer price", "trailerPrice", "$"))}
-          <div class="hr" style="margin:4px 0"></div>
-          <div class="mono" style="font-weight:600;font-size:14px">Receipt</div>
-          ${two(f("Payment method", "payMethod", "Cash, check, transfer…"), f("Amount received", "amountRecv", "$"))}
-          <div class="field"><label>Documents</label>
-            <div class="seg">
-              <label class="seg-opt"><input type="radio" name="mode" value="separate" checked/>Boat + trailer separate</label>
-              <label class="seg-opt"><input type="radio" name="mode" value="combined"/>Combined</label>
-            </div>
-          </div>
-          <button type="button" id="bill-print" class="btn btn-primary btn-block">Print / Save as PDF</button>
-        </form>
-      </div>
-      <div id="bill-preview" style="display:flex;flex-direction:column;gap:18px"></div>
-    </main>`;
-}
-function wireBill(app, boat) {
-  const form = app.querySelector("#bill-form");
-  const preview = app.querySelector("#bill-preview");
-  // Sensible defaults: today's date, the listing price into the vessel field,
-  // and the length parsed from the boat name (e.g. "17′ Key Largo" -> "17 ft").
-  try { form.querySelector('[name="date"]').value = new Date().toISOString().slice(0, 10); } catch (e) {}
-  const total = billNum(boat.price);
-  if (total) form.querySelector('[name="boatPrice"]').value = String(total);
-  const lenMatch = String(boat.name || "").match(/(\d+)/);
-  if (lenMatch) form.querySelector('[name="length"]').value = lenMatch[1] + " ft";
-  const render = () => {
-    const v = Object.fromEntries(new FormData(form).entries());
-    preview.innerHTML = billDocsHtml(v, boat);
-  };
-  form.addEventListener("input", render);
-  form.addEventListener("change", render);
-  app.querySelector("#bill-print").addEventListener("click", () => window.print());
-  render();
 }
 
 function viewRepair() {
@@ -602,7 +448,6 @@ function currentRoute() {
   const parts = hash.split("/").filter(Boolean); // e.g. ["boats","key-largo-176","sign"]
   if (parts[0] === "repair") return { tab: "repair" };
   if (parts[0] === "boats" && parts[1] && parts[2] === "sign") return { tab: "boats", boat: parts[1], sign: true };
-  if (parts[0] === "boats" && parts[1] && parts[2] === "bill") return { tab: "boats", boat: parts[1], bill: true };
   if (parts[0] === "boats" && parts[1]) return { tab: "boats", boat: parts[1] };
   if (parts[0] === "boats") return { tab: "boats" };
   // default / empty hash
@@ -632,9 +477,7 @@ function render() {
   } else if (route.boat) {
     const boat = boatBySlug(route.boat);
     if (!boat) { location.hash = "#/boats"; return; }
-    if (route.sign)      { app.innerHTML = viewSign(boat); }
-    else if (route.bill) { app.innerHTML = viewBill(boat); wireBill(app, boat); }
-    else                 { app.innerHTML = viewDetail(boat); }
+    app.innerHTML = route.sign ? viewSign(boat) : viewDetail(boat);
   } else {
     app.innerHTML = viewBoats();
   }
