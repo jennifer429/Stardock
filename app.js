@@ -11,6 +11,7 @@ const CONFIG = {
   /* --- Business ---------------------------------------------------------- */
   phone: "(802) 745-8503",          // Your call/text number. Shown on the site + QR signs.
   businessName: "Stardock Incorporated",
+  logo: "images/stardock-logo.png", // Logo file in the images/ folder (transparent PNG works best). Shown on the printable sign. Falls back to the business name in text if the file isn't found.
   techName: "",                     // Name of your Mercury Outboard Certified technician (shown on the repair tab).
   websiteUrl: "https://stardockmarine.com", // Your live web address (used to build each boat's shareable link + QR).
 
@@ -49,6 +50,12 @@ const CONFIG = {
       hp:     "90 HP Mercury Command Thrust",
       hull:   "Center console",
       extra:  "Aluminum trailer included",
+      highlights: [               // Short selling points shown on the printable "For Sale" sign.
+        "BRAND-NEW 90 HP Mercury Command Thrust",
+        "Fully transferable 7-year warranty",
+        "Lowrance GPS/fishfinder · new sound system",
+        "Aluminum trailer included — turnkey",
+      ],
       photos: ["images/keylargo-water-1.jpg", "images/keylargo-water-2.jpg", "images/keylargo-water-3.jpg", "images/keylargo-4.jpg", "images/keylargo-hull-warranty.jpg"],
       blurb:  "Well-kept 17-foot center console with a brand-new 90 HP Mercury and a fully transferable 7-year warranty. Turn-key and ready to fish.",
       desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard backed by a fully transferable 7-year warranty. The boat has been professionally rewired and updated and is equipped with a Lowrance GPS/fishfinder, livewell, and a new sound system.\n\nThe helm features a Mercury VesselView interface, allowing you to monitor engine data and performance in real time, along with a convenient wireless phone charger built into the console.\n\nThe boat comes on a matching aluminum trailer and is truly turnkey — there are no issues, deferred maintenance, or projects to tackle. Just hitch it up, launch it, and go fishing.\n\n$22,500 or OBO\nFinancing available.",
@@ -63,6 +70,12 @@ const CONFIG = {
       hp:     "50 HP Mariner BigFoot 4-stroke (1997)",
       hull:   "Center console",
       extra:  "Galvanized trailer included",
+      highlights: [
+        "1997 Mariner 50 BigFoot 4-stroke",
+        "Hydraulic steering · Bose sound · GPS",
+        "Legendary “unsinkable” McKee hull",
+        "Galvanized trailer included",
+      ],
       photos: ["images/mckee-5.jpg", "images/mckee-3.jpg", "images/mckee-4.jpg", "images/mckee-brochure.jpg"],
       blurb:  "A classic 1977 McKee Craft — the legendary “unsinkable” skiff, lovingly restored. 1997 Mariner 50 BigFoot four-stroke, hydraulic steering, Bose sound & GPS.",
       desc:   "A true Florida classic. From the 1960s on, McKee Craft earned its nickname — “The Unsinkables” — with a double-hull, full-foam-flotation design that keeps the boat afloat even when swamped, built over a cathedral hull that runs dry and stable in a chop. Decades later they're still prized as tough, safe, seaworthy boats that punch well above their size.\n\nThis 1977 14-footer has been lovingly restored — original, beautifully finished woodwork blended with modern upgrades throughout. Power is a 1997 50 HP Mariner FourStroke BigFoot outboard, with hydraulic steering, a new Bose sound system, GPS and fishfinder, and professionally rewired electrics. It's been fully serviced and inspected by a certified Mercury technician, with strong compression on all four cylinders. Light, unsinkable by design, and easy to launch — a one-of-a-kind first boat, backwater skiff or weekend fishing rig. Comes on a galvanized trailer.",
@@ -274,17 +287,34 @@ function viewSign(boat) {
         <button onclick="window.print()" class="btn btn-secondary btn-block" style="margin-top:10px">Print this sign</button>
       </div>
 
-      <div class="blueprint sign-card" style="padding:26px 22px 28px;text-align:center;background:var(--color-bg)">
+      <div class="blueprint sign-card" style="padding:24px 22px 26px;text-align:center;background:var(--color-bg)">
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-        <div class="mono" style="border:2px solid var(--color-text);padding:6px 4px;font-weight:600;font-size:15px;letter-spacing:.08em">${esc(CONFIG.businessName).toUpperCase()}</div>
-        <div class="mono" style="font-weight:600;font-size:46px;color:var(--color-accent-700);margin:16px 0 0;line-height:.9">FOR SALE</div>
-        <div class="mono" style="font-weight:600;font-size:34px;margin:2px 0 10px">${esc(boat.price)}</div>
-        <div class="mono" style="font-weight:600;font-size:20px;line-height:1.05">${esc([boat.year, boat.name].filter(Boolean).join(" "))}</div>
-        <div class="text-muted" style="font-size:14px">${esc(boat.engine)}</div>
-        <div class="text-muted mono" style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin:16px 0 12px">Scan for photos, specs &amp; price</div>
-        <div style="display:flex;justify-content:center">${qrSvg(url, 190)}</div>
-        <div class="mono" style="font-weight:600;font-size:18px;margin-top:14px">Call or Text ${esc(CONFIG.phone)}</div>
-        <div class="mono" style="font-weight:600;font-size:16px;color:var(--color-accent-700)">${esc(url.replace(/^https?:\/\//, ""))}</div>
+
+        <div style="text-align:center;margin-bottom:6px">
+          ${CONFIG.logo
+            ? `<img src="${esc(CONFIG.logo)}" alt="${esc(CONFIG.businessName)}" style="height:104px;width:auto;display:block;margin:0 auto" onerror="this.remove();var f=document.getElementById('sign-brand-fb');if(f)f.style.display='inline-block'">
+               <div id="sign-brand-fb" class="mono" style="display:none;border:2px solid var(--color-text);padding:6px 12px;font-weight:600;font-size:15px;letter-spacing:.08em">${esc(CONFIG.businessName).toUpperCase()}</div>`
+            : `<div class="mono" style="border:2px solid var(--color-text);padding:6px 12px;font-weight:600;font-size:15px;letter-spacing:.08em;display:inline-block">${esc(CONFIG.businessName).toUpperCase()}</div>`}
+        </div>
+
+        <div class="mono" style="font-weight:600;font-size:48px;color:var(--color-accent-700);margin:10px 0 0;line-height:.9">FOR SALE</div>
+        <div class="mono" style="font-weight:600;font-size:22px;line-height:1.05;margin-top:8px">${esc([boat.year, boat.name].filter(Boolean).join(" "))}</div>
+        <div class="mono" style="font-weight:600;font-size:38px;color:var(--color-text);margin:2px 0 2px">${esc(boat.price)}</div>
+
+        ${(boat.highlights && boat.highlights.length)
+          ? `<ul style="list-style:none;margin:14px auto 4px;padding:0;max-width:320px;text-align:left;display:flex;flex-direction:column;gap:6px">
+              ${boat.highlights.map(h => `<li style="display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.3">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span>${esc(h)}</span>
+                </li>`).join("")}
+            </ul>`
+          : `<div class="text-muted" style="font-size:14px;margin-top:8px">${esc(boat.engine)}</div>`}
+
+        <div class="hr" style="margin:16px 0 14px"></div>
+        <div class="text-muted mono" style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px">Scan for photos, full specs &amp; more</div>
+        <div style="display:flex;justify-content:center">${qrSvg(url, 180)}</div>
+        <div class="mono" style="font-weight:600;font-size:20px;margin-top:14px">Call or Text ${esc(CONFIG.phone)}</div>
+        <div class="mono" style="font-weight:600;font-size:15px;color:var(--color-accent-700)">${esc(url.replace(/^https?:\/\//, ""))}</div>
       </div>
     </main>`;
 }
