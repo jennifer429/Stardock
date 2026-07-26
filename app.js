@@ -340,11 +340,15 @@ function viewRepair() {
 
       <section style="padding:20px 18px 2px">
         <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 9%,transparent);display:flex;gap:16px;align-items:center">
-          <img src="images/mercury-certified.png?v=6" alt="Mercury Outboard Certified" style="width:120px;height:120px;flex:none">
+          <svg width="72" height="72" viewBox="0 0 100 100" fill="none" style="flex:none">
+            <circle cx="50" cy="50" r="46" stroke="var(--color-accent-700)" stroke-width="2.5"/>
+            <circle cx="50" cy="50" r="37" stroke="var(--color-accent-700)" stroke-width="1"/>
+            <path d="M33 51 l11 11 l23 -25" stroke="var(--color-accent-700)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
           <div>
-            <div class="mono" style="font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">Mercury Outboard Certified</div>
-            <div class="mono" style="font-weight:600;font-size:23px;line-height:1.05;margin-top:2px">${esc(CONFIG.techName || "Our certified technician")}</div>
-            <p class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.5">Factory-trained and family-run. Straight answers, fair rates, and work we stand behind.</p>
+            <div class="mono" style="font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">Certified &amp; factory-trained</div>
+            <div class="mono" style="font-weight:600;font-size:22px;line-height:1.05;margin-top:2px">Mercury Outboard Certified</div>
+            <p class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.5">Family-run and factory-trained. Straight answers, fair rates, and work we stand behind.</p>
           </div>
         </div>
       </section>
