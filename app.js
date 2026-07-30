@@ -377,7 +377,7 @@ function viewRestoration() {
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Restoration &amp; RestoMods · Florida</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Have a beloved boat with some years on it?</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">We restore and <b>RestoMod</b> classic boats — keep the soul of your sweetheart 1969, and bring it up to date with a modern boating experience. Tell us what you're after and we'll work up an estimate, or name a budget and we'll lay out what we can do for it, as options.</p>
+        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">We restore and <b>RestoMod</b> classic boats — we keep the soul of your sweetheart and bring it up to date, so a vintage boat gives you a modern boat feel and experience. Tell us what you're after and we'll work up an estimate, or name a budget and we'll lay out what we can do for it, as options.</p>
         ${phoneOut(true)}
       </section>
 
