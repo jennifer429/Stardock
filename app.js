@@ -102,10 +102,15 @@ const CONFIG = {
   ],
 
   /* --- Restoration gallery (photos of work you've done) ------------------
-     Add image paths here to fill the "Our work" gallery on the Restoration
-     tab — e.g. "images/restore-1.jpg". Drop the files in the images folder.
+     Add entries to fill the "Our work" gallery on the Restoration tab.
+     Each entry: { src, label } — label is "Before" or "After" (shown as a
+     small tag on the photo). Drop the files in the images folder.
      Leave it empty ([]) and the tab shows a friendly "coming soon" note. */
-  restorationPhotos: [],
+  restorationPhotos: [
+    { src: "images/restore-before-1.jpg", label: "Before" },
+    { src: "images/restore-before-2.jpg", label: "Before" },
+    { src: "images/restore-after.jpg",    label: "After"  },
+  ],
 };
 
 /* ============================================================================
@@ -346,8 +351,18 @@ function viewRestoration() {
         </div>`).join("");
 
   const photos = CONFIG.restorationPhotos || [];
-  const ourWork = photos.length
-    ? `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${photos.map(p => `<img src="${esc(p)}" alt="Restoration work" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--color-divider);background:var(--color-neutral-200)">`).join("")}</div>`
+  // Normalize (support legacy plain-string entries too) and split by label.
+  const norm = photos.map(p => typeof p === "string" ? { src: p, label: "" } : p);
+  const befores = norm.filter(p => /before/i.test(p.label || ""));
+  const afters  = norm.filter(p => /after/i.test(p.label || ""));
+  const tag = (l) => l
+    ? `<figcaption class="mono" style="position:absolute;top:0;left:0;padding:4px 10px;background:var(--color-accent-900);color:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase">${esc(l)}</figcaption>`
+    : "";
+  const frame = (p, ratio) => `<figure class="blueprint" style="margin:0;position:relative;overflow:hidden"><img src="${esc(p.src)}" alt="${esc(p.label || "Restoration work")}" loading="lazy" style="display:block;width:100%;aspect-ratio:${ratio};object-fit:cover;background:var(--color-neutral-200)">${tag(p.label)}</figure>`;
+  const ourWork = norm.length
+    ? `${befores.length ? `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:10px">${befores.map(p => frame(p, "3/4")).join("")}</div>` : ""}
+       ${afters.map(p => frame(p, "4/5")).join("")}
+       <div class="text-muted" style="font-size:12px;text-align:center;margin-top:8px">A recent restoration — teardown in the snow up north, finished and back on the water in Florida.</div>`
     : `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${["Before", "After"].map(l => `<figure class="blueprint" style="margin:0;position:relative"><div style="aspect-ratio:4/3;background:color-mix(in srgb,var(--color-accent) 7%,transparent)"></div><figcaption class="mono" style="position:absolute;bottom:0;left:0;padding:5px 9px;background:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--color-divider);border-right:1px solid var(--color-divider)">${l}</figcaption></figure>`).join("")}</div>
        <div class="text-muted" style="font-size:11.5px;text-align:center;margin-top:8px">Before/after photos of finished restorations coming soon.</div>`;
 
