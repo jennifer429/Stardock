@@ -352,15 +352,15 @@ function viewRestoration() {
        <div class="text-muted" style="font-size:11.5px;text-align:center;margin-top:8px">Before/after photos of finished restorations coming soon.</div>`;
 
   return `
-    <main class="view-narrow" style="padding:0 0 26px">
+    <main style="padding:0 0 26px">
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Restoration &amp; RestoMods · Florida</div>
-        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:29px;line-height:1.05">Have a beloved boat<br>with some years on it?</h2>
+        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Have a beloved boat with some years on it?</h2>
         <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">We restore and <b>RestoMod</b> classic boats — keep the soul of your sweetheart 1969, and bring it up to date with a modern boating experience. Tell us what you're after and we'll work up an estimate, or name a budget and we'll lay out what we can do for it, as options.</p>
-        <div style="margin-top:14px">${callTextButtons(restoreSms, true)}</div>
         ${phoneOut(true)}
       </section>
 
+      <div class="view-narrow">
       <section style="padding:20px 18px 2px">
         <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 9%,transparent);display:flex;gap:16px;align-items:center">
           <svg width="72" height="72" viewBox="0 0 100 100" fill="none" style="flex:none">
@@ -420,6 +420,7 @@ function viewRestoration() {
 
         <div id="resto-mount"></div>
       </section>
+      </div>
     </main>`;
 }
 

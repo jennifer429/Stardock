@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Stardock Incorporated · Boat Sales & Restoration · Florida</title>
   <meta name="description" content="Stardock Incorporated — classic and used boats for sale, plus full boat restoration by a Mercury Outboard Certified technician in Florida. Call or text us.">
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=10">
   <style>
     html, body { margin: 0; }
     body { background: #dfdfe1; }
@@ -59,12 +59,7 @@
        Kept high (860px) so phones, unfolded foldables and small tablets get
        the full-bleed mobile landing page rather than a shrunk desktop grid. */
     @media (min-width: 860px) {
-      .bg {
-        background:
-          repeating-linear-gradient(90deg, transparent 0 39px, color-mix(in srgb, var(--color-text) 4%, transparent) 39px 40px),
-          repeating-linear-gradient(0deg,  transparent 0 39px, color-mix(in srgb, var(--color-text) 4%, transparent) 39px 40px),
-          var(--color-neutral-200);
-      }
+      .bg { background: var(--color-neutral-200); }
       .shell {
         max-width: 1080px; box-shadow: var(--shadow-md);
         padding-bottom: 32px;
@@ -126,8 +121,8 @@
   </div>
 
   <!-- Vendored QR generator (no external dependency) -->
-  <script src="qrcode.js?v=9"></script>
+  <script src="qrcode.js?v=10"></script>
   <!-- Site logic + everything you'd edit lives in app.js -->
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>
