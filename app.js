@@ -109,8 +109,8 @@ const CONFIG = {
   restorationPhotos: [
     { src: "images/restore-before-1.jpg", label: "Before" },
     { src: "images/restore-before-2.jpg", label: "Before" },
-    { src: "images/restore-after.jpg",    label: "After"  },
     { src: "images/restore-after-2.jpg",  label: "After"  },
+    { src: "images/restore-after.jpg",    label: "After"  },
   ],
 
   /* Mercury "Certified Outboard Technician" badge shown in the credentials
