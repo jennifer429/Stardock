@@ -9,7 +9,7 @@
 const CONFIG = {
 
   /* --- Business ---------------------------------------------------------- */
-  phone: "(802) 745-8503",          // Your call/text number. Shown on the site + QR signs.
+  phone: "(386) 227-6883",          // Your call/text number. Shown on the site + QR signs.
   businessName: "Stardock Incorporated",
   logo: "images/stardock-logo.png", // Logo file in the images/ folder (transparent PNG works best). Shown on the printable sign. Falls back to the business name in text if the file isn't found.
   techName: "",                     // Name of your Mercury Outboard Certified technician (shown on the repair tab).
