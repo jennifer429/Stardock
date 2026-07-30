@@ -110,7 +110,12 @@ const CONFIG = {
     { src: "images/restore-before-1.jpg", label: "Before" },
     { src: "images/restore-before-2.jpg", label: "Before" },
     { src: "images/restore-after.jpg",    label: "After"  },
+    { src: "images/restore-after-2.jpg",  label: "After"  },
   ],
+
+  /* Mercury "Certified Outboard Technician" badge shown in the credentials
+     box on the Restoration tab. Leave "" to fall back to the drawn seal. */
+  certifiedBadge: "images/mercury-certified-badge.jpg",
 };
 
 /* ============================================================================
@@ -359,10 +364,11 @@ function viewRestoration() {
     ? `<figcaption class="mono" style="position:absolute;top:0;left:0;padding:4px 10px;background:var(--color-accent-900);color:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase">${esc(l)}</figcaption>`
     : "";
   const frame = (p, ratio) => `<figure class="blueprint" style="margin:0;position:relative;overflow:hidden"><img src="${esc(p.src)}" alt="${esc(p.label || "Restoration work")}" loading="lazy" style="display:block;width:100%;aspect-ratio:${ratio};object-fit:cover;background:var(--color-neutral-200)">${tag(p.label)}</figure>`;
+  const galleryRow = (arr) => `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">${arr.map(p => frame(p, "3/4")).join("")}</div>`;
   const ourWork = norm.length
-    ? `${befores.length ? `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:10px">${befores.map(p => frame(p, "3/4")).join("")}</div>` : ""}
-       ${afters.map(p => frame(p, "4/5")).join("")}
-       <div class="text-muted" style="font-size:12px;text-align:center;margin-top:8px">A recent restoration — teardown in the snow up north, finished and back on the water in Florida.</div>`
+    ? `${befores.length ? `<div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-text-muted);margin:0 0 7px">Where it started</div>${galleryRow(befores)}` : ""}
+       ${afters.length ? `<div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin:16px 0 7px">Finished &amp; on the water</div>${galleryRow(afters)}` : ""}
+       <div class="text-muted" style="font-size:12px;text-align:center;margin-top:10px">A recent restoration — torn down up north, rebuilt and back on the water in Florida.</div>`
     : `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${["Before", "After"].map(l => `<figure class="blueprint" style="margin:0;position:relative"><div style="aspect-ratio:4/3;background:color-mix(in srgb,var(--color-accent) 7%,transparent)"></div><figcaption class="mono" style="position:absolute;bottom:0;left:0;padding:5px 9px;background:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--color-divider);border-right:1px solid var(--color-divider)">${l}</figcaption></figure>`).join("")}</div>
        <div class="text-muted" style="font-size:11.5px;text-align:center;margin-top:8px">Before/after photos of finished restorations coming soon.</div>`;
 
@@ -378,11 +384,13 @@ function viewRestoration() {
       <div class="view-narrow">
       <section style="padding:20px 18px 2px">
         <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 9%,transparent);display:flex;gap:16px;align-items:center">
-          <svg width="72" height="72" viewBox="0 0 100 100" fill="none" style="flex:none">
+          ${CONFIG.certifiedBadge
+            ? `<img src="${esc(CONFIG.certifiedBadge)}" alt="Mercury Certified Outboard Technician" width="82" height="82" style="flex:none;width:82px;height:82px;border-radius:50%;object-fit:cover">`
+            : `<svg width="72" height="72" viewBox="0 0 100 100" fill="none" style="flex:none">
             <circle cx="50" cy="50" r="46" stroke="var(--color-accent-700)" stroke-width="2.5"/>
             <circle cx="50" cy="50" r="37" stroke="var(--color-accent-700)" stroke-width="1"/>
             <path d="M33 51 l11 11 l23 -25" stroke="var(--color-accent-700)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          </svg>`}
           <div>
             <div class="mono" style="font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">Certified &amp; factory-trained</div>
             <div class="mono" style="font-weight:600;font-size:22px;line-height:1.05;margin-top:2px">Mercury Outboard Certified</div>
