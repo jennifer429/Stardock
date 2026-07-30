@@ -29,7 +29,7 @@ const CONFIG = {
   notifyEmail: "info@starling-enterprises-inc.com",
 
   /* --- Repair-tab options ------------------------------------------------ */
-  defaultTab: "boats",              // "boats" or "repair" — which tab shows first.
+  defaultTab: "boats",              // "boats" or "restoration" — which tab shows first.
   showFinancing: true,              // Show the "50% down, installment plans" note on boat pages.
 
   /* --- Boats for sale ----------------------------------------------------
@@ -82,13 +82,14 @@ const CONFIG = {
     },
   ],
 
-  /* --- Repair services (the 2x2 grid on the repair tab) ------------------ */
-  services: [
-    { title: "Outboard & Inboard Motors", body: "Diagnostics, service, repair, installation & repowering.", icon: "wrench" },
-    { title: "Boat Electronics",          body: "Wiring, gauges, GPS, fish finders & electrical troubleshooting.", icon: "bolt" },
-    { title: "Marine Systems",            body: "Fuel systems, water pumps, impellers, bilge & steering.", icon: "drop" },
-    { title: "Regular Maintenance",       body: "Annual service, winterizing, tune-ups & pre-purchase checks.", icon: "wrench" },
-  ],
+  /* --- Restoration: what you do (shown as tags on the Restoration tab) --- */
+  restorationWork: ["Fiberglass", "Paint & finish", "Electrical", "Rewiring", "Mechanical", "Full engine service"],
+
+  /* --- Restoration gallery (photos of work you've done) ------------------
+     Add image paths here to fill the "Our work" gallery on the Restoration
+     tab — e.g. "images/restore-1.jpg". Drop the files in the images folder.
+     Leave it empty ([]) and the tab shows a friendly "coming soon" note. */
+  restorationPhotos: [],
 };
 
 /* ============================================================================
@@ -319,49 +320,62 @@ function viewSign(boat) {
     </main>`;
 }
 
-function viewRepair() {
-  const services = CONFIG.services.map(s => `
-    <div class="blueprint" style="padding:13px 12px 14px">
-      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-      <div style="color:var(--color-accent)">${svgIcon(s.icon, 22)}</div>
-      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">${esc(s.title)}</div>
-      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">${esc(s.body)}</p>
-    </div>`).join("");
+function viewRestoration() {
+  const restoreSms = "Hi Stardock — I've got a boat I'd like to restore. Here's a bit about it and my budget:";
+  const photos = CONFIG.restorationPhotos || [];
+  const gallery = photos.length
+    ? `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">${photos.map(p => `<img src="${esc(p)}" alt="Restoration work" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--color-divider);background:var(--color-neutral-200)">`).join("")}</div>`
+    : `<div class="blueprint" style="padding:20px 16px;text-align:center;background:color-mix(in srgb,var(--color-accent) 5%,transparent)"><p class="text-muted" style="margin:0;font-size:13px;line-height:1.55">Photos of our restorations are on the way. Want to see examples of past work? Call or text and we'll send some over.</p></div>`;
+
+  const techLine = CONFIG.techName
+    ? `<div class="mono" style="font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">Mercury Outboard Certified</div>
+             <div class="mono" style="font-weight:600;font-size:23px;line-height:1.05;margin-top:2px">${esc(CONFIG.techName)}</div>`
+    : `<div class="mono" style="font-weight:600;font-size:20px;line-height:1.1">Mercury Outboard Certified</div>`;
 
   return `
     <main class="view-narrow" style="padding:0 0 26px">
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
-        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
-        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Mobile boat &amp;<br>engine repair</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, anywhere in Florida. Mercury Outboard Certified mechanic.</p>
-        <div style="margin-top:14px">${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}</div>
+        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Restoration &amp; RestoMods · Florida</div>
+        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:29px;line-height:1.05">Have a beloved boat<br>with some years on it?</h2>
+        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">We restore and <b>RestoMod</b> classic boats — keep the soul of your sweetheart 1969, and bring it up to date with a modern boating experience. Tell us what you're after and we'll work up an estimate, or name a budget and we'll lay out what we can do for it, as options.</p>
+        <div style="margin-top:14px">${callTextButtons(restoreSms, true)}</div>
         ${phoneOut(true)}
       </section>
 
       <section style="padding:20px 18px 2px">
         <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 9%,transparent);display:flex;gap:16px;align-items:center">
-          <svg width="72" height="72" viewBox="0 0 100 100" fill="none" style="flex:none">
-            <circle cx="50" cy="50" r="46" stroke="var(--color-accent-700)" stroke-width="2.5"/>
-            <circle cx="50" cy="50" r="37" stroke="var(--color-accent-700)" stroke-width="1"/>
-            <path d="M33 51 l11 11 l23 -25" stroke="var(--color-accent-700)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <img src="images/mercury-certified.png?v=8" alt="Mercury Outboard Certified" style="width:120px;height:120px;flex:none">
           <div>
-            <div class="mono" style="font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">Certified &amp; factory-trained</div>
-            <div class="mono" style="font-weight:600;font-size:22px;line-height:1.05;margin-top:2px">Mercury Outboard Certified</div>
-            <p class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.5">Family-run and factory-trained. Straight answers, fair rates, and work we stand behind.</p>
+            ${techLine}
+            <p class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.5">Every restoration is done in-house, with engine work by a factory-trained, Mercury Outboard Certified technician. Family-run, and work we stand behind.</p>
+          </div>
+        </div>
+      </section>
+
+      <section style="padding:22px 18px 2px">
+        <h3 style="margin:0 0 12px">What we do</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          ${(CONFIG.restorationWork || []).map(w => `<span class="tag tag-accent" style="font-size:13px;padding:5px 11px">${esc(w)}</span>`).join("")}
+        </div>
+      </section>
+
+      <section style="padding:22px 18px 6px">
+        <h3 style="margin:0 0 12px">Two ways to start</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="blueprint" style="padding:14px 13px">
+            <div class="mono" style="font-weight:600;font-size:15px;line-height:1.1">Get an estimate</div>
+            <p class="text-muted" style="font-size:12px;margin:6px 0 0;line-height:1.45">Tell us the boat and what you'd like done — we'll work up a plan and a price.</p>
+          </div>
+          <div class="blueprint" style="padding:14px 13px">
+            <div class="mono" style="font-weight:600;font-size:15px;line-height:1.1">Name your budget</div>
+            <p class="text-muted" style="font-size:12px;margin:6px 0 0;line-height:1.45">Give us a number and we'll lay out what we can do for it, as options.</p>
           </div>
         </div>
       </section>
 
       <section style="padding:22px 18px 6px">
-        <h3 style="margin:0 0 14px">What we service</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
-      </section>
-
-      <section style="padding:22px 18px 6px">
-        <h3 style="margin:0 0 4px">Request service</h3>
-        <p class="text-muted" style="font-size:13px;margin:0 0 16px;line-height:1.5">Tell us what's going on and where the boat is. We'll get back to you — texting photos is fastest.</p>
-        <div id="form-mount"></div>
+        <h3 style="margin:0 0 12px">Our work</h3>
+        ${gallery}
       </section>
     </main>`;
 }
@@ -480,12 +494,12 @@ function wireForm(mount) {
 function currentRoute() {
   const hash = location.hash.replace(/^#/, "");
   const parts = hash.split("/").filter(Boolean); // e.g. ["boats","key-largo-176","sign"]
-  if (parts[0] === "repair") return { tab: "repair" };
+  if (parts[0] === "restoration") return { tab: "restoration" };
   if (parts[0] === "boats" && parts[1] && parts[2] === "sign") return { tab: "boats", boat: parts[1], sign: true };
   if (parts[0] === "boats" && parts[1]) return { tab: "boats", boat: parts[1] };
   if (parts[0] === "boats") return { tab: "boats" };
   // default / empty hash
-  return { tab: CONFIG.defaultTab === "repair" ? "repair" : "boats" };
+  return { tab: CONFIG.defaultTab === "restoration" ? "restoration" : "boats" };
 }
 
 function tabStyle(active) {
@@ -505,9 +519,8 @@ function render() {
     el.setAttribute("style", tabStyle(el.getAttribute("data-tab") === route.tab));
   });
 
-  if (route.tab === "repair") {
-    app.innerHTML = viewRepair();
-    wireForm(app.querySelector("#form-mount"));
+  if (route.tab === "restoration") {
+    app.innerHTML = viewRestoration();
   } else if (route.boat) {
     const boat = boatBySlug(route.boat);
     if (!boat) { location.hash = "#/boats"; return; }
@@ -529,7 +542,7 @@ function render() {
 let phoneRevealed = false;
 
 function defaultSmsBody() {
-  return "Hi " + CONFIG.businessName + " — I've got a boat that needs service.";
+  return "Hi " + CONFIG.businessName + " — I have a question about a boat.";
 }
 
 function refreshPhoneLinks() {
@@ -562,6 +575,6 @@ document.addEventListener("click", (e) => {
 
 window.addEventListener("hashchange", render);
 document.addEventListener("DOMContentLoaded", () => {
-  document.title = CONFIG.businessName + " · Marine Sales & Repair · Florida";
+  document.title = CONFIG.businessName + " · Boat Sales & Restoration · Florida";
   render();   // render() calls refreshPhoneLinks() for both static and rendered buttons
 });
