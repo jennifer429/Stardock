@@ -82,8 +82,24 @@ const CONFIG = {
     },
   ],
 
-  /* --- Restoration: what you do (shown as tags on the Restoration tab) --- */
-  restorationWork: ["Fiberglass", "Paint & finish", "Electrical", "Rewiring", "Mechanical", "Full engine service"],
+  /* --- Restoration: what you do (the "What we do" list on the Restoration tab) --- */
+  restorationWork: [
+    { title: "Fiberglass",          body: "Hull repair, stringers, transom rebuilds and gelcoat." },
+    { title: "Paint & finish",      body: "Full repaints, buffing, boot stripes and lettering." },
+    { title: "Electrical",          body: "New panels, gauges, lighting, pumps and electronics." },
+    { title: "Rewiring",            body: "Complete rewire to modern standards — no patchwork." },
+    { title: "Mechanical",          body: "Controls, cables, steering, fuel systems and plumbing." },
+    { title: "Full engine service", body: "Rebuilds, repowers and Mercury-certified engine work." },
+  ],
+
+  /* --- Restoration budget tiers (shown by the "Name your budget" slider) ---
+     max = the top of that budget band; body = what it typically covers. */
+  restorationTiers: [
+    { max: 12000,    name: "Mechanical refresh",  body: "Full engine service, fluids, water pump and impeller, new controls and cables, plus safety gear — the work that makes an old boat dependable again." },
+    { max: 25000,    name: "Refresh + cosmetics", body: "Everything in a mechanical refresh, plus hull buffing or spot paint, new upholstery, a fresh wiring harness and modern gauges." },
+    { max: 40000,    name: "Full restoration",    body: "Stripped to the hull: fiberglass and transom repair, complete repaint, full rewire, and a rebuilt console and seating." },
+    { max: Infinity, name: "RestoMod",            body: "A full restoration plus a repower with a new Mercury, modern electronics, and a layout reworked the way you actually use the boat." },
+  ],
 
   /* --- Restoration gallery (photos of work you've done) ------------------
      Add image paths here to fill the "Our work" gallery on the Restoration
@@ -322,15 +338,18 @@ function viewSign(boat) {
 
 function viewRestoration() {
   const restoreSms = "Hi Stardock — I've got a boat I'd like to restore. Here's a bit about it and my budget:";
-  const photos = CONFIG.restorationPhotos || [];
-  const gallery = photos.length
-    ? `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">${photos.map(p => `<img src="${esc(p)}" alt="Restoration work" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--color-divider);background:var(--color-neutral-200)">`).join("")}</div>`
-    : `<div class="blueprint" style="padding:20px 16px;text-align:center;background:color-mix(in srgb,var(--color-accent) 5%,transparent)"><p class="text-muted" style="margin:0;font-size:13px;line-height:1.55">Photos of our restorations are on the way. Want to see examples of past work? Call or text and we'll send some over.</p></div>`;
 
-  const techLine = CONFIG.techName
-    ? `<div class="mono" style="font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">Mercury Outboard Certified</div>
-             <div class="mono" style="font-weight:600;font-size:23px;line-height:1.05;margin-top:2px">${esc(CONFIG.techName)}</div>`
-    : `<div class="mono" style="font-weight:600;font-size:20px;line-height:1.1">Mercury Outboard Certified</div>`;
+  const caps = (CONFIG.restorationWork || []).map(c => `
+        <div style="display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;padding:13px 2px 14px;border-bottom:1px solid var(--color-divider)">
+          <div class="mono" style="font-weight:600;font-size:18px;line-height:1.1;min-width:150px">${esc(c.title)}</div>
+          <p class="text-muted" style="font-size:13.5px;margin:0;line-height:1.45;flex:1;min-width:180px">${esc(c.body)}</p>
+        </div>`).join("");
+
+  const photos = CONFIG.restorationPhotos || [];
+  const ourWork = photos.length
+    ? `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${photos.map(p => `<img src="${esc(p)}" alt="Restoration work" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--color-divider);background:var(--color-neutral-200)">`).join("")}</div>`
+    : `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${["Before", "After"].map(l => `<figure class="blueprint" style="margin:0;position:relative"><div style="aspect-ratio:4/3;background:color-mix(in srgb,var(--color-accent) 7%,transparent)"></div><figcaption class="mono" style="position:absolute;bottom:0;left:0;padding:5px 9px;background:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--color-divider);border-right:1px solid var(--color-divider)">${l}</figcaption></figure>`).join("")}</div>
+       <div class="text-muted" style="font-size:11.5px;text-align:center;margin-top:8px">Before/after photos of finished restorations coming soon.</div>`;
 
   return `
     <main class="view-narrow" style="padding:0 0 26px">
@@ -344,40 +363,189 @@ function viewRestoration() {
 
       <section style="padding:20px 18px 2px">
         <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 9%,transparent);display:flex;gap:16px;align-items:center">
-          <img src="images/mercury-certified.png?v=8" alt="Mercury Outboard Certified" style="width:120px;height:120px;flex:none">
+          <svg width="72" height="72" viewBox="0 0 100 100" fill="none" style="flex:none">
+            <circle cx="50" cy="50" r="46" stroke="var(--color-accent-700)" stroke-width="2.5"/>
+            <circle cx="50" cy="50" r="37" stroke="var(--color-accent-700)" stroke-width="1"/>
+            <path d="M33 51 l11 11 l23 -25" stroke="var(--color-accent-700)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
           <div>
-            ${techLine}
-            <p class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.5">Every restoration is done in-house, with engine work by a factory-trained, Mercury Outboard Certified technician. Family-run, and work we stand behind.</p>
+            <div class="mono" style="font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">Certified &amp; factory-trained</div>
+            <div class="mono" style="font-weight:600;font-size:22px;line-height:1.05;margin-top:2px">Mercury Outboard Certified</div>
+            <p class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.5">Family-run and factory-trained. Straight answers, fair rates, and work we stand behind.</p>
           </div>
         </div>
       </section>
 
-      <section style="padding:22px 18px 2px">
-        <h3 style="margin:0 0 12px">What we do</h3>
-        <div style="display:flex;flex-wrap:wrap;gap:8px">
-          ${(CONFIG.restorationWork || []).map(w => `<span class="tag tag-accent" style="font-size:13px;padding:5px 11px">${esc(w)}</span>`).join("")}
+      <section style="padding:26px 18px 0">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px">
+          <h3 style="margin:0">What we do</h3>
+          <span class="text-muted mono" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">All in-house</span>
         </div>
+        <div style="display:flex;flex-direction:column;margin-top:12px;border-top:1px solid var(--color-divider)">${caps}</div>
       </section>
 
-      <section style="padding:22px 18px 6px">
-        <h3 style="margin:0 0 12px">Two ways to start</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div class="blueprint" style="padding:14px 13px">
-            <div class="mono" style="font-weight:600;font-size:15px;line-height:1.1">Get an estimate</div>
-            <p class="text-muted" style="font-size:12px;margin:6px 0 0;line-height:1.45">Tell us the boat and what you'd like done — we'll work up a plan and a price.</p>
-          </div>
-          <div class="blueprint" style="padding:14px 13px">
-            <div class="mono" style="font-weight:600;font-size:15px;line-height:1.1">Name your budget</div>
-            <p class="text-muted" style="font-size:12px;margin:6px 0 0;line-height:1.45">Give us a number and we'll lay out what we can do for it, as options.</p>
-          </div>
-        </div>
-      </section>
-
-      <section style="padding:22px 18px 6px">
+      <section style="padding:26px 18px 0">
         <h3 style="margin:0 0 12px">Our work</h3>
-        ${gallery}
+        ${ourWork}
+      </section>
+
+      <section style="padding:28px 18px 6px">
+        <h3 style="margin:0 0 4px">Two ways to start</h3>
+        <p class="text-muted" style="font-size:13px;margin:0 0 14px;line-height:1.5">Tell us the boat and what you'd like done and we'll work up a plan and a price — or name a budget and we'll lay out what we can do for it, as options.</p>
+
+        <div id="resto-toggle" style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--color-divider);margin-bottom:16px">
+          <button type="button" class="resto-mode" data-mode="estimate" style="border:0;cursor:pointer">
+            <span class="mono" style="display:block;font-weight:600;font-size:16px">Get an estimate</span>
+            <span style="display:block;font-size:11.5px;opacity:.75;line-height:1.3">Tell us what you want done</span>
+          </button>
+          <button type="button" class="resto-mode" data-mode="budget" style="border:0;border-left:1px solid var(--color-divider);cursor:pointer">
+            <span class="mono" style="display:block;font-weight:600;font-size:16px">Name your budget</span>
+            <span style="display:block;font-size:11.5px;opacity:.75;line-height:1.3">We'll lay out the options</span>
+          </button>
+        </div>
+
+        <div id="budget-panel" class="blueprint" style="display:none;padding:17px 16px 19px;margin-bottom:16px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+            <span id="budget-amount" class="mono" style="font-weight:600;font-size:34px;color:var(--color-accent-700);line-height:1">$18,000</span>
+            <span class="mono text-muted" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase">Your budget</span>
+          </div>
+          <input id="budget-slider" type="range" min="5000" max="60000" step="1000" value="18000" style="width:100%;accent-color:var(--color-accent);margin:14px 0 4px">
+          <div class="text-muted" style="display:flex;justify-content:space-between;font-size:11px"><span>$5k</span><span>$60k+</span></div>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--color-divider)">
+            <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">Typically covers</div>
+            <div id="tier-name" class="mono" style="font-weight:600;font-size:20px;line-height:1.05;margin-top:5px"></div>
+            <p id="tier-body" class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.55"></p>
+          </div>
+        </div>
+
+        <div id="resto-mount"></div>
       </section>
     </main>`;
+}
+
+// Restoration interactivity: estimate/budget toggle, budget slider, and the
+// "tell us about your boat" form (emails you via Web3Forms, mailto fallback).
+function wireRestoration() {
+  const toggle = document.getElementById("resto-toggle");
+  if (!toggle) return;
+  const panel = document.getElementById("budget-panel");
+  const slider = document.getElementById("budget-slider");
+  const amountEl = document.getElementById("budget-amount");
+  const tierNameEl = document.getElementById("tier-name");
+  const tierBodyEl = document.getElementById("tier-body");
+  const mount = document.getElementById("resto-mount");
+  let mode = "estimate";
+
+  const money = n => "$" + Math.round(n).toLocaleString("en-US");
+  const tiers = CONFIG.restorationTiers || [];
+  const tierFor = v => tiers.find(t => v <= t.max) || tiers[tiers.length - 1];
+  function updateBudget() {
+    const v = Number(slider.value);
+    amountEl.textContent = money(v) + (v >= 60000 ? "+" : "");
+    const t = tierFor(v);
+    if (t) { tierNameEl.textContent = t.name; tierBodyEl.textContent = t.body; }
+  }
+  function modeStyle(on, second) {
+    return "padding:12px 10px;text-align:left;cursor:pointer;border:0;" +
+      (second ? "border-left:1px solid var(--color-divider);" : "") +
+      (on ? "background:var(--color-accent);color:var(--color-bg)" : "background:transparent;color:var(--color-text)");
+  }
+  function setMode(m) {
+    mode = m;
+    toggle.querySelectorAll(".resto-mode").forEach((b, i) =>
+      b.setAttribute("style", modeStyle(b.dataset.mode === m, i === 1)));
+    panel.style.display = m === "budget" ? "block" : "none";
+    const wl = document.getElementById("resto-wish-label");
+    if (wl) wl.textContent = m === "budget" ? "What matters most to you?" : "What would you like done?";
+    if (m === "budget") updateBudget();
+  }
+  toggle.querySelectorAll(".resto-mode").forEach(b => b.addEventListener("click", () => setMode(b.dataset.mode)));
+  if (slider) slider.addEventListener("input", updateBudget);
+
+  function showSuccess() {
+    mount.innerHTML = `
+      <div class="blueprint" style="padding:24px 18px;text-align:center;background:color-mix(in srgb,var(--color-accent) 6%,transparent)">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        <div class="mono" style="font-weight:600;font-size:20px;margin-top:12px">Request sent</div>
+        <p class="text-muted" style="font-size:13px;margin:6px 0 14px;line-height:1.5">Thanks — we'll look it over and get back to you with a plan, usually the same day.</p>
+        <button id="resto-again" class="btn btn-secondary">Send another</button>
+      </div>`;
+    mount.querySelector("#resto-again").addEventListener("click", renderForm);
+  }
+
+  function renderForm() {
+    mount.innerHTML = `
+      <form id="resto-form" style="display:flex;flex-direction:column;gap:13px">
+        <div class="field"><label>Your name</label><input class="input" name="name" required placeholder="First and last"></div>
+        <div class="field"><label>Phone number</label><input class="input" name="phone" type="tel" required placeholder="(___) ___-____"></div>
+        <div class="field"><label>Where is the boat?</label><input class="input" name="location" required placeholder="City, marina, ramp or address"></div>
+        <div class="field"><label>Boat &amp; engine</label><input class="input" name="boat" placeholder="e.g. 1969 Chris-Craft, 90 HP Mercury"></div>
+        <div class="field"><label id="resto-wish-label">What would you like done?</label><textarea class="input" name="wish" required placeholder="Full restoration, repower, new upholstery, rewire…"></textarea></div>
+        <div class="field">
+          <label>Preferred contact</label>
+          <div class="seg">
+            <label class="seg-opt"><input type="radio" name="contact" value="Text" checked>Text</label>
+            <label class="seg-opt"><input type="radio" name="contact" value="Call">Call</label>
+            <label class="seg-opt"><input type="radio" name="contact" value="Email">Email</label>
+          </div>
+        </div>
+        <div class="field" id="resto-email-field" style="display:none"><label>Your email</label><input class="input" name="email" type="email" placeholder="you@example.com"></div>
+        <button type="submit" class="btn btn-primary btn-block">Send request</button>
+        <div id="resto-error" class="text-muted" style="display:none;font-size:13px;color:var(--color-accent-800)"></div>
+      </form>`;
+    const form = mount.querySelector("#resto-form");
+    const emailField = mount.querySelector("#resto-email-field");
+    const errorBox = mount.querySelector("#resto-error");
+    form.querySelectorAll('input[name="contact"]').forEach(r => r.addEventListener("change", () => {
+      const wantEmail = form.querySelector('input[name="contact"]:checked').value === "Email";
+      emailField.style.display = wantEmail ? "" : "none";
+      emailField.querySelector("input").required = wantEmail;
+    }));
+    setMode(mode);   // re-apply the current wish-label wording
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorBox.style.display = "none";
+      const btn = form.querySelector('button[type="submit"]');
+      const data = Object.fromEntries(new FormData(form).entries());
+      const budget = mode === "budget"
+        ? (Number(slider.value) >= 60000 ? "$60,000+" : money(Number(slider.value)))
+        : "";
+      const subject = "Restoration request from " + (data.name || "website");
+      if (!CONFIG.web3formsAccessKey) {
+        const body = ["Name: " + (data.name || ""), "Phone: " + (data.phone || ""),
+          "Preferred contact: " + (data.contact || ""), data.email ? "Email: " + data.email : "",
+          "Boat location: " + (data.location || ""), "Boat & engine: " + (data.boat || ""),
+          budget ? "Budget: " + budget : "", "", "What they want:", data.wish || ""]
+          .filter(Boolean).join("\n");
+        window.location.href = "mailto:" + CONFIG.notifyEmail + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+        showSuccess(); return;
+      }
+      btn.disabled = true; btn.textContent = "Sending…";
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: CONFIG.web3formsAccessKey, subject,
+            from_name: CONFIG.businessName + " website (restoration)",
+            replyto: data.email || CONFIG.notifyEmail,
+            name: data.name, phone: data.phone, preferred_contact: data.contact,
+            email: data.email || "", boat_location: data.location, boat_and_engine: data.boat,
+            budget: budget || "n/a", what_they_want: data.wish,
+          }),
+        });
+        const json = await res.json();
+        if (json.success) showSuccess(); else throw new Error(json.message || "Send failed");
+      } catch (err) {
+        btn.disabled = false; btn.textContent = "Send request";
+        errorBox.textContent = "Sorry — that didn't go through. Please call or text us at " + CONFIG.phone + ".";
+        errorBox.style.display = "";
+      }
+    });
+  }
+
+  setMode("estimate");
+  renderForm();
 }
 
 function formHtml() {
@@ -521,6 +689,7 @@ function render() {
 
   if (route.tab === "restoration") {
     app.innerHTML = viewRestoration();
+    wireRestoration();
   } else if (route.boat) {
     const boat = boatBySlug(route.boat);
     if (!boat) { location.hash = "#/boats"; return; }
