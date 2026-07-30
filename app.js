@@ -219,7 +219,7 @@ function viewBoats() {
   return `
     <main style="padding:0 0 26px">
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
-        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Marine sales · Florida</div>
+        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Boat sales &amp; restoration · Florida</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Boats for sale</h2>
         <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Clean, well-kept boats ready to fish. Call or text to come take a look — every boat has its own page and QR code.</p>
         <div class="phone-out" style="display:none;font-size:15px;color:var(--color-bg);opacity:.95;margin-top:12px;font-weight:600"></div>
