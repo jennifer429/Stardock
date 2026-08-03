@@ -738,10 +738,7 @@ function wireContact() {
     topic = t;
     topicWrap.querySelectorAll(".contact-topic-btn").forEach(b =>
       b.setAttribute("style", topicStyle(b.dataset.topic === t)));
-    const msg = document.getElementById("contact-message");
-    if (msg) msg.placeholder = t === "Restoration project"
-      ? "Tell us about your boat and what you're after…"
-      : "Which boat, and what would you like to know?";
+    renderForm();   // the two topics use different fields, so rebuild the form
   }
   topicWrap.querySelectorAll(".contact-topic-btn").forEach(b =>
     b.addEventListener("click", () => setTopic(b.dataset.topic)));
@@ -758,11 +755,38 @@ function wireContact() {
   }
 
   function renderForm() {
+    const buying = topic === "Buying a boat";
+    const boatOptions = (CONFIG.boats || []).map(b => {
+      const label = b.name + " — " + b.price;
+      return `<option value="${esc(label)}">${esc(label)}</option>`;
+    }).join("");
+    const buyingFields = `
+        <div class="field"><label>Where are you located?</label><input class="input" name="location" placeholder="City or town"></div>
+        <div class="field"><label>Which boat?</label>
+          <select class="input" name="boat">
+            <option value="">Choose a boat…</option>
+            ${boatOptions}
+            <option value="Something else — tell us below">Something else — tell us below</option>
+          </select>
+        </div>`;
+    const workTypes = (CONFIG.restorationWork || []).map(w => (typeof w === "string" ? w : w.title));
+    const restoreFields = `
+        <div class="field">
+          <label>What needs work? <span class="text-muted" style="font-weight:400">(check any that apply)</span></label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px 14px;margin-top:6px">
+            ${workTypes.map(w => `<label style="display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer"><input type="checkbox" name="work" value="${esc(w)}" style="width:16px;height:16px;flex:none">${esc(w)}</label>`).join("")}
+          </div>
+        </div>`;
+    const msgLabel = buying ? "Anything you'd like to know?" : "Tell us about your boat";
+    const msgPlaceholder = buying
+      ? "Questions about the boat, trailer, service history, a time to come see it…"
+      : "Tell us about your boat and what you're after…";
     mount.innerHTML = `
       <form id="contact-form" style="display:flex;flex-direction:column;gap:13px">
         <div class="field"><label>Your name</label><input class="input" name="name" required placeholder="First and last"></div>
         <div class="field"><label>Phone number</label><input class="input" name="phone" type="tel" required placeholder="(___) ___-____"></div>
-        <div class="field"><label>Message</label><textarea class="input" id="contact-message" name="message" required placeholder="Which boat, and what would you like to know?"></textarea></div>
+        ${buying ? buyingFields : restoreFields}
+        <div class="field"><label>${msgLabel}</label><textarea class="input" name="message" ${buying ? "" : "required"} placeholder="${esc(msgPlaceholder)}"></textarea></div>
         <div class="field">
           <label>Preferred contact</label>
           <div class="seg">
@@ -783,15 +807,19 @@ function wireContact() {
       emailField.style.display = wantEmail ? "" : "none";
       emailField.querySelector("input").required = wantEmail;
     }));
-    setTopic(topic);   // re-apply the message placeholder for the current topic
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       errorBox.style.display = "none";
       const btn = form.querySelector('button[type="submit"]');
-      const data = Object.fromEntries(new FormData(form).entries());
+      const fd = new FormData(form);
+      const data = Object.fromEntries(fd.entries());
+      const work = fd.getAll("work").join(", ");   // restoration checkboxes (multi-value)
       const subject = "Website contact — " + topic + " — " + (data.name || "website");
       if (!CONFIG.web3formsAccessKey) {
         const body = ["About: " + topic, "Name: " + (data.name || ""), "Phone: " + (data.phone || ""),
+          data.location ? "Located: " + data.location : "",
+          data.boat ? "Boat: " + data.boat : "",
+          work ? "Needs work: " + work : "",
           "Preferred contact: " + (data.contact || ""), data.email ? "Email: " + data.email : "",
           "", "Message:", data.message || ""].filter(Boolean).join("\n");
         window.location.href = "mailto:" + CONFIG.notifyEmail + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
@@ -807,6 +835,7 @@ function wireContact() {
             from_name: CONFIG.businessName + " website (contact)",
             replyto: data.email || CONFIG.notifyEmail,
             about: topic, name: data.name, phone: data.phone,
+            location: data.location || "", boat: data.boat || "", needs_work: work || "",
             preferred_contact: data.contact, email: data.email || "", message: data.message,
           }),
         });
@@ -821,7 +850,6 @@ function wireContact() {
   }
 
   setTopic("Buying a boat");
-  renderForm();
 }
 
 // --- router -----------------------------------------------------------------
