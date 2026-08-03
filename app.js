@@ -692,7 +692,7 @@ function viewContact() {
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Get in touch</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Texting is the fastest way to reach us</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Send us a photo of your boat and your questions and we'll take it from there — or give us a call. Serving all of Florida.</p>
+        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Or use the form below to send us an email. Serving all of Florida.</p>
         ${phoneOut(true)}
       </section>
 
