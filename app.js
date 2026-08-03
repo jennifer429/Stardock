@@ -29,7 +29,7 @@ const CONFIG = {
   notifyEmail: "info@starling-enterprises-inc.com",
 
   /* --- Repair-tab options ------------------------------------------------ */
-  defaultTab: "contact",            // "boats", "restoration" or "contact" — which tab shows first.
+  defaultTab: "boats",              // "boats", "restoration" or "contact" — which tab shows first.
   showFinancing: true,              // Show the "50% down, installment plans" note on boat pages.
 
   /* --- Boats for sale ----------------------------------------------------
@@ -784,29 +784,22 @@ function wireContact() {
     mount.innerHTML = `
       <form id="contact-form" style="display:flex;flex-direction:column;gap:13px">
         <div class="field"><label>Your name</label><input class="input" name="name" required placeholder="First and last"></div>
-        <div class="field"><label>Phone number</label><input class="input" name="phone" type="tel" required placeholder="(___) ___-____"></div>
         ${buying ? buyingFields : restoreFields}
         <div class="field"><label>${msgLabel}</label><textarea class="input" name="message" ${buying ? "" : "required"} placeholder="${esc(msgPlaceholder)}"></textarea></div>
         <div class="field">
-          <label>Preferred contact</label>
-          <div class="seg">
-            <label class="seg-opt"><input type="radio" name="contact" value="Text" checked>Text</label>
-            <label class="seg-opt"><input type="radio" name="contact" value="Call">Call</label>
-            <label class="seg-opt"><input type="radio" name="contact" value="Email">Email</label>
+          <label>How should we reach you? <span class="text-muted" style="font-weight:400">(a phone or an email — at least one)</span></label>
+          <input class="input" name="phone" type="tel" placeholder="Phone number" style="margin-top:6px">
+          <div class="seg" style="margin-top:8px">
+            <label class="seg-opt"><input type="radio" name="phonepref" value="Text" checked>Text this number</label>
+            <label class="seg-opt"><input type="radio" name="phonepref" value="Call">Call this number</label>
           </div>
+          <input class="input" name="email" type="email" placeholder="Email address" style="margin-top:10px">
         </div>
-        <div class="field" id="contact-email-field" style="display:none"><label>Your email</label><input class="input" name="email" type="email" placeholder="you@example.com"></div>
         <button type="submit" class="btn btn-primary btn-block">Send message</button>
         <div id="contact-error" class="text-muted" style="display:none;font-size:13px;color:var(--color-accent-800)"></div>
       </form>`;
     const form = mount.querySelector("#contact-form");
-    const emailField = mount.querySelector("#contact-email-field");
     const errorBox = mount.querySelector("#contact-error");
-    form.querySelectorAll('input[name="contact"]').forEach(r => r.addEventListener("change", () => {
-      const wantEmail = form.querySelector('input[name="contact"]:checked').value === "Email";
-      emailField.style.display = wantEmail ? "" : "none";
-      emailField.querySelector("input").required = wantEmail;
-    }));
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       errorBox.style.display = "none";
@@ -814,13 +807,28 @@ function wireContact() {
       const fd = new FormData(form);
       const data = Object.fromEntries(fd.entries());
       const work = fd.getAll("work").join(", ");   // restoration checkboxes (multi-value)
+      const phone = (data.phone || "").trim();
+      const email = (data.email || "").trim();
+      const phonePref = data.phonepref || "Text";   // default to text over call
+      // Need at least one way to reach them back.
+      if (!phone && !email) {
+        errorBox.textContent = "Please add a phone number or an email so we can reach you.";
+        errorBox.style.display = "";
+        return;
+      }
+      // How we'll reach them: their phone (texting by default), then email.
+      const reach = phone
+        ? phonePref + " " + phone + (email ? ", or email " + email : "")
+        : "Email " + email;
       const subject = "Website contact — " + topic + " — " + (data.name || "website");
       if (!CONFIG.web3formsAccessKey) {
-        const body = ["About: " + topic, "Name: " + (data.name || ""), "Phone: " + (data.phone || ""),
+        const body = ["About: " + topic, "Name: " + (data.name || ""),
+          phone ? "Phone: " + phone + " (prefers " + phonePref.toLowerCase() + ")" : "",
+          email ? "Email: " + email : "",
+          "Best way to reach: " + reach,
           data.location ? "Located: " + data.location : "",
           data.boat ? "Boat: " + data.boat : "",
           work ? "Needs work: " + work : "",
-          "Preferred contact: " + (data.contact || ""), data.email ? "Email: " + data.email : "",
           "", "Message:", data.message || ""].filter(Boolean).join("\n");
         window.location.href = "mailto:" + CONFIG.notifyEmail + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
         showSuccess(); return;
@@ -833,10 +841,12 @@ function wireContact() {
           body: JSON.stringify({
             access_key: CONFIG.web3formsAccessKey, subject,
             from_name: CONFIG.businessName + " website (contact)",
-            replyto: data.email || CONFIG.notifyEmail,
-            about: topic, name: data.name, phone: data.phone,
+            replyto: email || CONFIG.notifyEmail,
+            about: topic, name: data.name,
+            phone: phone || "", phone_preference: phone ? phonePref : "",
+            email: email || "", best_way_to_reach: reach,
             location: data.location || "", boat: data.boat || "", needs_work: work || "",
-            preferred_contact: data.contact, email: data.email || "", message: data.message,
+            message: data.message,
           }),
         });
         const json = await res.json();
