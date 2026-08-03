@@ -728,6 +728,40 @@ function wireContact() {
   if (!topicWrap) return;
   const mount = document.getElementById("contact-mount");
   let topic = "Buying a boat";
+  const saved = {};   // remembers field values so switching topics doesn't lose work
+
+  // Snapshot whatever is currently typed, so a topic switch (which rebuilds the
+  // form) can put it right back.
+  function captureForm() {
+    const form = mount.querySelector("#contact-form");
+    if (!form) return;
+    const fd = new FormData(form);
+    ["name", "message", "phone", "email", "location", "boat"].forEach(k => {
+      if (fd.has(k)) saved[k] = fd.get(k);
+    });
+    const pref = form.querySelector('input[name="phonepref"]:checked');
+    if (pref) saved.phonepref = pref.value;
+    if (form.querySelector('input[name="work"]')) saved.work = fd.getAll("work");
+  }
+
+  // Re-apply the snapshot onto a freshly rendered form.
+  function restoreForm() {
+    const form = mount.querySelector("#contact-form");
+    if (!form) return;
+    ["name", "message", "phone", "email", "location", "boat"].forEach(k => {
+      const el = form.querySelector(`[name="${k}"]`);
+      if (el && saved[k] != null) el.value = saved[k];
+    });
+    if (saved.phonepref) {
+      const r = form.querySelector(`input[name="phonepref"][value="${saved.phonepref}"]`);
+      if (r) r.checked = true;
+    }
+    if (saved.work && saved.work.length) {
+      form.querySelectorAll('input[name="work"]').forEach(cb => {
+        if (saved.work.includes(cb.value)) cb.checked = true;
+      });
+    }
+  }
 
   function topicStyle(on) {
     return "text-align:left;padding:14px;cursor:pointer;color:var(--color-text);border:1px solid " +
@@ -735,6 +769,7 @@ function wireContact() {
       (on ? "background:color-mix(in srgb,var(--color-accent) 8%,transparent)" : "background:transparent");
   }
   function setTopic(t) {
+    captureForm();   // keep what they've already typed before rebuilding
     topic = t;
     topicWrap.querySelectorAll(".contact-topic-btn").forEach(b =>
       b.setAttribute("style", topicStyle(b.dataset.topic === t)));
@@ -788,18 +823,27 @@ function wireContact() {
         <div class="field"><label>${msgLabel}</label><textarea class="input" name="message" ${buying ? "" : "required"} placeholder="${esc(msgPlaceholder)}"></textarea></div>
         <div class="field">
           <label>How should we reach you? <span class="text-muted" style="font-weight:400">(a phone or an email — at least one)</span></label>
-          <input class="input" name="phone" type="tel" placeholder="Phone number" style="margin-top:6px">
+          <input class="input" name="phone" type="tel" inputmode="tel" placeholder="Phone number" style="margin-top:6px">
           <div class="seg" style="margin-top:8px">
             <label class="seg-opt"><input type="radio" name="phonepref" value="Text" checked>Text this number</label>
             <label class="seg-opt"><input type="radio" name="phonepref" value="Call">Call this number</label>
           </div>
           <input class="input" name="email" type="email" placeholder="Email address" style="margin-top:10px">
+          <div id="reach-note" style="display:none;font-size:12.5px;color:#b42318;margin-top:8px"></div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Send message</button>
         <div id="contact-error" class="text-muted" style="display:none;font-size:13px;color:var(--color-accent-800)"></div>
       </form>`;
     const form = mount.querySelector("#contact-form");
     const errorBox = mount.querySelector("#contact-error");
+    const phoneEl = form.querySelector('input[name="phone"]');
+    const emailEl = form.querySelector('input[name="email"]');
+    const reachNote = form.querySelector("#reach-note");
+    const clearReach = () => {
+      phoneEl.style.borderColor = ""; emailEl.style.borderColor = ""; reachNote.style.display = "none";
+    };
+    phoneEl.addEventListener("input", clearReach);   // clear the warning as they fix it
+    emailEl.addEventListener("input", clearReach);
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       errorBox.style.display = "none";
@@ -810,11 +854,26 @@ function wireContact() {
       const phone = (data.phone || "").trim();
       const email = (data.email || "").trim();
       const phonePref = data.phonepref || "Text";   // default to text over call
-      // Need at least one way to reach them back.
+      // Need at least one VALID way to reach them back. Highlight the problem
+      // field and explain, instead of silently sending an unreachable lead.
+      const phoneValid = phone !== "" && phone.replace(/\D/g, "").length >= 10;
+      const emailValid = email !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const RED = "#b42318";
+      clearReach();
       if (!phone && !email) {
-        errorBox.textContent = "Please add a phone number or an email so we can reach you.";
-        errorBox.style.display = "";
-        return;
+        phoneEl.style.borderColor = RED; emailEl.style.borderColor = RED;
+        reachNote.textContent = "Add a phone number or an email so we can reach you.";
+        reachNote.style.display = ""; phoneEl.focus(); return;
+      }
+      if (phone && !phoneValid) {
+        phoneEl.style.borderColor = RED;
+        reachNote.textContent = "That phone number doesn't look right — please include the area code.";
+        reachNote.style.display = ""; phoneEl.focus(); return;
+      }
+      if (email && !emailValid) {
+        emailEl.style.borderColor = RED;
+        reachNote.textContent = "That email doesn't look right — please double-check it.";
+        reachNote.style.display = ""; emailEl.focus(); return;
       }
       // How we'll reach them: their phone (texting by default), then email.
       const reach = phone
@@ -857,6 +916,7 @@ function wireContact() {
         errorBox.style.display = "";
       }
     });
+    restoreForm();   // put back anything captured before a topic switch
   }
 
   setTopic("Buying a boat");
