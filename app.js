@@ -681,11 +681,155 @@ function wireForm(mount) {
   });
 }
 
+// --- contact tab ------------------------------------------------------------
+// The number is written into the page by JS (this function runs at render
+// time), so bots that fetch the static index.html never see a dialable number
+// or a tel:/sms: link — same anti-scrape guarantee as the rest of the site —
+// while real visitors get it right up front, the way a contact page should.
+function viewContact() {
+  const smsBody = defaultSmsBody();
+  return `
+    <main style="padding:0 0 30px">
+      <section style="padding:26px 18px 24px;background:var(--color-accent-900);color:var(--color-bg)">
+        <div class="mono" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.6">Get in touch</div>
+        <h2 style="margin:8px 0 0;color:var(--color-bg);font-size:34px;line-height:1.02">Call or text us</h2>
+        <div class="mono" style="font-size:40px;font-weight:600;line-height:1.05;letter-spacing:-.01em;margin-top:2px">${esc(CONFIG.phone)}</div>
+        <p style="font-size:14px;line-height:1.5;margin:14px 0 16px;opacity:.85">Texting is usually fastest — send a photo of the boat and we'll go from there. Serving all of Florida.</p>
+        <div style="display:flex;gap:8px">
+          <a class="btn btn-primary" href="${telHref()}" style="flex:1;background:var(--color-bg);color:var(--color-accent-900);border-color:var(--color-bg)">${PHONE_SVG} Call</a>
+          <a class="btn" href="${smsHref(smsBody)}" style="flex:1;background:transparent;color:var(--color-bg);border-color:var(--color-bg)">${SMS_SVG} Text</a>
+        </div>
+      </section>
+
+      <div class="view-narrow">
+      <section style="padding:24px 18px 2px">
+        <h3 style="margin:0 0 4px">What's this about?</h3>
+        <p class="text-muted" style="font-size:13px;margin:0 0 14px">Or just send us a message and we'll get right back to you.</p>
+        <div id="contact-topic" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <button type="button" class="contact-topic-btn blueprint" data-topic="Buying a boat">
+            <div class="mono" style="font-weight:600;font-size:17px">Buying a boat</div>
+            <div class="text-muted" style="font-size:13px;margin-top:3px;line-height:1.35">Questions, an offer or a viewing</div>
+          </button>
+          <button type="button" class="contact-topic-btn blueprint" data-topic="Restoration project">
+            <div class="mono" style="font-weight:600;font-size:17px">Restoration project</div>
+            <div class="text-muted" style="font-size:13px;margin-top:3px;line-height:1.35">Estimate or a budget to work to</div>
+          </button>
+        </div>
+        <div id="contact-mount" style="margin-top:18px"></div>
+      </section>
+      </div>
+    </main>`;
+}
+
+// Contact interactivity: the topic picker + the message form (emails you via
+// Web3Forms, with a mailto fallback — same plumbing as the restoration form).
+function wireContact() {
+  const topicWrap = document.getElementById("contact-topic");
+  if (!topicWrap) return;
+  const mount = document.getElementById("contact-mount");
+  let topic = "Buying a boat";
+
+  function topicStyle(on) {
+    return "text-align:left;padding:14px;cursor:pointer;color:var(--color-text);border:1px solid " +
+      (on ? "var(--color-accent)" : "var(--color-divider)") + ";" +
+      (on ? "background:color-mix(in srgb,var(--color-accent) 8%,transparent)" : "background:transparent");
+  }
+  function setTopic(t) {
+    topic = t;
+    topicWrap.querySelectorAll(".contact-topic-btn").forEach(b =>
+      b.setAttribute("style", topicStyle(b.dataset.topic === t)));
+    const msg = document.getElementById("contact-message");
+    if (msg) msg.placeholder = t === "Restoration project"
+      ? "Tell us about your boat and what you're after…"
+      : "Which boat, and what would you like to know?";
+  }
+  topicWrap.querySelectorAll(".contact-topic-btn").forEach(b =>
+    b.addEventListener("click", () => setTopic(b.dataset.topic)));
+
+  function showSuccess() {
+    mount.innerHTML = `
+      <div class="blueprint" style="padding:24px 18px;text-align:center;background:color-mix(in srgb,var(--color-accent) 6%,transparent)">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        <div class="mono" style="font-weight:600;font-size:20px;margin-top:12px">Message sent</div>
+        <p class="text-muted" style="font-size:13px;margin:6px 0 14px;line-height:1.5">Thanks — we'll get back to you at the contact method you chose, usually the same day.</p>
+        <button id="contact-again" class="btn btn-secondary">Send another</button>
+      </div>`;
+    mount.querySelector("#contact-again").addEventListener("click", renderForm);
+  }
+
+  function renderForm() {
+    mount.innerHTML = `
+      <form id="contact-form" style="display:flex;flex-direction:column;gap:13px">
+        <div class="field"><label>Your name</label><input class="input" name="name" required placeholder="First and last"></div>
+        <div class="field"><label>Phone number</label><input class="input" name="phone" type="tel" required placeholder="(___) ___-____"></div>
+        <div class="field"><label>Message</label><textarea class="input" id="contact-message" name="message" required placeholder="Which boat, and what would you like to know?"></textarea></div>
+        <div class="field">
+          <label>Preferred contact</label>
+          <div class="seg">
+            <label class="seg-opt"><input type="radio" name="contact" value="Text" checked>Text</label>
+            <label class="seg-opt"><input type="radio" name="contact" value="Call">Call</label>
+            <label class="seg-opt"><input type="radio" name="contact" value="Email">Email</label>
+          </div>
+        </div>
+        <div class="field" id="contact-email-field" style="display:none"><label>Your email</label><input class="input" name="email" type="email" placeholder="you@example.com"></div>
+        <button type="submit" class="btn btn-primary btn-block">Send message</button>
+        <div id="contact-error" class="text-muted" style="display:none;font-size:13px;color:var(--color-accent-800)"></div>
+      </form>`;
+    const form = mount.querySelector("#contact-form");
+    const emailField = mount.querySelector("#contact-email-field");
+    const errorBox = mount.querySelector("#contact-error");
+    form.querySelectorAll('input[name="contact"]').forEach(r => r.addEventListener("change", () => {
+      const wantEmail = form.querySelector('input[name="contact"]:checked').value === "Email";
+      emailField.style.display = wantEmail ? "" : "none";
+      emailField.querySelector("input").required = wantEmail;
+    }));
+    setTopic(topic);   // re-apply the message placeholder for the current topic
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorBox.style.display = "none";
+      const btn = form.querySelector('button[type="submit"]');
+      const data = Object.fromEntries(new FormData(form).entries());
+      const subject = "Website contact — " + topic + " — " + (data.name || "website");
+      if (!CONFIG.web3formsAccessKey) {
+        const body = ["About: " + topic, "Name: " + (data.name || ""), "Phone: " + (data.phone || ""),
+          "Preferred contact: " + (data.contact || ""), data.email ? "Email: " + data.email : "",
+          "", "Message:", data.message || ""].filter(Boolean).join("\n");
+        window.location.href = "mailto:" + CONFIG.notifyEmail + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+        showSuccess(); return;
+      }
+      btn.disabled = true; btn.textContent = "Sending…";
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: CONFIG.web3formsAccessKey, subject,
+            from_name: CONFIG.businessName + " website (contact)",
+            replyto: data.email || CONFIG.notifyEmail,
+            about: topic, name: data.name, phone: data.phone,
+            preferred_contact: data.contact, email: data.email || "", message: data.message,
+          }),
+        });
+        const json = await res.json();
+        if (json.success) showSuccess(); else throw new Error(json.message || "Send failed");
+      } catch (err) {
+        btn.disabled = false; btn.textContent = "Send message";
+        errorBox.textContent = "Sorry — that didn't go through. Please call or text us at " + CONFIG.phone + ".";
+        errorBox.style.display = "";
+      }
+    });
+  }
+
+  setTopic("Buying a boat");
+  renderForm();
+}
+
 // --- router -----------------------------------------------------------------
 function currentRoute() {
   const hash = location.hash.replace(/^#/, "");
   const parts = hash.split("/").filter(Boolean); // e.g. ["boats","key-largo-176","sign"]
   if (parts[0] === "restoration") return { tab: "restoration" };
+  if (parts[0] === "contact") return { tab: "contact" };
   if (parts[0] === "boats" && parts[1] && parts[2] === "sign") return { tab: "boats", boat: parts[1], sign: true };
   if (parts[0] === "boats" && parts[1]) return { tab: "boats", boat: parts[1] };
   if (parts[0] === "boats") return { tab: "boats" };
@@ -713,6 +857,9 @@ function render() {
   if (route.tab === "restoration") {
     app.innerHTML = viewRestoration();
     wireRestoration();
+  } else if (route.tab === "contact") {
+    app.innerHTML = viewContact();
+    wireContact();
   } else if (route.boat) {
     const boat = boatBySlug(route.boat);
     if (!boat) { location.hash = "#/boats"; return; }
