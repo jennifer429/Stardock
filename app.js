@@ -877,6 +877,11 @@ function render() {
   const route = currentRoute();
   const app = document.getElementById("app");
 
+  // Let CSS suppress the redundant header/callbar Call-Text chrome on the
+  // Contact tab, where the hero already leads with Call/Text. (Distinct attr
+  // name so it doesn't get picked up by the [data-tab] tab-highlight loop.)
+  document.body.setAttribute("data-active-tab", route.tab);
+
   // Tab highlight
   document.querySelectorAll("[data-tab]").forEach(el => {
     el.setAttribute("style", tabStyle(el.getAttribute("data-tab") === route.tab));
