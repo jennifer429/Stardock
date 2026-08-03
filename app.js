@@ -687,18 +687,13 @@ function wireForm(mount) {
 // or a tel:/sms: link — same anti-scrape guarantee as the rest of the site —
 // while real visitors get it right up front, the way a contact page should.
 function viewContact() {
-  const smsBody = defaultSmsBody();
   return `
     <main style="padding:0 0 30px">
-      <section style="padding:26px 18px 24px;background:var(--color-accent-900);color:var(--color-bg)">
-        <div class="mono" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.6">Get in touch</div>
-        <h2 style="margin:8px 0 0;color:var(--color-bg);font-size:34px;line-height:1.02">Call or text us</h2>
-        <div class="mono" style="font-size:40px;font-weight:600;line-height:1.05;letter-spacing:-.01em;margin-top:2px">${esc(CONFIG.phone)}</div>
-        <p style="font-size:14px;line-height:1.5;margin:14px 0 16px;opacity:.85">Texting is usually fastest — send a photo of the boat and we'll go from there. Serving all of Florida.</p>
-        <div style="display:flex;gap:8px">
-          <a class="btn btn-primary" href="${telHref()}" style="flex:1;background:var(--color-bg);color:var(--color-accent-900);border-color:var(--color-bg)">${PHONE_SVG} Call</a>
-          <a class="btn" href="${smsHref(smsBody)}" style="flex:1;background:transparent;color:var(--color-bg);border-color:var(--color-bg)">${SMS_SVG} Text</a>
-        </div>
+      <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
+        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Get in touch</div>
+        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Texting is the fastest way to reach us</h2>
+        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Send us a photo of your boat and your questions and we'll take it from there — or give us a call. Serving all of Florida.</p>
+        ${phoneOut(true)}
       </section>
 
       <div class="view-narrow">
@@ -937,9 +932,12 @@ function currentRoute() {
 }
 
 function tabStyle(active) {
-  return "flex:1;padding:14px 8px;border:0;text-decoration:none;text-align:center;border-bottom:3px solid " +
+  // Fluid size: a touch bigger on desktop, scaled down (and never wrapping)
+  // on phones so "Boats for Sale" stays on one line. Mixed case to match the
+  // rest of the site.
+  return "flex:1;padding:15px 6px;border:0;text-decoration:none;text-align:center;white-space:nowrap;border-bottom:3px solid " +
     (active ? "var(--color-accent)" : "transparent") +
-    ";background:transparent;cursor:pointer;font-size:16px;font-weight:600;color:" +
+    ";background:transparent;cursor:pointer;font-size:clamp(14px,3.2vw,17px);font-weight:600;color:" +
     (active ? "var(--color-accent-700)" : "color-mix(in srgb,var(--color-text) 55%,transparent)") +
     ";font-family:'Barlow Condensed',system-ui,sans-serif";
 }
