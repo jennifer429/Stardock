@@ -973,7 +973,11 @@ function render() {
 
   refreshPhoneLinks();   // wire freshly-rendered Call/Text buttons to the reveal state
   window.scrollTo(0, 0);
-  trackPageview(route);
+  // gtag('config') already counts the first page_view (and is what Google's
+  // tag detector looks for). From the first in-app navigation onward, send a
+  // labeled page_view per view (tab or boat) so nothing is double-counted.
+  if (render.gaInitDone) trackPageview(route);
+  render.gaInitDone = true;
 }
 
 // Send a labeled GA4 page_view for the current view so the reports show which
