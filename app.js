@@ -12,7 +12,7 @@ const CONFIG = {
   phone: "(386) 227-6883",          // Your call/text number. Shown on the site + QR signs.
   businessName: "Stardock Incorporated",
   logo: "images/stardock-logo.png", // Logo file in the images/ folder (transparent PNG works best). Shown on the printable sign. Falls back to the business name in text if the file isn't found.
-  techName: "",                     // Name of your Mercury Outboard Certified technician (shown on the repair tab).
+  techName: "",                     // Name of your certified outboard technician (shown on the repair tab).
   websiteUrl: "https://stardockmarine.com", // Your live web address (used to build each boat's shareable link + QR).
 
   /* --- Where the "Request service" form goes ----------------------------- */
@@ -78,7 +78,7 @@ const CONFIG = {
       ],
       photos: ["images/mckee-5.jpg", "images/mckee-3.jpg", "images/mckee-4.jpg", "images/mckee-brochure.jpg"],
       blurb:  "A classic 1977 McKee Craft — the legendary “unsinkable” skiff, lovingly restored. 1997 Mariner 50 BigFoot four-stroke, hydraulic steering, Bose sound & GPS.",
-      desc:   "A true Florida classic. From the 1960s on, McKee Craft earned its nickname — “The Unsinkables” — with a double-hull, full-foam-flotation design that keeps the boat afloat even when swamped, built over a cathedral hull that runs dry and stable in a chop. Decades later they're still prized as tough, safe, seaworthy boats that punch well above their size.\n\nThis 1977 14-footer has been lovingly restored — original, beautifully finished woodwork blended with modern upgrades throughout. Power is a 1997 50 HP Mariner FourStroke BigFoot outboard, with hydraulic steering, a new Bose sound system, GPS and fishfinder, and professionally rewired electrics. It's been fully serviced and inspected by a certified Mercury technician, with strong compression on all four cylinders. Light, unsinkable by design, and easy to launch — a one-of-a-kind first boat, backwater skiff or weekend fishing rig. Comes on a galvanized trailer.",
+      desc:   "A true Florida classic. From the 1960s on, McKee Craft earned its nickname — “The Unsinkables” — with a double-hull, full-foam-flotation design that keeps the boat afloat even when swamped, built over a cathedral hull that runs dry and stable in a chop. Decades later they're still prized as tough, safe, seaworthy boats that punch well above their size.\n\nThis 1977 14-footer has been lovingly restored — original, beautifully finished woodwork blended with modern upgrades throughout. Power is a 1997 50 HP Mariner FourStroke BigFoot outboard, with hydraulic steering, a new Bose sound system, GPS and fishfinder, and professionally rewired electrics. It's been fully serviced and inspected by a certified outboard technician, with strong compression on all four cylinders. Light, unsinkable by design, and easy to launch — a one-of-a-kind first boat, backwater skiff or weekend fishing rig. Comes on a galvanized trailer.",
     },
   ],
 
@@ -89,7 +89,7 @@ const CONFIG = {
     { title: "Electrical",          body: "New panels, gauges, lighting, pumps and electronics." },
     { title: "Rewiring",            body: "Complete rewire to modern standards — no patchwork." },
     { title: "Mechanical",          body: "Controls, cables, steering, fuel systems and plumbing." },
-    { title: "Full engine service", body: "Rebuilds, repowers and Mercury-certified engine work." },
+    { title: "Full engine service", body: "Rebuilds, repowers and certified outboard engine work." },
   ],
 
   /* --- Restoration budget tiers (shown by the "Name your budget" slider) ---
@@ -98,7 +98,7 @@ const CONFIG = {
     { max: 12000,    name: "Mechanical refresh",  body: "Full engine service, fluids, water pump and impeller, new controls and cables, plus safety gear — the work that makes an old boat dependable again." },
     { max: 25000,    name: "Refresh + cosmetics", body: "Everything in a mechanical refresh, plus hull buffing or spot paint, new upholstery, a fresh wiring harness and modern gauges." },
     { max: 40000,    name: "Full restoration",    body: "Stripped to the hull: fiberglass and transom repair, complete repaint, full rewire, and a rebuilt console and seating." },
-    { max: Infinity, name: "RestoMod",            body: "A full restoration plus a repower with a new Mercury, modern electronics, and a layout reworked the way you actually use the boat." },
+    { max: Infinity, name: "RestoMod",            body: "A full restoration plus a repower with a new outboard, modern electronics, and a layout reworked the way you actually use the boat." },
   ],
 
   /* --- Restoration gallery (photos of work you've done) ------------------
@@ -113,9 +113,10 @@ const CONFIG = {
     { src: "images/restore-after.jpg",    label: "After"  },
   ],
 
-  /* Mercury "Certified Outboard Technician" badge shown in the credentials
-     box on the Restoration tab. Leave "" to fall back to the drawn seal. */
-  certifiedBadge: "images/mercury-certified-badge.jpg",
+  /* Certification badge shown in the credentials box on the Restoration tab.
+     Point this at a (non–brand-specific) badge image in images/ to show it,
+     or leave "" to use the clean drawn "certified" seal. */
+  certifiedBadge: "",
 };
 
 /* ============================================================================
@@ -385,7 +386,7 @@ function viewRestoration() {
       <section style="padding:20px 18px 2px">
         <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 9%,transparent);display:flex;gap:16px;align-items:center">
           ${CONFIG.certifiedBadge
-            ? `<img src="${esc(CONFIG.certifiedBadge)}" alt="Mercury Certified Outboard Technician" width="82" height="82" style="flex:none;width:82px;height:82px;border-radius:50%;object-fit:cover">`
+            ? `<img src="${esc(CONFIG.certifiedBadge)}" alt="Certified outboard technician" width="82" height="82" style="flex:none;width:82px;height:82px;border-radius:50%;object-fit:cover">`
             : `<svg width="72" height="72" viewBox="0 0 100 100" fill="none" style="flex:none">
             <circle cx="50" cy="50" r="46" stroke="var(--color-accent-700)" stroke-width="2.5"/>
             <circle cx="50" cy="50" r="37" stroke="var(--color-accent-700)" stroke-width="1"/>
@@ -393,7 +394,7 @@ function viewRestoration() {
           </svg>`}
           <div>
             <div class="mono" style="font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">Certified &amp; factory-trained</div>
-            <div class="mono" style="font-weight:600;font-size:22px;line-height:1.05;margin-top:2px">Mercury Outboard Certified</div>
+            <div class="mono" style="font-weight:600;font-size:22px;line-height:1.05;margin-top:2px">Certified Outboard Technician</div>
             <p class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.5">Family-run and factory-trained. Straight answers, fair rates, and work we stand behind.</p>
           </div>
         </div>
@@ -503,7 +504,7 @@ function wireRestoration() {
         <div class="field"><label>Your name</label><input class="input" name="name" required placeholder="First and last"></div>
         <div class="field"><label>Phone number</label><input class="input" name="phone" type="tel" required placeholder="(___) ___-____"></div>
         <div class="field"><label>Where is the boat?</label><input class="input" name="location" required placeholder="City, marina, ramp or address"></div>
-        <div class="field"><label>Boat &amp; engine</label><input class="input" name="boat" placeholder="e.g. 1969 Chris-Craft, 90 HP Mercury"></div>
+        <div class="field"><label>Boat &amp; engine</label><input class="input" name="boat" placeholder="e.g. 1969 Chris-Craft, 90 HP outboard"></div>
         <div class="field"><label id="resto-wish-label">What would you like done?</label><textarea class="input" name="wish" required placeholder="Full restoration, repower, new upholstery, rewire…"></textarea></div>
         <div class="field">
           <label>Preferred contact</label>
@@ -578,7 +579,7 @@ function formHtml() {
       <div class="field"><label>Your name</label><input class="input" name="name" required placeholder="First and last"/></div>
       <div class="field"><label>Phone number</label><input class="input" name="phone" type="tel" required placeholder="(___) ___-____"/></div>
       <div class="field"><label>Where is the boat?</label><input class="input" name="location" required placeholder="City, marina, ramp or address"/></div>
-      <div class="field"><label>Boat &amp; engine</label><input class="input" name="boat" placeholder="e.g. 17′ Key Largo, 90 HP Mercury"/></div>
+      <div class="field"><label>Boat &amp; engine</label><input class="input" name="boat" placeholder="e.g. 17′ Key Largo, 90 HP outboard"/></div>
       <div class="field"><label>What's the problem?</label><textarea class="input" name="problem" required placeholder="Won't start, overheating, rough idle…"></textarea></div>
       <div class="field">
         <label>Preferred contact</label>
