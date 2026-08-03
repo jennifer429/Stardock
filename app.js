@@ -393,9 +393,7 @@ function viewRestoration() {
             <path d="M33 51 l11 11 l23 -25" stroke="var(--color-accent-700)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>`}
           <div>
-            <div class="mono" style="font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">Certified &amp; factory-trained</div>
-            <div class="mono" style="font-weight:600;font-size:22px;line-height:1.05;margin-top:2px">Certified Outboard Technician</div>
-            <p class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.5">Family-run and factory-trained. Straight answers, fair rates, and work we stand behind.</p>
+            <div class="mono" style="font-weight:600;font-size:24px;line-height:1.05">Certified Outboard Mechanic</div>
           </div>
         </div>
       </section>
