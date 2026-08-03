@@ -935,10 +935,11 @@ function tabStyle(active) {
   // Fluid size: a touch bigger on desktop, scaled down (and never wrapping)
   // on phones so "Boats for Sale" stays on one line. Mixed case to match the
   // rest of the site.
-  return "flex:1;padding:15px 6px;border:0;text-decoration:none;text-align:center;white-space:nowrap;border-bottom:3px solid " +
+  return "flex:1;padding:17px 6px;border:0;text-decoration:none;text-align:center;white-space:nowrap;border-bottom:3px solid " +
     (active ? "var(--color-accent)" : "transparent") +
-    ";background:transparent;cursor:pointer;font-size:clamp(14px,3.2vw,17px);font-weight:600;color:" +
-    (active ? "var(--color-accent-700)" : "color-mix(in srgb,var(--color-text) 55%,transparent)") +
+    ";background:" + (active ? "color-mix(in srgb,var(--color-accent) 7%,transparent)" : "transparent") +
+    ";cursor:pointer;font-size:clamp(16px,4vw,21px);font-weight:700;color:" +
+    (active ? "var(--color-accent-700)" : "color-mix(in srgb,var(--color-text) 62%,transparent)") +
     ";font-family:'Barlow Condensed',system-ui,sans-serif";
 }
 
