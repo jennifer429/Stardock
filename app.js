@@ -973,6 +973,28 @@ function render() {
 
   refreshPhoneLinks();   // wire freshly-rendered Call/Text buttons to the reveal state
   window.scrollTo(0, 0);
+  trackPageview(route);
+}
+
+// Send a labeled GA4 page_view for the current view so the reports show which
+// section people land on (Boats for Sale / Restoration / Contact) and which
+// individual boat they open. Safe no-op if analytics isn't loaded.
+function trackPageview(route) {
+  if (typeof window.gtag !== "function") return;
+  let path = "/boats", title = "Boats for Sale";
+  if (route.tab === "restoration") { path = "/restoration"; title = "Restoration"; }
+  else if (route.tab === "contact") { path = "/contact"; title = "Contact"; }
+  else if (route.boat) {
+    const boat = boatBySlug(route.boat);
+    const name = boat ? boat.name : route.boat;
+    path = "/boats/" + route.boat + (route.sign ? "/sign" : "");
+    title = name + (route.sign ? " — For-sale sign" : " — Boat details");
+  }
+  window.gtag("event", "page_view", {
+    page_title: title,
+    page_path: path,
+    page_location: location.href,
+  });
 }
 
 // --- tap-to-reveal phone links ----------------------------------------------

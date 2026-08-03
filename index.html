@@ -5,7 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Stardock Incorporated · Boat Sales & Restoration · Florida</title>
   <meta name="description" content="Stardock Incorporated — classic and used boats for sale, plus full boat restoration by a certified outboard mechanic in Florida. Call or text us.">
-  <link rel="stylesheet" href="styles.css?v=30">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RF061BE6WG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    // send_page_view:false — app.js sends a labeled page_view on every view
+    // (each tab, and each individual boat) so hash navigation is tracked.
+    gtag('config', 'G-RF061BE6WG', { send_page_view: false });
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=31">
   <style>
     html, body { margin: 0; }
     body { background: #dfdfe1; }
@@ -122,8 +134,8 @@
   </div>
 
   <!-- Vendored QR generator (no external dependency) -->
-  <script src="qrcode.js?v=30"></script>
+  <script src="qrcode.js?v=31"></script>
   <!-- Site logic + everything you'd edit lives in app.js -->
-  <script src="app.js?v=30"></script>
+  <script src="app.js?v=31"></script>
 </body>
 </html>
