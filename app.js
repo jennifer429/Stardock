@@ -692,86 +692,23 @@ function viewContact() {
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Get in touch</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Texting is the fastest way to reach us</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Or use the form below to send us an email. Serving all of Florida.</p>
+        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Or send a quick message below and we'll get right back to you. Serving all of Florida.</p>
         ${phoneOut(true)}
       </section>
 
       <div class="view-narrow">
-      <section style="padding:24px 18px 2px">
-        <h3 style="margin:0 0 4px">What's this about?</h3>
-        <p class="text-muted" style="font-size:13px;margin:0 0 14px">Or just send us a message and we'll get right back to you.</p>
-        <div id="contact-topic" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <button type="button" class="contact-topic-btn blueprint" data-topic="Buying a boat">
-            <div class="mono" style="font-weight:600;font-size:17px">Buying a boat</div>
-            <div class="text-muted" style="font-size:13px;margin-top:3px;line-height:1.35">Questions, an offer or a viewing</div>
-          </button>
-          <button type="button" class="contact-topic-btn blueprint" data-topic="Restoration project">
-            <div class="mono" style="font-weight:600;font-size:17px">Restoration project</div>
-            <div class="text-muted" style="font-size:13px;margin-top:3px;line-height:1.35">Estimate or a budget to work to</div>
-          </button>
-        </div>
-        <div id="contact-mount" style="margin-top:18px"></div>
-      </section>
+        <section style="padding:24px 18px 2px">
+          <div id="contact-mount"></div>
+        </section>
       </div>
     </main>`;
 }
 
-// Contact interactivity: the topic picker + the message form (emails you via
-// Web3Forms, with a mailto fallback — same plumbing as the restoration form).
+// Contact: one simple message form — name, how to reach you, message. Emails
+// you via Web3Forms, with a mailto fallback.
 function wireContact() {
-  const topicWrap = document.getElementById("contact-topic");
-  if (!topicWrap) return;
   const mount = document.getElementById("contact-mount");
-  let topic = "Buying a boat";
-  const saved = {};   // remembers field values so switching topics doesn't lose work
-
-  // Snapshot whatever is currently typed, so a topic switch (which rebuilds the
-  // form) can put it right back.
-  function captureForm() {
-    const form = mount.querySelector("#contact-form");
-    if (!form) return;
-    const fd = new FormData(form);
-    ["name", "message", "phone", "email", "location", "boat"].forEach(k => {
-      if (fd.has(k)) saved[k] = fd.get(k);
-    });
-    const pref = form.querySelector('input[name="phonepref"]:checked');
-    if (pref) saved.phonepref = pref.value;
-    if (form.querySelector('input[name="work"]')) saved.work = fd.getAll("work");
-  }
-
-  // Re-apply the snapshot onto a freshly rendered form.
-  function restoreForm() {
-    const form = mount.querySelector("#contact-form");
-    if (!form) return;
-    ["name", "message", "phone", "email", "location", "boat"].forEach(k => {
-      const el = form.querySelector(`[name="${k}"]`);
-      if (el && saved[k] != null) el.value = saved[k];
-    });
-    if (saved.phonepref) {
-      const r = form.querySelector(`input[name="phonepref"][value="${saved.phonepref}"]`);
-      if (r) r.checked = true;
-    }
-    if (saved.work && saved.work.length) {
-      form.querySelectorAll('input[name="work"]').forEach(cb => {
-        if (saved.work.includes(cb.value)) cb.checked = true;
-      });
-    }
-  }
-
-  function topicStyle(on) {
-    return "text-align:left;padding:14px;cursor:pointer;color:var(--color-text);border:1px solid " +
-      (on ? "var(--color-accent)" : "var(--color-divider)") + ";" +
-      (on ? "background:color-mix(in srgb,var(--color-accent) 8%,transparent)" : "background:transparent");
-  }
-  function setTopic(t) {
-    captureForm();   // keep what they've already typed before rebuilding
-    topic = t;
-    topicWrap.querySelectorAll(".contact-topic-btn").forEach(b =>
-      b.setAttribute("style", topicStyle(b.dataset.topic === t)));
-    renderForm();   // the two topics use different fields, so rebuild the form
-  }
-  topicWrap.querySelectorAll(".contact-topic-btn").forEach(b =>
-    b.addEventListener("click", () => setTopic(b.dataset.topic)));
+  if (!mount) return;
 
   function showSuccess() {
     mount.innerHTML = `
@@ -785,37 +722,10 @@ function wireContact() {
   }
 
   function renderForm() {
-    const buying = topic === "Buying a boat";
-    const boatOptions = (CONFIG.boats || []).map(b => {
-      const label = b.name + " — " + b.price;
-      return `<option value="${esc(label)}">${esc(label)}</option>`;
-    }).join("");
-    const buyingFields = `
-        <div class="field"><label>Where are you located?</label><input class="input" name="location" placeholder="City or town"></div>
-        <div class="field"><label>Which boat?</label>
-          <select class="input" name="boat">
-            <option value="">Choose a boat…</option>
-            ${boatOptions}
-            <option value="Something else — tell us below">Something else — tell us below</option>
-          </select>
-        </div>`;
-    const workTypes = (CONFIG.restorationWork || []).map(w => (typeof w === "string" ? w : w.title));
-    const restoreFields = `
-        <div class="field">
-          <label>What needs work? <span class="text-muted" style="font-weight:400">(check any that apply)</span></label>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px 14px;margin-top:6px">
-            ${workTypes.map(w => `<label style="display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer"><input type="checkbox" name="work" value="${esc(w)}" style="width:16px;height:16px;flex:none">${esc(w)}</label>`).join("")}
-          </div>
-        </div>`;
-    const msgLabel = buying ? "Anything you'd like to know?" : "Tell us about your boat";
-    const msgPlaceholder = buying
-      ? "Questions about the boat, trailer, service history, a time to come see it…"
-      : "Tell us about your boat and what you're after…";
     mount.innerHTML = `
       <form id="contact-form" style="display:flex;flex-direction:column;gap:13px">
         <div class="field"><label>Your name</label><input class="input" name="name" required placeholder="First and last"></div>
-        ${buying ? buyingFields : restoreFields}
-        <div class="field"><label>${msgLabel}</label><textarea class="input" name="message" ${buying ? "" : "required"} placeholder="${esc(msgPlaceholder)}"></textarea></div>
+        <div class="field"><label>Your message</label><textarea class="input" name="message" required placeholder="How can we help? Tell us about the boat and what you need…"></textarea></div>
         <div class="field">
           <label>How should we reach you? <span class="text-muted" style="font-weight:400">(a phone or an email — at least one)</span></label>
           <input class="input" name="phone" type="tel" inputmode="tel" placeholder="Phone number" style="margin-top:6px">
@@ -837,20 +747,16 @@ function wireContact() {
     const clearReach = () => {
       phoneEl.style.borderColor = ""; emailEl.style.borderColor = ""; reachNote.style.display = "none";
     };
-    phoneEl.addEventListener("input", clearReach);   // clear the warning as they fix it
+    phoneEl.addEventListener("input", clearReach);
     emailEl.addEventListener("input", clearReach);
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       errorBox.style.display = "none";
       const btn = form.querySelector('button[type="submit"]');
-      const fd = new FormData(form);
-      const data = Object.fromEntries(fd.entries());
-      const work = fd.getAll("work").join(", ");   // restoration checkboxes (multi-value)
+      const data = Object.fromEntries(new FormData(form).entries());
       const phone = (data.phone || "").trim();
       const email = (data.email || "").trim();
-      const phonePref = data.phonepref || "Text";   // default to text over call
-      // Need at least one VALID way to reach them back. Highlight the problem
-      // field and explain, instead of silently sending an unreachable lead.
+      const phonePref = data.phonepref || "Text";
       const phoneValid = phone !== "" && phone.replace(/\D/g, "").length >= 10;
       const emailValid = email !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       const RED = "#b42318";
@@ -870,19 +776,15 @@ function wireContact() {
         reachNote.textContent = "That email doesn't look right — please double-check it.";
         reachNote.style.display = ""; emailEl.focus(); return;
       }
-      // How we'll reach them: their phone (texting by default), then email.
       const reach = phone
         ? phonePref + " " + phone + (email ? ", or email " + email : "")
         : "Email " + email;
-      const subject = "Website contact — " + topic + " — " + (data.name || "website");
+      const subject = "Website contact — " + (data.name || "website");
       if (!CONFIG.web3formsAccessKey) {
-        const body = ["About: " + topic, "Name: " + (data.name || ""),
+        const body = ["Name: " + (data.name || ""),
           phone ? "Phone: " + phone + " (prefers " + phonePref.toLowerCase() + ")" : "",
           email ? "Email: " + email : "",
           "Best way to reach: " + reach,
-          data.location ? "Located: " + data.location : "",
-          data.boat ? "Boat: " + data.boat : "",
-          work ? "Needs work: " + work : "",
           "", "Message:", data.message || ""].filter(Boolean).join("\n");
         window.location.href = "mailto:" + CONFIG.notifyEmail + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
         showSuccess(); return;
@@ -896,10 +798,9 @@ function wireContact() {
             access_key: CONFIG.web3formsAccessKey, subject,
             from_name: CONFIG.businessName + " website (contact)",
             replyto: email || CONFIG.notifyEmail,
-            about: topic, name: data.name,
+            name: data.name,
             phone: phone || "", phone_preference: phone ? phonePref : "",
             email: email || "", best_way_to_reach: reach,
-            location: data.location || "", boat: data.boat || "", needs_work: work || "",
             message: data.message,
           }),
         });
@@ -911,11 +812,11 @@ function wireContact() {
         errorBox.style.display = "";
       }
     });
-    restoreForm();   // put back anything captured before a topic switch
   }
 
-  setTopic("Buying a boat");
+  renderForm();
 }
+
 
 // --- router -----------------------------------------------------------------
 function currentRoute() {
