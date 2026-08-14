@@ -894,15 +894,6 @@ function viewRepair() {
           <h3 style="margin:0 0 14px">What we service</h3>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
         </section>
-
-        <section style="padding:20px 18px 2px">
-          <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 9%,transparent);text-align:center">
-            <div class="mono" style="font-weight:600;font-size:18px">Broke down or stuck at the water?</div>
-            <p class="text-muted" style="font-size:13px;margin:6px 0 12px;line-height:1.5">Text us a few photos and where you are — it's the fastest way to get help on the way.</p>
-            ${callTextButtons("Hi Stardock — I'm stuck and need a mobile mechanic. Here's where I am:", false)}
-            ${phoneOut(false)}
-          </div>
-        </section>
       </div>
     </main>`;
 }
