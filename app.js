@@ -120,7 +120,7 @@ const CONFIG = {
 
   /* --- Mobile Repair services (the grid on the Mobile Repair tab) -------- */
   repairServices: [
-    { title: "Dockside & On-Site Service",       body: "Stuck at the ramp or marina and can't go? We come to you and diagnose or fix it on the spot — anywhere in Florida.", icon: "pin" },
+    { title: "Dockside & On-Site Service",       body: "Stuck at the ramp or marina and can't go? We come to you and diagnose or fix it on the spot.", icon: "pin" },
     { title: "No-Start Diagnostics",             body: "Engine won't start or keeps dying? We track down the cause — fuel, spark or electrical — and get you running.", icon: "gauge" },
     { title: "Outboard Service & Repair",        body: "Diagnostics, repair, tune-ups and repowering for outboard motors.", icon: "anchor" },
     { title: "Inboard & Diesel Service",         body: "Full service and repair for inboard gas and diesel engines.", icon: "wrench" },
@@ -722,7 +722,7 @@ function viewContact() {
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Get in touch</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Texting is the fastest way to reach us</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Or send a quick message below and we'll get right back to you. Serving all of Florida.</p>
+        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Or send a quick message below and we'll get right back to you. Serving central-east Florida.</p>
         ${phoneOut(true)}
       </section>
 
@@ -884,7 +884,7 @@ function viewRepair() {
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Mobile boat &amp; engine repair</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0 0 14px;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, anywhere in Florida. Stuck and can't go? Call or text and we'll come diagnose and fix it on site.</p>
+        <p style="font-size:14px;line-height:1.5;margin:0 0 14px;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, across central-east Florida. Stuck and can't go? Call or text and we'll come diagnose and fix it on site.</p>
         ${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}
         ${phoneOut(true)}
       </section>
