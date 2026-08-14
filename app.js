@@ -117,6 +117,20 @@ const CONFIG = {
      Point this at a (non–brand-specific) badge image in images/ to show it,
      or leave "" to use the clean drawn "certified" seal. */
   certifiedBadge: "",
+
+  /* --- Mobile Repair services (the grid on the Mobile Repair tab) -------- */
+  repairServices: [
+    { title: "Dockside & On-Site Service",       body: "Stuck at the ramp or marina and can't go? We come to you and diagnose or fix it on the spot — anywhere in Florida.", icon: "pin" },
+    { title: "No-Start Diagnostics",             body: "Engine won't start or keeps dying? We track down the cause — fuel, spark or electrical — and get you running.", icon: "gauge" },
+    { title: "Outboard Service & Repair",        body: "Diagnostics, repair, tune-ups and repowering for outboard motors.", icon: "anchor" },
+    { title: "Inboard & Diesel Service",         body: "Full service and repair for inboard gas and diesel engines.", icon: "wrench" },
+    { title: "Electrical, Rewiring & Nav Lights",body: "Rewires and wiring updates, navigation lights, gauges and electrical troubleshooting.", icon: "bolt" },
+    { title: "Batteries & Power Trim/Tilt",      body: "Battery and charging-system replacement, plus power trim and tilt repair.", icon: "battery" },
+    { title: "Bilge Pumps & Float Switches",     body: "Bilge pump and float-switch replacement so your boat stays dry and safe.", icon: "drop" },
+    { title: "Service & Maintenance",            body: "Routine service, winterizing, tune-ups and pre-trip checks.", icon: "gear" },
+    { title: "Trailer Repair",                   body: "Bearings, lights, wiring and hardware — so you can tow safely.", icon: "truck" },
+    { title: "Jet Ski & PWC",                    body: "Personal-watercraft service and repair too.", icon: "waves" },
+  ],
 };
 
 /* ============================================================================
@@ -148,14 +162,21 @@ function boatBySlug(slug) {
 }
 
 // --- icons ------------------------------------------------------------------
-const ICON_PATHS = {
-  wrench: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z",
-  bolt:   "M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z",
-  drop:   "M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5S5 13 5 15a7 7 0 0 0 7 7z",
+const ICONS = {
+  wrench: `<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>`,
+  bolt:   `<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>`,
+  drop:   `<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5S5 13 5 15a7 7 0 0 0 7 7z"/>`,
+  pin:    `<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>`,
+  gauge:  `<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>`,
+  anchor: `<circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/>`,
+  battery:`<rect x="2" y="7" width="16" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="14"/><line x1="6" y1="11" x2="6" y2="13"/><line x1="10" y1="11" x2="10" y2="13"/>`,
+  truck:  `<path d="M10 17h4V5H2v12h3"/><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>`,
+  waves:  `<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>`,
+  gear:   `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
 };
 function svgIcon(name, size) {
-  const d = ICON_PATHS[name] || ICON_PATHS.wrench;
-  return `<svg width="${size || 22}" height="${size || 22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
+  const inner = ICONS[name] || ICONS.wrench;
+  return `<svg width="${size || 22}" height="${size || 22}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
 }
 const PHONE_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`;
 const BACK_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>`;
@@ -818,11 +839,48 @@ function wireContact() {
 }
 
 
+// --- Mobile Repair tab ------------------------------------------------------
+function viewRepair() {
+  const services = (CONFIG.repairServices || []).map(s => `
+    <div class="blueprint" style="padding:13px 12px 14px">
+      <div style="color:var(--color-accent)">${svgIcon(s.icon, 22)}</div>
+      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">${esc(s.title)}</div>
+      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">${esc(s.body)}</p>
+    </div>`).join("");
+  return `
+    <main style="padding:0 0 30px">
+      <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
+        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
+        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Mobile boat &amp; engine repair</h2>
+        <p style="font-size:14px;line-height:1.5;margin:0 0 14px;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, anywhere in Florida. Stuck and can't go? Call or text and we'll come diagnose and fix it on site.</p>
+        ${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}
+        ${phoneOut(true)}
+      </section>
+
+      <div class="view-narrow">
+        <section style="padding:24px 18px 6px">
+          <h3 style="margin:0 0 14px">What we service</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
+        </section>
+
+        <section style="padding:20px 18px 2px">
+          <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 9%,transparent);text-align:center">
+            <div class="mono" style="font-weight:600;font-size:18px">Broke down or stuck at the water?</div>
+            <p class="text-muted" style="font-size:13px;margin:6px 0 12px;line-height:1.5">Text us a few photos and where you are — it's the fastest way to get help on the way.</p>
+            ${callTextButtons("Hi Stardock — I'm stuck and need a mobile mechanic. Here's where I am:", false)}
+            ${phoneOut(false)}
+          </div>
+        </section>
+      </div>
+    </main>`;
+}
+
 // --- router -----------------------------------------------------------------
 function currentRoute() {
   const hash = location.hash.replace(/^#/, "");
   const parts = hash.split("/").filter(Boolean); // e.g. ["boats","key-largo-176","sign"]
   if (parts[0] === "restoration") return { tab: "restoration" };
+  if (parts[0] === "repair") return { tab: "repair" };
   if (parts[0] === "contact") return { tab: "contact" };
   if (parts[0] === "boats" && parts[1] && parts[2] === "sign") return { tab: "boats", boat: parts[1], sign: true };
   if (parts[0] === "boats" && parts[1]) return { tab: "boats", boat: parts[1] };
@@ -833,13 +891,14 @@ function currentRoute() {
 }
 
 function tabStyle(active) {
-  // Fluid size: a touch bigger on desktop, scaled down (and never wrapping)
-  // on phones so "Boats for Sale" stays on one line. Mixed case to match the
+  // Fluid size that scales down on phones. With four tabs, multi-word labels
+  // ("Boats for Sale", "Mobile Repair") may wrap to two lines on a narrow
+  // screen — that's fine; line-height keeps them tidy. Mixed case to match the
   // rest of the site.
-  return "flex:1;padding:17px 6px;border:0;text-decoration:none;text-align:center;white-space:nowrap;border-bottom:3px solid " +
+  return "flex:1;padding:13px 5px;border:0;text-decoration:none;text-align:center;line-height:1.05;border-bottom:3px solid " +
     (active ? "var(--color-accent)" : "transparent") +
     ";background:" + (active ? "color-mix(in srgb,var(--color-accent) 7%,transparent)" : "transparent") +
-    ";cursor:pointer;font-size:clamp(16px,4vw,21px);font-weight:700;color:" +
+    ";cursor:pointer;font-size:clamp(13px,3.3vw,20px);font-weight:700;color:" +
     (active ? "var(--color-accent-700)" : "color-mix(in srgb,var(--color-text) 62%,transparent)") +
     ";font-family:'Barlow Condensed',system-ui,sans-serif";
 }
@@ -861,6 +920,8 @@ function render() {
   if (route.tab === "restoration") {
     app.innerHTML = viewRestoration();
     wireRestoration();
+  } else if (route.tab === "repair") {
+    app.innerHTML = viewRepair();
   } else if (route.tab === "contact") {
     app.innerHTML = viewContact();
     wireContact();
@@ -888,6 +949,7 @@ function trackPageview(route) {
   if (typeof window.gtag !== "function") return;
   let path = "/boats", title = "Boats for Sale";
   if (route.tab === "restoration") { path = "/restoration"; title = "Restoration"; }
+  else if (route.tab === "repair") { path = "/repair"; title = "Mobile Repair"; }
   else if (route.tab === "contact") { path = "/contact"; title = "Contact"; }
   else if (route.boat) {
     const boat = boatBySlug(route.boat);
