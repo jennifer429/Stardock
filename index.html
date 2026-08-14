@@ -15,7 +15,7 @@
   <title>Stardock Incorporated · Boat Sales & Restoration · Florida</title>
   <meta name="description" content="Stardock Incorporated — classic and used boats for sale, plus full boat restoration by a certified outboard mechanic in Florida. Call or text us.">
 
-  <link rel="stylesheet" href="styles.css?v=33">
+  <link rel="stylesheet" href="styles.css?v=34">
   <style>
     html, body { margin: 0; }
     body { background: #dfdfe1; }
@@ -78,6 +78,13 @@
       .boat-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
     }
 
+    /* Restoration: pics and the "What we do" list stack on phones, and sit
+       side by side (pics left, list right) once there's room. */
+    .resto-work { display: grid; gap: 24px; max-width: 980px; margin-inline: auto; grid-template-columns: 1fr; }
+    @media (min-width: 820px) {
+      .resto-work { grid-template-columns: 1.25fr 1fr; align-items: start; }
+    }
+
     /* Print: only the sign card prints, full page, no chrome */
     @media print {
       body, .bg { background: #fff; }
@@ -94,10 +101,10 @@
       <!-- Header -->
       <header class="site">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-          <a href="#/boats" style="text-decoration:none;display:flex;align-items:center;gap:11px">
-            <img src="images/stardock-logo.png" alt="Stardock" style="height:54px;width:auto;flex:none">
-            <span style="text-align:left">
-              <span class="mono" style="display:block;font-weight:600;font-size:23px;line-height:.95;letter-spacing:-.01em;color:var(--color-text)">STARDOCK<br>INCORPORATED</span>
+          <a href="#/boats" style="text-decoration:none;display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto">
+            <img src="images/stardock-logo.png" alt="Stardock" style="height:clamp(40px,12vw,54px);width:auto;flex:none">
+            <span style="text-align:left;min-width:0">
+              <span class="mono" style="display:block;font-weight:600;font-size:clamp(17px,5.2vw,23px);line-height:.95;letter-spacing:-.01em;color:var(--color-text)">STARDOCK<br>INCORPORATED</span>
               <span class="text-muted" style="display:block;font-size:11px;letter-spacing:.04em;margin-top:5px;text-transform:uppercase">Boat Sales &amp; Restoration · Florida</span>
             </span>
           </a>
@@ -133,8 +140,8 @@
   </div>
 
   <!-- Vendored QR generator (no external dependency) -->
-  <script src="qrcode.js?v=33"></script>
+  <script src="qrcode.js?v=34"></script>
   <!-- Site logic + everything you'd edit lives in app.js -->
-  <script src="app.js?v=33"></script>
+  <script src="app.js?v=34"></script>
 </body>
 </html>
