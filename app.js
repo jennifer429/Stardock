@@ -107,7 +107,7 @@ const CONFIG = {
      small tag on the photo). Drop the files in the images folder.
      Leave it empty ([]) and the tab shows a friendly "coming soon" note. */
   restorationPhotos: [
-    { src: "images/restore-before-1.jpg", label: "Before" },
+    { src: "images/restore-before-1-crop.jpg", label: "Before" },
     { src: "images/restore-before-2.jpg", label: "Before" },
     { src: "images/restore-after-2.jpg",  label: "After"  },
     { src: "images/restore-after.jpg",    label: "After"  },
@@ -386,12 +386,16 @@ function viewRestoration() {
     ? `<figcaption class="mono" style="position:absolute;top:0;left:0;padding:4px 10px;background:var(--color-accent-900);color:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase">${esc(l)}</figcaption>`
     : "";
   const frame = (p, ratio) => `<figure class="blueprint" style="margin:0;position:relative;overflow:hidden"><img src="${esc(p.src)}" alt="${esc(p.label || "Restoration work")}" loading="lazy" style="display:block;width:100%;aspect-ratio:${ratio};object-fit:cover;background:var(--color-neutral-200)">${tag(p.label)}</figure>`;
-  const galleryRow = (arr) => `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">${arr.map(p => frame(p, "3/4")).join("")}</div>`;
+  const emptyFrame = (l) => `<figure class="blueprint" style="margin:0;position:relative;overflow:hidden"><div style="aspect-ratio:4/3;background:color-mix(in srgb,var(--color-accent) 7%,transparent)"></div>${tag(l)}</figure>`;
+  // Show each restoration as a Before → After pair, side by side (not stacked).
+  const pairCount = Math.max(befores.length, afters.length);
+  let pairs = "";
+  for (let i = 0; i < pairCount; i++) {
+    pairs += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">${befores[i] ? frame(befores[i], "4/3") : emptyFrame("Before")}${afters[i] ? frame(afters[i], "4/3") : emptyFrame("After")}</div>`;
+  }
   const ourWork = norm.length
-    ? `${befores.length ? `<div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-text-muted);margin:0 0 7px">Where it started</div>${galleryRow(befores)}` : ""}
-       ${afters.length ? `<div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin:16px 0 7px">Finished &amp; on the water</div>${galleryRow(afters)}` : ""}
-       <div class="text-muted" style="font-size:12px;text-align:center;margin-top:10px">A recent restoration — torn down up north, rebuilt and back on the water in Florida.</div>`
-    : `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${["Before", "After"].map(l => `<figure class="blueprint" style="margin:0;position:relative"><div style="aspect-ratio:4/3;background:color-mix(in srgb,var(--color-accent) 7%,transparent)"></div><figcaption class="mono" style="position:absolute;bottom:0;left:0;padding:5px 9px;background:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--color-divider);border-right:1px solid var(--color-divider)">${l}</figcaption></figure>`).join("")}</div>
+    ? `${pairs}<div class="text-muted" style="font-size:12px;text-align:center;margin-top:6px">A recent restoration — torn down up north, rebuilt and back on the water in Florida.</div>`
+    : `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${emptyFrame("Before")}${emptyFrame("After")}</div>
        <div class="text-muted" style="font-size:11.5px;text-align:center;margin-top:8px">Before/after photos of finished restorations coming soon.</div>`;
 
   return `
@@ -418,20 +422,25 @@ function viewRestoration() {
           </div>
         </div>
       </section>
+      </div>
 
-      <section style="padding:26px 18px 0">
-        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px">
-          <h3 style="margin:0">What we do</h3>
-          <span class="text-muted mono" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">All in-house</span>
+      <section style="padding:26px 18px 2px">
+        <div class="resto-work">
+          <div>
+            <h3 style="margin:0 0 12px">Our work</h3>
+            ${ourWork}
+          </div>
+          <div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px">
+              <h3 style="margin:0">What we do</h3>
+              <span class="text-muted mono" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">All in-house</span>
+            </div>
+            <div style="display:flex;flex-direction:column;margin-top:12px;border-top:1px solid var(--color-divider)">${caps}</div>
+          </div>
         </div>
-        <div style="display:flex;flex-direction:column;margin-top:12px;border-top:1px solid var(--color-divider)">${caps}</div>
       </section>
 
-      <section style="padding:26px 18px 0">
-        <h3 style="margin:0 0 12px">Our work</h3>
-        ${ourWork}
-      </section>
-
+      <div class="view-narrow">
       <section style="padding:28px 18px 6px">
         <h3 style="margin:0 0 4px">Two ways to start</h3>
         <p class="text-muted" style="font-size:13px;margin:0 0 14px;line-height:1.5">Tell us the boat and what you'd like done and we'll work up a plan and a price — or name a budget and we'll lay out what we can do for it, as options.</p>
@@ -748,13 +757,21 @@ function wireContact() {
         <div class="field"><label>Your name</label><input class="input" name="name" required placeholder="First and last"></div>
         <div class="field"><label>Your message</label><textarea class="input" name="message" required placeholder="How can we help? Tell us about the boat and what you need…"></textarea></div>
         <div class="field">
-          <label>How should we reach you? <span class="text-muted" style="font-weight:400">(a phone or an email — at least one)</span></label>
-          <input class="input" name="phone" type="tel" inputmode="tel" placeholder="Phone number" style="margin-top:6px">
-          <div class="seg" style="margin-top:8px">
-            <label class="seg-opt"><input type="radio" name="phonepref" value="Text" checked>Text this number</label>
-            <label class="seg-opt"><input type="radio" name="phonepref" value="Call">Call this number</label>
+          <label>How should we reach you?</label>
+          <div class="seg" style="margin-top:6px">
+            <label class="seg-opt"><input type="radio" name="method" value="phone" checked>Phone / text</label>
+            <label class="seg-opt"><input type="radio" name="method" value="email">Email</label>
           </div>
-          <input class="input" name="email" type="email" placeholder="Email address" style="margin-top:10px">
+          <div id="reach-phone" style="margin-top:10px">
+            <input class="input" name="phone" type="tel" inputmode="tel" placeholder="Phone number">
+            <div class="seg" style="margin-top:8px">
+              <label class="seg-opt"><input type="radio" name="phonepref" value="Text" checked>Text this number</label>
+              <label class="seg-opt"><input type="radio" name="phonepref" value="Call">Call this number</label>
+            </div>
+          </div>
+          <div id="reach-email" style="margin-top:10px">
+            <input class="input" name="email" type="email" placeholder="Email address">
+          </div>
           <div id="reach-note" style="display:none;font-size:12.5px;color:#b42318;margin-top:8px"></div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Send message</button>
@@ -765,40 +782,55 @@ function wireContact() {
     const phoneEl = form.querySelector('input[name="phone"]');
     const emailEl = form.querySelector('input[name="email"]');
     const reachNote = form.querySelector("#reach-note");
+    const phoneWrap = form.querySelector("#reach-phone");
+    const emailWrap = form.querySelector("#reach-email");
     const clearReach = () => {
       phoneEl.style.borderColor = ""; emailEl.style.borderColor = ""; reachNote.style.display = "none";
     };
     phoneEl.addEventListener("input", clearReach);
     emailEl.addEventListener("input", clearReach);
+    // Pick phone or email: the chosen field un-grays and is required; the other
+    // is disabled (grayed out) and won't be submitted.
+    const selectedMethod = () => form.querySelector('input[name="method"]:checked').value;
+    function applyMethod() {
+      const phoneOn = selectedMethod() === "phone";
+      phoneWrap.style.opacity = phoneOn ? "1" : ".4";
+      phoneWrap.querySelectorAll("input").forEach(i => { i.disabled = !phoneOn; });
+      emailWrap.style.opacity = phoneOn ? ".4" : "1";
+      emailWrap.querySelectorAll("input").forEach(i => { i.disabled = phoneOn; });
+      clearReach();
+    }
+    form.querySelectorAll('input[name="method"]').forEach(r => r.addEventListener("change", applyMethod));
+    applyMethod();
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       errorBox.style.display = "none";
       const btn = form.querySelector('button[type="submit"]');
       const data = Object.fromEntries(new FormData(form).entries());
+      const method = selectedMethod();
       const phone = (data.phone || "").trim();
       const email = (data.email || "").trim();
       const phonePref = data.phonepref || "Text";
-      const phoneValid = phone !== "" && phone.replace(/\D/g, "").length >= 10;
-      const emailValid = email !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       const RED = "#b42318";
       clearReach();
-      if (!phone && !email) {
-        phoneEl.style.borderColor = RED; emailEl.style.borderColor = RED;
-        reachNote.textContent = "Add a phone number or an email so we can reach you.";
-        reachNote.style.display = ""; phoneEl.focus(); return;
+      if (method === "phone") {
+        // Require 10 digits; ignore spaces, parentheses, dashes and a leading 1 / +1.
+        let digits = phone.replace(/\D/g, "");
+        if (digits.length === 11 && digits[0] === "1") digits = digits.slice(1);
+        if (digits.length !== 10) {
+          phoneEl.style.borderColor = RED;
+          reachNote.textContent = "Enter a 10-digit phone number (area code + number).";
+          reachNote.style.display = ""; phoneEl.focus(); return;
+        }
+      } else {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          emailEl.style.borderColor = RED;
+          reachNote.textContent = "Enter a valid email address.";
+          reachNote.style.display = ""; emailEl.focus(); return;
+        }
       }
-      if (phone && !phoneValid) {
-        phoneEl.style.borderColor = RED;
-        reachNote.textContent = "That phone number doesn't look right — please include the area code.";
-        reachNote.style.display = ""; phoneEl.focus(); return;
-      }
-      if (email && !emailValid) {
-        emailEl.style.borderColor = RED;
-        reachNote.textContent = "That email doesn't look right — please double-check it.";
-        reachNote.style.display = ""; emailEl.focus(); return;
-      }
-      const reach = phone
-        ? phonePref + " " + phone + (email ? ", or email " + email : "")
+      const reach = method === "phone"
+        ? phonePref + " " + phone
         : "Email " + email;
       const subject = "Website contact — " + (data.name || "website");
       if (!CONFIG.web3formsAccessKey) {
