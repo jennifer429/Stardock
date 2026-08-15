@@ -896,12 +896,12 @@ function viewRepair() {
         ${phoneOut(true)}
       </section>
 
-      <figure style="margin:0;position:relative;overflow:hidden;border-bottom:1px solid var(--color-divider)">
-        <img src="images/repair-mobile-boat.jpg" alt="Mobile marine service — we come to your dock, driveway or ramp" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
-        <figcaption class="mono" style="position:absolute;left:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px">We bring the shop to you — dock, driveway or ramp.</figcaption>
-      </figure>
-
       <div class="view-narrow">
+        <figure style="margin:20px 18px 0;position:relative;overflow:hidden;border:1px solid var(--color-divider)">
+          <img src="images/repair-mobile-boat.jpg" alt="Mobile marine service — we come to your dock, driveway or ramp" loading="lazy" style="display:block;width:100%;height:200px;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
+          <figcaption class="mono" style="position:absolute;left:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px">We bring the shop to you — dock, driveway or ramp.</figcaption>
+        </figure>
+
         <section style="padding:24px 18px 6px">
           <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:16px">
             <div style="flex:1;min-width:0">
@@ -913,15 +913,6 @@ function viewRepair() {
             </figure>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
-        </section>
-
-        <section style="padding:22px 18px 2px">
-          <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 8%,transparent)">
-            <h3 style="margin:0 0 8px;font-size:20px">Before you call or text</h3>
-            <p style="font-size:13.5px;line-height:1.5;margin:0 0 10px">We primarily service <b>Mercury and Yamaha outboards</b>. To help us confirm the job's a good fit before we head out, please include:</p>
-            <p class="mono" style="font-size:13.5px;line-height:1.6;margin:0 0 10px">Engine make · model · year · horsepower · boat location · what it's doing</p>
-            <p class="text-muted" style="font-size:13px;line-height:1.5;margin:0">Photos or a short video help a lot — it saves everyone a wasted trip.</p>
-          </div>
         </section>
 
         ${others ? `
