@@ -914,6 +914,12 @@ function viewRepair() {
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
         </section>
       </div>
+
+      <section style="margin-top:8px;padding:26px 18px 24px;background:var(--color-accent-900);color:var(--color-bg);text-align:center">
+        <h2 style="margin:0 0 8px;color:var(--color-bg);font-size:24px;line-height:1.1;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Need help with your boat?</h2>
+        <p style="font-size:14px;line-height:1.5;margin:0 auto 16px;max-width:420px;opacity:.9">Call or text Stardock Marine. Mobile service starts at $175 and includes travel plus the first hour.</p>
+        <div class="view-narrow">${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}</div>
+      </section>
     </main>`;
 }
 
