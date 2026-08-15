@@ -884,7 +884,8 @@ function viewRepair() {
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
         <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Mobile boat &amp; engine repair</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0 0 14px;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, across central-east Florida. Stuck and can't go? Call or text and we'll come diagnose and fix it on site.</p>
+        <p style="font-size:14px;line-height:1.5;margin:0 0 12px;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, across central-east Florida. Stuck and can't go? Call or text and we'll come diagnose and fix it on site.</p>
+        <p class="mono" style="font-size:13.5px;line-height:1.4;margin:0 0 14px;padding:9px 12px;background:color-mix(in srgb,var(--color-bg) 12%,transparent);border-left:3px solid var(--color-bg)"><b>Mobile service starts at $175</b> and includes the first hour of labor.</p>
         ${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}
         ${phoneOut(true)}
       </section>
