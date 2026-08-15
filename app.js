@@ -29,7 +29,7 @@ const CONFIG = {
   notifyEmail: "info@starling-enterprises-inc.com",
 
   /* --- Repair-tab options ------------------------------------------------ */
-  defaultTab: "boats",              // "boats", "restoration" or "contact" — which tab shows first.
+  defaultTab: "repair",             // "repair", "boats", "restoration" or "contact" — which tab shows first on the home page.
   showFinancing: true,              // Show the "50% down, installment plans" note on boat pages.
 
   /* --- Boats for sale ----------------------------------------------------
@@ -912,7 +912,7 @@ function currentRoute() {
   if (parts[0] === "boats") return { tab: "boats" };
   // default / empty hash
   const d = CONFIG.defaultTab;
-  return { tab: (d === "restoration" || d === "contact") ? d : "boats" };
+  return { tab: (d === "repair" || d === "restoration" || d === "contact") ? d : "boats" };
 }
 
 function tabStyle(active) {
