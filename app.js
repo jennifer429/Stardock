@@ -884,7 +884,6 @@ function viewRepair() {
       <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">${esc(s.body)}</p>
     </div>`;
   const services = (CONFIG.repairServices || []).map(card).join("");
-  const others = (CONFIG.otherServices || []).map(card).join("");
   return `
     <main style="padding:0 0 30px">
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
@@ -897,8 +896,8 @@ function viewRepair() {
       </section>
 
       <div class="view-narrow">
-        <figure style="margin:20px 18px 0;position:relative;overflow:hidden;border:1px solid var(--color-divider)">
-          <img src="images/repair-mobile-boat.jpg" alt="Mobile marine service — we come to your dock, driveway or ramp" loading="lazy" style="display:block;width:100%;height:200px;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
+        <figure style="margin:20px auto 0;max-width:340px;position:relative;overflow:hidden;border:1px solid var(--color-divider)">
+          <img src="images/repair-mobile-boat.jpg" alt="Mobile marine service — we come to your dock, driveway or ramp" loading="lazy" style="display:block;width:100%;height:150px;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
           <figcaption class="mono" style="position:absolute;left:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px">We bring the shop to you — dock, driveway or ramp.</figcaption>
         </figure>
 
@@ -914,13 +913,13 @@ function viewRepair() {
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
         </section>
-
-        ${others ? `
-        <section style="padding:24px 18px 6px">
-          <h3 style="margin:0 0 12px;font-size:20px">Other services</h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${others}</div>
-        </section>` : ""}
       </div>
+
+      <section style="margin-top:8px;padding:26px 18px 24px;background:var(--color-accent-900);color:var(--color-bg);text-align:center">
+        <h2 style="margin:0 0 8px;color:var(--color-bg);font-size:24px;line-height:1.1;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Need help with your boat?</h2>
+        <p style="font-size:14px;line-height:1.5;margin:0 auto 16px;max-width:420px;opacity:.9">Call or text Stardock Marine. Mobile service starts at $175 and includes travel plus the first hour.</p>
+        <div class="view-narrow">${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}</div>
+      </section>
     </main>`;
 }
 
