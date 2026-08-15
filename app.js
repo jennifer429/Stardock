@@ -127,7 +127,7 @@ const CONFIG = {
     { title: "Electrical, Rewiring & Nav Lights",body: "Rewires and wiring updates, navigation lights, gauges and electrical troubleshooting.", icon: "bolt" },
     { title: "Batteries & Power Trim/Tilt",      body: "Battery and charging-system replacement, plus power trim and tilt repair.", icon: "battery" },
     { title: "Bilge Pumps & Float Switches",     body: "Bilge pump and float-switch replacement so your boat stays dry and safe.", icon: "drop" },
-    { title: "Service & Maintenance",            body: "Routine service, winterizing, tune-ups and pre-trip checks.", icon: "gear" },
+    { title: "Service & Maintenance",            body: "Routine service, tune-ups and pre-trip checks.", icon: "gear" },
     { title: "Trailer Repair",                   body: "Bearings, lights, wiring and hardware — so you can tow safely.", icon: "truck" },
     { title: "Jet Ski & PWC",                    body: "Personal-watercraft service and repair too.", icon: "waves" },
   ],
