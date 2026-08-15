@@ -892,8 +892,15 @@ function viewRepair() {
 
       <div class="view-narrow">
         <section style="padding:24px 18px 6px">
-          <h3 style="margin:0 0 4px">What we service</h3>
-          <p class="text-muted" style="font-size:13px;margin:0 0 16px;line-height:1.5"><b>Yamaha &amp; Mercury outboard specialists.</b></p>
+          <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:16px">
+            <div style="flex:1;min-width:0">
+              <h3 style="margin:0 0 4px">What we service</h3>
+              <p class="text-muted" style="font-size:13px;margin:0;line-height:1.5"><b>Yamaha &amp; Mercury outboard specialists.</b></p>
+            </div>
+            <figure class="blueprint" style="margin:0;flex:none;width:118px;overflow:hidden">
+              <img src="images/repair-engine.jpg" alt="Outboard powerhead service in our shop" loading="lazy" style="display:block;width:118px;height:118px;object-fit:cover;background:var(--color-neutral-200)">
+            </figure>
+          </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
         </section>
       </div>
