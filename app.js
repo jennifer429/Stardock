@@ -118,18 +118,22 @@ const CONFIG = {
      or leave "" to use the clean drawn "certified" seal. */
   certifiedBadge: "",
 
-  /* --- Mobile Repair services (the grid on the Mobile Repair tab) -------- */
+  /* --- Marine Repair services (the main grid on the Mobile Repair tab) ---- */
   repairServices: [
-    { title: "Dockside & On-Site Service",       body: "Stuck at the ramp or marina and can't go? We come to you and diagnose or fix it on the spot.", icon: "pin" },
-    { title: "No-Start Diagnostics",             body: "Engine won't start or keeps dying? We track down the cause — fuel, spark or electrical — and get you running.", icon: "gauge" },
-    { title: "Outboard Service & Repair",        body: "Yamaha & Mercury specialists — diagnostics, repair, tune-ups and repowering.", icon: "anchor" },
-    { title: "Inboard & Diesel Service",         body: "Full service and repair for inboard gas and diesel engines.", icon: "wrench" },
-    { title: "Electrical, Rewiring & Nav Lights",body: "Rewires and wiring updates, navigation lights, gauges and electrical troubleshooting.", icon: "bolt" },
-    { title: "Batteries & Power Trim/Tilt",      body: "Battery and charging-system replacement, plus power trim and tilt repair.", icon: "battery" },
+    { title: "Mercury & Yamaha Outboard Repair", body: "Mobile repair, maintenance, tune-ups, fuel-system issues and repowering.", icon: "anchor" },
+    { title: "Boat & Outboard Won't Start?",     body: "Fuel, spark or electrical problem? We troubleshoot the cause and repair it on-site when possible.", icon: "gauge" },
+    { title: "Electrical, Rewiring & Nav Lights",body: "Boat electrical repair — rewires and wiring updates, navigation lights, gauges and electrical troubleshooting.", icon: "bolt" },
+    { title: "Battery, Charging & Tilt/Trim Repair", body: "Battery and charging-system replacement, plus power trim and tilt repair.", icon: "battery" },
     { title: "Bilge Pumps & Float Switches",     body: "Bilge pump and float-switch replacement so your boat stays dry and safe.", icon: "drop" },
+    { title: "Dockside & On-Site Service",       body: "Stuck at the ramp or marina and can't go? We come to you and get you running on the spot when we can.", icon: "pin" },
     { title: "Service & Maintenance",            body: "Routine service, tune-ups and pre-trip checks.", icon: "gear" },
+    { title: "Jet Ski & PWC Repair",             body: "Personal-watercraft service and repair too.", icon: "waves" },
+  ],
+
+  /* --- Other services (shown lower, under "Other Services") --------------- */
+  otherServices: [
+    { title: "Inboard & Diesel Service",         body: "Full service and repair for inboard gas and diesel engines.", icon: "wrench" },
     { title: "Trailer Repair",                   body: "Bearings, lights, wiring and hardware — so you can tow safely.", icon: "truck" },
-    { title: "Jet Ski & PWC",                    body: "Personal-watercraft service and repair too.", icon: "waves" },
   ],
 };
 
@@ -873,36 +877,58 @@ function wireContact() {
 
 // --- Mobile Repair tab ------------------------------------------------------
 function viewRepair() {
-  const services = (CONFIG.repairServices || []).map(s => `
+  const card = s => `
     <div class="blueprint" style="padding:13px 12px 14px">
       <div style="color:var(--color-accent)">${svgIcon(s.icon, 22)}</div>
       <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">${esc(s.title)}</div>
       <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">${esc(s.body)}</p>
-    </div>`).join("");
+    </div>`;
+  const services = (CONFIG.repairServices || []).map(card).join("");
+  const others = (CONFIG.otherServices || []).map(card).join("");
   return `
     <main style="padding:0 0 30px">
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
-        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Mobile boat &amp; engine repair</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0 0 12px;opacity:.85">Dockside, driveway or ramp — we service your boat where it sits, across central-east Florida. Stuck and can't go? Call or text and we'll come diagnose and fix it on site.</p>
-        <p class="mono" style="font-size:13.5px;line-height:1.4;margin:0 0 14px;padding:9px 12px;background:color-mix(in srgb,var(--color-bg) 12%,transparent);border-left:3px solid var(--color-bg)"><b>Mobile service starts at $175</b> and includes the first hour of labor.</p>
+        <h1 style="margin:6px 0 10px;color:var(--color-bg);font-size:27px;line-height:1.08;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Mobile Marine Mechanic<br>Mercury &amp; Yamaha Outboard Repair</h1>
+        <p style="font-size:14px;line-height:1.5;margin:0 0 10px;opacity:.85">Mobile boat repair at your dock, driveway or ramp across Central-East Florida. Mercury &amp; Yamaha outboard repair, no-start troubleshooting, electrical, wiring, bilge, batteries and tilt/trim.</p>
+        <p class="mono" style="font-size:13.5px;line-height:1.4;margin:0 0 14px;padding:9px 12px;background:color-mix(in srgb,var(--color-bg) 12%,transparent);border-left:3px solid var(--color-bg)"><b>Mobile service starts at $175</b> — travel + first hour of labor included.</p>
         ${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}
         ${phoneOut(true)}
       </section>
+
+      <figure style="margin:0;position:relative;overflow:hidden;border-bottom:1px solid var(--color-divider)">
+        <img src="images/repair-mobile-boat.jpg" alt="Mobile marine service — we come to your dock, driveway or ramp" loading="lazy" style="display:block;width:100%;aspect-ratio:16/9;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
+        <figcaption class="mono" style="position:absolute;left:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px">We bring the shop to you — dock, driveway or ramp.</figcaption>
+      </figure>
 
       <div class="view-narrow">
         <section style="padding:24px 18px 6px">
           <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:16px">
             <div style="flex:1;min-width:0">
-              <h3 style="margin:0 0 4px">What we service</h3>
-              <p class="text-muted" style="font-size:13px;margin:0;line-height:1.5"><b>Yamaha &amp; Mercury outboard specialists.</b></p>
+              <h2 style="margin:0 0 4px;font-size:25px">Marine Repair Services</h2>
+              <p class="text-muted" style="font-size:13px;margin:0;line-height:1.5"><b>Mercury &amp; Yamaha outboard specialists.</b></p>
             </div>
             <figure class="blueprint" style="margin:0;flex:none;width:118px;overflow:hidden">
-              <img src="images/repair-engine.jpg" alt="Outboard powerhead service in our shop" loading="lazy" style="display:block;width:118px;height:118px;object-fit:cover;background:var(--color-neutral-200)">
+              <img src="images/repair-engine.jpg" alt="Mercury outboard powerhead repair in our shop" loading="lazy" style="display:block;width:118px;height:118px;object-fit:cover;background:var(--color-neutral-200)">
             </figure>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
         </section>
+
+        <section style="padding:22px 18px 2px">
+          <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 8%,transparent)">
+            <h3 style="margin:0 0 8px;font-size:20px">Before you call or text</h3>
+            <p style="font-size:13.5px;line-height:1.5;margin:0 0 10px">We primarily service <b>Mercury and Yamaha outboards</b>. To help us confirm the job's a good fit before we head out, please include:</p>
+            <p class="mono" style="font-size:13.5px;line-height:1.6;margin:0 0 10px">Engine make · model · year · horsepower · boat location · what it's doing</p>
+            <p class="text-muted" style="font-size:13px;line-height:1.5;margin:0">Photos or a short video help a lot — it saves everyone a wasted trip.</p>
+          </div>
+        </section>
+
+        ${others ? `
+        <section style="padding:24px 18px 6px">
+          <h3 style="margin:0 0 12px;font-size:20px">Other services</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${others}</div>
+        </section>` : ""}
       </div>
     </main>`;
 }
@@ -966,12 +992,28 @@ function render() {
   }
 
   refreshPhoneLinks();   // wire freshly-rendered Call/Text buttons to the reveal state
+  document.title = docTitleFor(route);
   window.scrollTo(0, 0);
   // gtag('config') already counts the first page_view (and is what Google's
   // tag detector looks for). From the first in-app navigation onward, send a
   // labeled page_view per view (tab or boat) so nothing is double-counted.
   if (render.gaInitDone) trackPageview(route);
   render.gaInitDone = true;
+}
+
+// Per-view browser/tab title (helps SEO + shared links). Repair is the home
+// page, so its title leads with the primary keywords.
+function docTitleFor(route) {
+  const site = "Stardock Marine";
+  if (route.tab === "restoration") return "Boat Restoration & RestoMods | " + site + " · Florida";
+  if (route.tab === "contact") return "Contact | " + site;
+  if (route.boat) {
+    const boat = boatBySlug(route.boat);
+    const name = boat ? boat.name : "Boat";
+    return name + (route.sign ? " — For-Sale Sign" : " for sale") + " | " + site;
+  }
+  if (route.tab === "boats") return "Boats for Sale | " + site + " · Central-East Florida";
+  return "Mobile Marine Mechanic | Mercury & Yamaha Outboard Repair | " + site;
 }
 
 // Send a labeled GA4 page_view for the current view so the reports show which
@@ -1038,6 +1080,5 @@ document.addEventListener("click", (e) => {
 
 window.addEventListener("hashchange", render);
 document.addEventListener("DOMContentLoaded", () => {
-  document.title = CONFIG.businessName + " · Boat Sales & Restoration · Florida";
-  render();   // render() calls refreshPhoneLinks() for both static and rendered buttons
+  render();   // render() sets the per-view document.title and wires everything
 });
