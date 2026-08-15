@@ -122,7 +122,7 @@ const CONFIG = {
   repairServices: [
     { title: "Dockside & On-Site Service",       body: "Stuck at the ramp or marina and can't go? We come to you and diagnose or fix it on the spot.", icon: "pin" },
     { title: "No-Start Diagnostics",             body: "Engine won't start or keeps dying? We track down the cause — fuel, spark or electrical — and get you running.", icon: "gauge" },
-    { title: "Outboard Service & Repair",        body: "Diagnostics, repair, tune-ups and repowering for outboard motors.", icon: "anchor" },
+    { title: "Outboard Service & Repair",        body: "Yamaha & Mercury specialists — diagnostics, repair, tune-ups and repowering.", icon: "anchor" },
     { title: "Inboard & Diesel Service",         body: "Full service and repair for inboard gas and diesel engines.", icon: "wrench" },
     { title: "Electrical, Rewiring & Nav Lights",body: "Rewires and wiring updates, navigation lights, gauges and electrical troubleshooting.", icon: "bolt" },
     { title: "Batteries & Power Trim/Tilt",      body: "Battery and charging-system replacement, plus power trim and tilt repair.", icon: "battery" },
@@ -892,7 +892,8 @@ function viewRepair() {
 
       <div class="view-narrow">
         <section style="padding:24px 18px 6px">
-          <h3 style="margin:0 0 14px">What we service</h3>
+          <h3 style="margin:0 0 4px">What we service</h3>
+          <p class="text-muted" style="font-size:13px;margin:0 0 16px;line-height:1.5"><b>Yamaha &amp; Mercury outboard specialists.</b></p>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
         </section>
       </div>
