@@ -109,8 +109,8 @@ const CONFIG = {
   restorationPhotos: [
     { src: "images/restore-before-1-crop.jpg", label: "Before" },
     { src: "images/restore-before-2.jpg", label: "Before" },
-    { src: "images/restore-after-2.jpg",  label: "After"  },
-    { src: "images/restore-after.jpg",    label: "After"  },
+    { src: "images/restore-after-2.jpg?v=2",  label: "After"  },
+    { src: "images/restore-after.jpg?v=2",    label: "After"  },
   ],
 
   /* Certification badge shown in the credentials box on the Restoration tab.
