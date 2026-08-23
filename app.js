@@ -121,14 +121,14 @@ const CONFIG = {
   /* --- Marine Repair services (the main grid on the Mobile Repair tab) ---- */
   repairServices: [
     { title: "Mercury & Yamaha Outboard Repair", body: "Mobile repair, maintenance, tune-ups, fuel-system issues and repowering.", icon: "anchor" },
-    { title: "Gelcoat & Ding Repair",            body: "Chips, scratches, dings and gouges filled, faired and blended with color-matched gelcoat until the repair disappears.", icon: "ding" },
-    { title: "Fiberglass, Body & Starboard Work", body: "Cracks, holes and soft spots cut back and rebuilt in glass. Plus custom starboard — consoles, hatches, seat bases and brackets cut to your measurements, DIY-ready or fitted by us.", icon: "hull" },
     { title: "Boat & Outboard Won't Start?",     body: "Fuel, spark or electrical problem? We troubleshoot the cause and repair it on-site when possible.", icon: "gauge" },
     { title: "Electrical, Rewiring & Nav Lights",body: "Boat electrical repair — rewires and wiring updates, navigation lights, gauges and electrical troubleshooting.", icon: "bolt" },
     { title: "Battery, Charging & Tilt/Trim Repair", body: "Battery and charging-system replacement, plus power trim and tilt repair.", icon: "battery" },
-    { title: "Bilge Pumps & Float Switches",     body: "Bilge pump and float-switch replacement so your boat stays dry and safe.", icon: "drop" },
-    { title: "Dockside & On-Site Service",       body: "Stuck at the ramp or marina and can't go? We come to you and get you running on the spot when we can.", icon: "pin" },
     { title: "Service & Maintenance",            body: "Routine service, tune-ups and pre-trip checks.", icon: "gear" },
+    { title: "Gelcoat & Ding Repair",            body: "Chips, scratches, dings and gouges filled, faired and blended with color-matched gelcoat until the repair disappears.", icon: "ding" },
+    { title: "Fiberglass, Body & Starboard Work", body: "Cracks, holes and soft spots cut back and rebuilt in glass. Plus custom starboard — consoles, hatches, seat bases and brackets cut to your measurements, DIY-ready or fitted by us.", icon: "hull" },
+    { title: "Dockside & On-Site Service",       body: "Stuck at the ramp or marina and can't go? We come to you and get you running on the spot when we can.", icon: "pin" },
+    { title: "Bilge Pumps & Float Switches",     body: "Bilge pump and float-switch replacement so your boat stays dry and safe.", icon: "drop" },
     { title: "Jet Ski & PWC Repair",             body: "Personal-watercraft service and repair too.", icon: "waves" },
   ],
 
@@ -901,8 +901,8 @@ function viewRepair() {
       <div class="view-narrow">
         <section style="padding:20px 18px 0">
           <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:8px">An example of what we come out to fix</div>
-          <figure style="margin:0 auto;max-width:340px;border:1px solid var(--color-divider)">
-            <img src="images/repair-fiberglass-damage.jpg" alt="A ding in a boat hull — an example of the damage we come out to repair" loading="lazy" onerror="var s=this.closest('section');if(s)s.remove()" style="display:block;width:100%;height:auto;background:var(--color-neutral-200)">
+          <figure style="margin:0 auto;max-width:300px;overflow:hidden;border:1px solid var(--color-divider)">
+            <img src="images/repair-fiberglass-damage.jpg" alt="A ding in a boat hull — an example of the damage we come out to repair" loading="lazy" onerror="var s=this.closest('section');if(s)s.remove()" style="display:block;width:100%;height:150px;object-fit:cover;object-position:center 34%;background:var(--color-neutral-200)">
             <figcaption class="mono" style="background:var(--color-accent-900);color:var(--color-bg);font-size:12.5px;letter-spacing:.02em;padding:8px 12px;line-height:1.4">We color-match the gelcoat.</figcaption>
           </figure>
         </section>
