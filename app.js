@@ -121,8 +121,9 @@ const CONFIG = {
   /* --- Marine Repair services (the main grid on the Mobile Repair tab) ---- */
   repairServices: [
     { title: "Mercury & Yamaha Outboard Repair", body: "Mobile repair, maintenance, tune-ups, fuel-system issues and repowering.", icon: "anchor" },
+    { title: "Gelcoat & Ding Repair",            body: "Chips, scratches, dings and gouges filled, faired and blended with color-matched gelcoat until the repair disappears.", icon: "ding" },
+    { title: "Fiberglass, Body & Starboard Work", body: "Cracks, holes and soft spots cut back and rebuilt in glass. Plus custom starboard — consoles, hatches, seat bases and brackets cut to your measurements, DIY-ready or fitted by us.", icon: "hull" },
     { title: "Boat & Outboard Won't Start?",     body: "Fuel, spark or electrical problem? We troubleshoot the cause and repair it on-site when possible.", icon: "gauge" },
-    { title: "Fiberglass & Body Repair",         body: "Cracks, holes, gouges and soft spots in the hull, deck or transom — cut out, rebuilt and blended back with color-matched gelcoat.", icon: "hull" },
     { title: "Electrical, Rewiring & Nav Lights",body: "Boat electrical repair — rewires and wiring updates, navigation lights, gauges and electrical troubleshooting.", icon: "bolt" },
     { title: "Battery, Charging & Tilt/Trim Repair", body: "Battery and charging-system replacement, plus power trim and tilt repair.", icon: "battery" },
     { title: "Bilge Pumps & Float Switches",     body: "Bilge pump and float-switch replacement so your boat stays dry and safe.", icon: "drop" },
@@ -177,6 +178,7 @@ const ICONS = {
   battery:`<rect x="2" y="7" width="16" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="14"/><line x1="6" y1="11" x2="6" y2="13"/><line x1="10" y1="11" x2="10" y2="13"/>`,
   truck:  `<path d="M10 17h4V5H2v12h3"/><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>`,
   waves:  `<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>`,
+  ding:   `<path d="M3 19h18"/><path d="M6.5 19c1.2-4.2 2.9-6.3 5.2-6.3s4 2.1 5.2 6.3"/><path d="M12 3v2.6"/><path d="m8.8 4.4 1.2 2"/><path d="m15.2 4.4-1.2 2"/>`,
   hull:   `<path d="M3 9h18l-2.2 7.5a3 3 0 0 1-2.85 2.05H8.05A3 3 0 0 1 5.2 16.5z"/><path d="m12.4 9.6-1.5 2.5 2.5.5-1.2 2.4"/>`,
   gear:   `<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>`,
 };
@@ -891,12 +893,20 @@ function viewRepair() {
       <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
         <h1 style="margin:6px 0 10px;color:var(--color-bg);font-size:27px;line-height:1.08;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Mobile Marine Mechanic<br>Mercury &amp; Yamaha Outboard Repair</h1>
-        <p style="font-size:14px;line-height:1.5;margin:0 0 10px;opacity:.85">Mobile boat repair at your dock, driveway or ramp across Central-East Florida. Mercury &amp; Yamaha outboard repair, no-start troubleshooting, electrical, wiring, bilge, batteries, tilt/trim, plus fiberglass and body repair.</p>
+        <p style="font-size:14px;line-height:1.5;margin:0 0 10px;opacity:.85">Mobile boat repair at your dock, driveway or ramp across Central-East Florida. Mercury &amp; Yamaha outboard repair, no-start troubleshooting, electrical, wiring, bilge, batteries and tilt/trim — plus gelcoat and ding repair, fiberglass and custom starboard.</p>
         ${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}
         ${phoneOut(true)}
       </section>
 
       <div class="view-narrow">
+        <section style="padding:20px 18px 0">
+          <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:8px">An example of what we come out to fix</div>
+          <figure style="margin:0 auto;max-width:340px;border:1px solid var(--color-divider)">
+            <img src="images/repair-fiberglass-damage.jpg" alt="A ding in a boat hull — an example of the damage we come out to repair" loading="lazy" onerror="var s=this.closest('section');if(s)s.remove()" style="display:block;width:100%;height:auto;background:var(--color-neutral-200)">
+            <figcaption class="mono" style="background:var(--color-accent-900);color:var(--color-bg);font-size:12.5px;letter-spacing:.02em;padding:8px 12px;line-height:1.4">We color-match the gelcoat.</figcaption>
+          </figure>
+        </section>
+
         <figure style="margin:20px auto 0;max-width:340px;position:relative;overflow:hidden;border:1px solid var(--color-divider)">
           <img src="images/repair-mobile-boat.jpg" alt="Mobile marine service — we come to your dock, driveway or ramp" loading="lazy" style="display:block;width:100%;height:150px;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
           <figcaption class="mono" style="position:absolute;left:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px">We bring the shop to you — dock, driveway or ramp.</figcaption>
@@ -913,14 +923,6 @@ function viewRepair() {
             </figure>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
-        </section>
-
-        <section style="padding:20px 18px 6px">
-          <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:8px">A problem we fix</div>
-          <figure style="margin:0;position:relative;overflow:hidden;border:1px solid var(--color-divider)">
-            <img src="images/repair-fiberglass-damage.jpg" alt="Cracked and punctured fiberglass on a boat hull — the kind of damage we repair" loading="lazy" onerror="var s=this.closest('section');if(s)s.remove()" style="display:block;width:100%;height:240px;object-fit:cover;object-position:center 40%;background:var(--color-neutral-200)">
-            <figcaption class="mono" style="position:absolute;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px;line-height:1.35">Cut back to solid glass, rebuilt in layers, blended with color-matched gelcoat.</figcaption>
-          </figure>
         </section>
       </div>
 
