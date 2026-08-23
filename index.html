@@ -15,7 +15,7 @@
   <title>Mobile Marine Mechanic | Mercury & Yamaha Outboard Repair | Stardock Marine</title>
   <meta name="description" content="Mercury & Yamaha outboard repair, gelcoat and ding repair, fiberglass and custom starboard across Central-East Florida. We come to you — call or text.">
 
-  <link rel="stylesheet" href="styles.css?v=48">
+  <link rel="stylesheet" href="styles.css?v=49">
   <style>
     html, body { margin: 0; }
     body { background: #dfdfe1; }
@@ -64,6 +64,19 @@
     .view-narrow { max-width: 620px; margin-inline: auto; width: 100%; }
     /* Drop the blueprint "+" registration marks — cleaner, less rustic. */
     .blueprint > .corner { display: none; }
+
+    /* Repair page: photo/text split bands. Stack on phones, sit side by
+       side on desktop. Each photo backs one claim — hero (we come to you),
+       gelcoat (proof of craft), outboard band (proof of specialty). */
+    .hero-split { display: grid; grid-template-columns: 1fr; }
+    .hero-split .hero-media { min-height: 185px; }
+    .split2 { display: grid; grid-template-columns: 1fr; }
+    .svc-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    @media (min-width: 860px) {
+      .hero-split { grid-template-columns: 1.15fr 1fr; }
+      .split2 { grid-template-columns: 1fr 1fr; }
+      .svc-grid { grid-template-columns: repeat(3, 1fr); }
+    }
 
     /* ===== Desktop: center the page in the blueprint field, wider grid =====
        Kept high (860px) so phones, unfolded foldables and small tablets get
@@ -140,8 +153,8 @@
   </div>
 
   <!-- Vendored QR generator (no external dependency) -->
-  <script src="qrcode.js?v=48"></script>
+  <script src="qrcode.js?v=49"></script>
   <!-- Site logic + everything you'd edit lives in app.js -->
-  <script src="app.js?v=48"></script>
+  <script src="app.js?v=49"></script>
 </body>
 </html>

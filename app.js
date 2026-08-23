@@ -122,13 +122,13 @@ const CONFIG = {
   repairServices: [
     { title: "Mercury & Yamaha Outboard Repair", body: "Mobile repair, maintenance, tune-ups, fuel-system issues and repowering.", icon: "anchor" },
     { title: "Boat & Outboard Won't Start?",     body: "Fuel, spark or electrical problem? We troubleshoot the cause and repair it on-site when possible.", icon: "gauge" },
-    { title: "Electrical, Rewiring & Nav Lights",body: "Boat electrical repair — rewires and wiring updates, navigation lights, gauges and electrical troubleshooting.", icon: "bolt" },
-    { title: "Battery, Charging & Tilt/Trim Repair", body: "Battery and charging-system replacement, plus power trim and tilt repair.", icon: "battery" },
-    { title: "Service & Maintenance",            body: "Routine service, tune-ups and pre-trip checks.", icon: "gear" },
     { title: "Gelcoat & Ding Repair",            body: "Chips, scratches, dings and gouges filled, faired and blended with color-matched gelcoat until the repair disappears.", icon: "ding" },
     { title: "Fiberglass, Body & Starboard Work", body: "Cracks, holes and soft spots cut back and rebuilt in glass. Plus custom starboard — consoles, hatches, seat bases and brackets cut to your measurements, DIY-ready or fitted by us.", icon: "hull" },
+    { title: "Electrical, Rewiring & Nav Lights",body: "Boat electrical repair — rewires and wiring updates, navigation lights, gauges and electrical troubleshooting.", icon: "bolt" },
+    { title: "Battery, Charging & Tilt/Trim Repair", body: "Battery and charging-system replacement, plus power trim and tilt repair.", icon: "battery" },
     { title: "Dockside & On-Site Service",       body: "Stuck at the ramp or marina and can't go? We come to you and get you running on the spot when we can.", icon: "pin" },
     { title: "Bilge Pumps & Float Switches",     body: "Bilge pump and float-switch replacement so your boat stays dry and safe.", icon: "drop" },
+    { title: "Service & Maintenance",            body: "Routine service, tune-ups and pre-trip checks.", icon: "gear" },
     { title: "Jet Ski & PWC Repair",             body: "Personal-watercraft service and repair too.", icon: "waves" },
   ],
 
@@ -887,48 +887,79 @@ function viewRepair() {
       <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">${esc(s.title)}</div>
       <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">${esc(s.body)}</p>
     </div>`;
-  const services = (CONFIG.repairServices || []).map(card).join("");
+  const all = CONFIG.repairServices || [];
+  const featured = all[0];                                   // outboard repair — gets the navy band
+  const services = all.slice(1).map(card).join("");
+  const steps = [
+    ["01", "Grind out the crack and remove every soft edge"],
+    ["02", "Fill, fair and sand flush with the surrounding surface"],
+    ["03", "Match the gelcoat, spray, wet-sand and buff to gloss"],
+  ].map(([n, t]) => `
+        <div style="display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--color-divider)">
+          <span class="mono" style="flex:none;font-weight:600;font-size:13px;color:var(--color-accent-700)">${n}</span>
+          <span style="font-size:13px;line-height:1.45">${t}</span>
+        </div>`).join("");
   return `
     <main style="padding:0 0 30px">
-      <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
-        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
-        <h1 style="margin:6px 0 10px;color:var(--color-bg);font-size:27px;line-height:1.08;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Mobile Marine Mechanic<br>Mercury &amp; Yamaha Outboard Repair</h1>
-        <p style="font-size:14px;line-height:1.5;margin:0 0 10px;opacity:.85">Mobile boat repair at your dock, driveway or ramp across Central-East Florida. Mercury &amp; Yamaha outboard repair, no-start troubleshooting, electrical, wiring, bilge, batteries and tilt/trim — plus gelcoat and ding repair, fiberglass and custom starboard.</p>
-        ${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}
-        ${phoneOut(true)}
+
+      <!-- Hero: the trailer shot is the proof of "we come to you" -->
+      <section class="hero-split" style="background:var(--color-accent-900);color:var(--color-bg)">
+        <div style="padding:22px 18px 20px">
+          <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
+          <h1 style="margin:6px 0 10px;color:var(--color-bg);font-size:27px;line-height:1.08;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Mobile Marine Mechanic<br>Mercury &amp; Yamaha Outboard Repair</h1>
+          <p style="font-size:14px;line-height:1.5;margin:0 0 10px;opacity:.85">Mobile boat repair at your dock, driveway or ramp across Central-East Florida. Mercury &amp; Yamaha outboard repair, no-start troubleshooting, electrical, wiring, bilge, batteries and tilt/trim — plus gelcoat and ding repair, fiberglass and custom starboard.</p>
+          ${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}
+          ${phoneOut(true)}
+        </div>
+        <figure class="hero-media" style="margin:0;position:relative;overflow:hidden">
+          <img src="images/repair-mobile-boat.jpg" alt="Mobile marine service — we come to your dock, driveway or ramp" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
+          <figcaption class="mono" style="position:absolute;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px">We bring the shop to you — dock, driveway or ramp.</figcaption>
+        </figure>
       </section>
 
-      <div class="view-narrow">
-        <section style="padding:20px 18px 0">
-          <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:8px">An example of what we come out to fix</div>
-          <figure style="margin:0 auto;max-width:300px;overflow:hidden;border:1px solid var(--color-divider)">
-            <img src="images/repair-fiberglass-damage.jpg" alt="A ding in a boat hull — an example of the damage we come out to repair" loading="lazy" onerror="var s=this.closest('section');if(s)s.remove()" style="display:block;width:100%;height:150px;object-fit:cover;object-position:center 34%;background:var(--color-neutral-200)">
-            <figcaption class="mono" style="background:var(--color-accent-900);color:var(--color-bg);font-size:12.5px;letter-spacing:.02em;padding:8px 12px;line-height:1.4">We color-match the gelcoat.</figcaption>
+      <!-- Gelcoat: the damage photo is the proof of craft -->
+      <section style="padding:24px 18px 0;max-width:980px;margin-inline:auto">
+        <div class="split2" style="border:1px solid var(--color-divider);background:var(--color-bg)">
+          <figure style="margin:0;position:relative;overflow:hidden;min-height:220px">
+            <img src="images/repair-fiberglass-damage.jpg" alt="A ding in a boat hull — an example of the damage we come out to repair" loading="lazy" onerror="var f=this.closest('figure');if(f)f.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 34%;background:var(--color-neutral-200)">
           </figure>
-        </section>
-
-        <figure style="margin:20px auto 0;max-width:340px;position:relative;overflow:hidden;border:1px solid var(--color-divider)">
-          <img src="images/repair-mobile-boat.jpg" alt="Mobile marine service — we come to your dock, driveway or ramp" loading="lazy" style="display:block;width:100%;height:150px;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
-          <figcaption class="mono" style="position:absolute;left:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px">We bring the shop to you — dock, driveway or ramp.</figcaption>
-        </figure>
-
-        <section style="padding:24px 18px 6px">
-          <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:16px">
-            <div style="flex:1;min-width:0">
-              <h2 style="margin:0 0 4px;font-size:25px">Marine Repair Services</h2>
-              <p class="text-muted" style="font-size:13px;margin:0;line-height:1.5"><b>Mercury &amp; Yamaha outboard specialists.</b></p>
-            </div>
-            <figure class="blueprint" style="margin:0;flex:none;width:118px;overflow:hidden">
-              <img src="images/repair-engine.jpg" alt="Mercury outboard powerhead repair in our shop" loading="lazy" style="display:block;width:118px;height:118px;object-fit:cover;background:var(--color-neutral-200)">
-            </figure>
+          <div style="padding:20px 18px 22px">
+            <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">An example of what we come out to fix</div>
+            <h2 style="margin:6px 0 8px;font-size:23px;line-height:1.12">Gelcoat &amp; ding repair,<br>color-matched to your hull</h2>
+            <p class="text-muted" style="font-size:13.5px;line-height:1.55;margin:0 0 10px">Chips, scratches, dings and gouges get filled, faired and blended until the repair disappears. We mix gelcoat to your hull&#39;s exact color on site.</p>
+            <div style="border-top:1px solid var(--color-divider);margin-bottom:16px">${steps}</div>
+            <a class="btn btn-primary phone-link" data-phone="sms" data-sms-body="Hi Stardock — here's a photo of the damage on my boat. What would it take to fix?" href="#" style="width:100%">${SMS_SVG} Text us a photo for a quote</a>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${services}</div>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      <section style="margin-top:8px;padding:26px 18px 24px;background:var(--color-accent-900);color:var(--color-bg);text-align:center">
+      <!-- Services: the powerhead shot is the proof of specialty -->
+      <section style="padding:28px 18px 6px;max-width:980px;margin-inline:auto">
+        <div style="display:flex;flex-wrap:wrap;gap:6px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:14px">
+          <div>
+            <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">What we do</div>
+            <h2 style="margin:4px 0 0;font-size:25px">Marine repair services</h2>
+          </div>
+          <p class="text-muted" style="font-size:13px;margin:0;line-height:1.5;max-width:300px">Mercury &amp; Yamaha outboard specialists. Everything below happens where your boat sits.</p>
+        </div>
+
+        <div class="split2" style="background:var(--color-accent-900);color:var(--color-bg);margin-bottom:12px">
+          <div style="padding:22px 18px 24px">
+            <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">What we&#39;re known for</div>
+            <h3 style="margin:6px 0 8px;color:var(--color-bg);font-size:22px;line-height:1.1;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">${esc(featured.title)}</h3>
+            <p style="font-size:13.5px;line-height:1.5;margin:0;opacity:.85">${esc(featured.body)}</p>
+          </div>
+          <figure style="margin:0;position:relative;overflow:hidden;min-height:170px">
+            <img src="images/repair-engine.jpg" alt="Mercury outboard powerhead repair in our shop" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--color-neutral-200)">
+          </figure>
+        </div>
+
+        <div class="svc-grid">${services}</div>
+      </section>
+
+      <section style="margin-top:26px;padding:26px 18px 24px;background:var(--color-accent-900);color:var(--color-bg);text-align:center">
         <h2 style="margin:0 0 8px;color:var(--color-bg);font-size:24px;line-height:1.1;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Need help with your boat?</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0 auto 16px;max-width:420px;opacity:.9">Call or text Stardock Marine — we'll come to your dock, driveway or ramp anywhere in Central-East Florida.</p>
+        <p style="font-size:14px;line-height:1.5;margin:0 auto 16px;max-width:420px;opacity:.9">Call or text Stardock Marine — we&#39;ll come to your dock, driveway or ramp anywhere in Central-East Florida. Send a photo and we&#39;ll tell you what it takes.</p>
         <div class="view-narrow">${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}</div>
       </section>
     </main>`;
