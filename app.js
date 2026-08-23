@@ -890,7 +890,6 @@ function viewRepair() {
         <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
         <h1 style="margin:6px 0 10px;color:var(--color-bg);font-size:27px;line-height:1.08;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Mobile Marine Mechanic<br>Mercury &amp; Yamaha Outboard Repair</h1>
         <p style="font-size:14px;line-height:1.5;margin:0 0 10px;opacity:.85">Mobile boat repair at your dock, driveway or ramp across Central-East Florida. Mercury &amp; Yamaha outboard repair, no-start troubleshooting, electrical, wiring, bilge, batteries and tilt/trim.</p>
-        <p class="mono" style="font-size:13.5px;line-height:1.4;margin:0 0 14px;padding:9px 12px;background:color-mix(in srgb,var(--color-bg) 12%,transparent);border-left:3px solid var(--color-bg)"><b>Mobile service starts at $175</b> — travel + first hour of labor included.</p>
         ${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}
         ${phoneOut(true)}
       </section>
@@ -917,7 +916,7 @@ function viewRepair() {
 
       <section style="margin-top:8px;padding:26px 18px 24px;background:var(--color-accent-900);color:var(--color-bg);text-align:center">
         <h2 style="margin:0 0 8px;color:var(--color-bg);font-size:24px;line-height:1.1;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Need help with your boat?</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0 auto 16px;max-width:420px;opacity:.9">Call or text Stardock Marine. Mobile service starts at $175 and includes travel plus the first hour.</p>
+        <p style="font-size:14px;line-height:1.5;margin:0 auto 16px;max-width:420px;opacity:.9">Call or text Stardock Marine — we'll come to your dock, driveway or ramp anywhere in Central-East Florida.</p>
         <div class="view-narrow">${callTextButtons("Hi Stardock — I've got a boat that needs service.", true)}</div>
       </section>
     </main>`;
