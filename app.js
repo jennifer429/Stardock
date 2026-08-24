@@ -11,7 +11,7 @@ const CONFIG = {
   /* --- Business ---------------------------------------------------------- */
   phone: "(386) 227-6883",          // Your call/text number. Shown on the site + QR signs.
   businessName: "Stardock Incorporated",
-  logo: "images/stardock-logo.png", // Logo file in the images/ folder (transparent PNG works best). Shown on the printable sign. Falls back to the business name in text if the file isn't found.
+  logo: "images/stardock-logo.png?v=3", // Logo file in the images/ folder (transparent PNG works best). Shown on the printable sign. Falls back to the business name in text if the file isn't found.
   techName: "",                     // Name of your certified outboard technician (shown on the repair tab).
   websiteUrl: "https://stardockmarine.com", // Your live web address (used to build each boat's shareable link + QR).
 
@@ -56,7 +56,7 @@ const CONFIG = {
         "Lowrance GPS/fishfinder · new sound system",
         "Aluminum trailer included — turnkey",
       ],
-      photos: ["images/keylargo-water-1.jpg", "images/keylargo-water-2.jpg", "images/keylargo-water-3.jpg", "images/keylargo-4.jpg", "images/keylargo-hull-warranty.jpg"],
+      photos: ["images/keylargo-water-1.jpg?v=3", "images/keylargo-water-2.jpg?v=3", "images/keylargo-water-3.jpg?v=3", "images/keylargo-4.jpg?v=3", "images/keylargo-hull-warranty.jpg?v=3"],
       blurb:  "Well-kept 17-foot center console with a brand-new 90 HP Mercury and a fully transferable 7-year warranty. Turn-key and ready to fish.",
       desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard backed by a fully transferable 7-year warranty. The boat has been professionally rewired and updated and is equipped with a Lowrance GPS/fishfinder, livewell, and a new sound system.\n\nThe console also has a convenient built-in wireless phone charger.\n\nThe boat comes on a matching aluminum trailer and is truly turnkey — there are no issues, deferred maintenance, or projects to tackle. Just hitch it up, launch it, and go fishing.\n\n$22,500 or OBO\nFinancing available.",
     },
@@ -76,7 +76,7 @@ const CONFIG = {
         "Legendary “unsinkable” McKee hull",
         "Galvanized trailer included",
       ],
-      photos: ["images/mckee-5.jpg", "images/mckee-3.jpg", "images/mckee-4.jpg", "images/mckee-brochure.jpg"],
+      photos: ["images/mckee-5.jpg?v=3", "images/mckee-3.jpg?v=3", "images/mckee-4.jpg?v=3", "images/mckee-brochure.jpg?v=3"],
       blurb:  "A classic 1977 McKee Craft — the legendary “unsinkable” skiff, lovingly restored. 1997 Mariner 50 BigFoot four-stroke, hydraulic steering, Bose sound & GPS.",
       desc:   "A true Florida classic. From the 1960s on, McKee Craft earned its nickname — “The Unsinkables” — with a double-hull, full-foam-flotation design that keeps the boat afloat even when swamped, built over a cathedral hull that runs dry and stable in a chop. Decades later they're still prized as tough, safe, seaworthy boats that punch well above their size.\n\nThis 1977 14-footer has been lovingly restored — original, beautifully finished woodwork blended with modern upgrades throughout. Power is a 1997 50 HP Mariner FourStroke BigFoot outboard, with hydraulic steering, a new Bose sound system, GPS and fishfinder, and professionally rewired electrics. It's been fully serviced and inspected by a certified outboard technician, with strong compression on all four cylinders. Light, unsinkable by design, and easy to launch — a one-of-a-kind first boat, backwater skiff or weekend fishing rig. Comes on a galvanized trailer.",
     },
@@ -107,10 +107,10 @@ const CONFIG = {
      small tag on the photo). Drop the files in the images folder.
      Leave it empty ([]) and the tab shows a friendly "coming soon" note. */
   restorationPhotos: [
-    { src: "images/restore-before-1-crop.jpg", label: "Before" },
-    { src: "images/restore-before-2.jpg", label: "Before" },
-    { src: "images/restore-after-2.jpg?v=2",  label: "After"  },
-    { src: "images/restore-after.jpg?v=2",    label: "After"  },
+    { src: "images/restore-before-1-crop.jpg?v=3", label: "Before" },
+    { src: "images/restore-before-2.jpg?v=3", label: "Before" },
+    { src: "images/restore-after-2.jpg?v=3",  label: "After"  },
+    { src: "images/restore-after.jpg?v=3",    label: "After"  },
   ],
 
   /* Certification badge shown in the credentials box on the Restoration tab.
@@ -912,7 +912,7 @@ function viewRepair() {
           ${phoneOut(true)}
         </div>
         <figure class="hero-media" style="margin:0;position:relative;overflow:hidden">
-          <img src="images/repair-mobile-boat.jpg" alt="Mobile marine service — we come to your dock, driveway or ramp" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
+          <img src="images/repair-mobile-boat.jpg?v=3" alt="Mobile marine service — we come to your dock, driveway or ramp" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
           <figcaption class="mono" style="position:absolute;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px">We bring the shop to you — dock, driveway or ramp.</figcaption>
         </figure>
       </section>
@@ -921,7 +921,7 @@ function viewRepair() {
       <section style="padding:24px 18px 0;max-width:980px;margin-inline:auto">
         <div class="split2" style="border:1px solid var(--color-divider);background:var(--color-bg)">
           <figure style="margin:0;position:relative;overflow:hidden;min-height:220px">
-            <img src="images/repair-fiberglass-damage.jpg" alt="A ding in a boat hull — an example of the damage we come out to repair" loading="lazy" onerror="var f=this.closest('figure');if(f)f.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 34%;background:var(--color-neutral-200)">
+            <img src="images/repair-fiberglass-damage.jpg?v=3" alt="A ding in a boat hull — an example of the damage we come out to repair" loading="lazy" onerror="var f=this.closest('figure');if(f)f.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 34%;background:var(--color-neutral-200)">
           </figure>
           <div style="padding:20px 18px 22px">
             <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">An example of what we come out to fix</div>
