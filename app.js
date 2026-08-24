@@ -940,7 +940,7 @@ function viewRepair() {
             <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">What we do</div>
             <h2 style="margin:4px 0 0;font-size:25px">Marine repair services</h2>
           </div>
-          <p class="text-muted" style="font-size:13px;margin:0;line-height:1.5;max-width:300px">Mercury &amp; Yamaha outboard specialists. Everything below happens where your boat sits.</p>
+          <p class="text-muted" style="font-size:13px;margin:0;line-height:1.5;max-width:300px">Mercury &amp; Yamaha outboard specialists. Everything below happens where your boat sits — or we can bring it into our shop if the job needs it.</p>
         </div>
 
         <div class="split2" style="background:var(--color-accent-900);color:var(--color-bg);margin-bottom:12px">
@@ -950,7 +950,7 @@ function viewRepair() {
             <p style="font-size:13.5px;line-height:1.5;margin:0;opacity:.85">${esc(featured.body)}</p>
           </div>
           <figure style="margin:0;position:relative;overflow:hidden;min-height:170px">
-            <img src="images/repair-engine.jpg" alt="Mercury outboard powerhead repair in our shop" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--color-neutral-200)">
+            <img src="images/repair-engine-wide.jpg" alt="Mercury outboard powerhead repair in our shop" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;background:var(--color-neutral-200)">
           </figure>
         </div>
 
