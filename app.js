@@ -44,7 +44,7 @@ const CONFIG = {
       slug:   "key-largo-176",                 // short id used in the web address (letters/numbers/dashes)
       name:   "17′ Key Largo",
       year:   "2004",
-      price:  "$22,500",
+      price:  "$18,000",
       engine: "90 HP Mercury Command Thrust",
       badge:  "For sale",
       hp:     "90 HP Mercury Command Thrust",
@@ -972,12 +972,10 @@ function currentRoute() {
   if (parts[0] === "restoration") return { tab: "restoration" };
   if (parts[0] === "repair") return { tab: "repair" };
   if (parts[0] === "contact") return { tab: "contact" };
-  if (parts[0] === "boats" && parts[1] && parts[2] === "sign") return { tab: "boats", boat: parts[1], sign: true };
-  if (parts[0] === "boats" && parts[1]) return { tab: "boats", boat: parts[1] };
-  if (parts[0] === "boats") return { tab: "boats" };
+  if (parts[0] === "boats") return { tab: "repair" };   // boat sales removed — old links and printed QR signs land on repair
   // default / empty hash
   const d = CONFIG.defaultTab;
-  return { tab: (d === "repair" || d === "restoration" || d === "contact") ? d : "boats" };
+  return { tab: (d === "repair" || d === "restoration" || d === "contact") ? d : "repair" };
 }
 
 function tabStyle(active) {
