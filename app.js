@@ -1068,13 +1068,12 @@ function trackPageview(route) {
   });
 }
 
-// --- tap-to-reveal phone links ----------------------------------------------
-// Anti-scrape guard: the number is NOT written into the page or the Call/Text
-// links until a real visitor taps one. Bots that fetch the page (or don't run
-// JS / don't click) never get a dialable number or a tel:/sms: link. The first
-// tap reveals the number site-wide and does not dial; after that every phone
-// button is a normal live link.
-let phoneRevealed = false;
+// --- phone links --------------------------------------------------------------
+// The number is shown as plain text in the header so Google Ads phone
+// verification (which reads page text and doesn't tap) can match it. With the
+// number public, the old tap-to-reveal anti-scrape guard protected nothing and
+// cost callers an extra tap, so links are live from the start.
+let phoneRevealed = true;
 
 function defaultSmsBody() {
   return "Hi " + CONFIG.businessName + " — I have a question about a boat.";
