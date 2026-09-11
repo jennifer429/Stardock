@@ -59,6 +59,17 @@ referring site, and remembers it in their browser. Then:
   `call_click` and `generate_lead` as key events (Admin → Events) to see which
   channel produces them.
 
+**Google Ads phone-click conversions (recommended):** the payoff is seeing
+*"mobile marine mechanic ad → clicked Call"* in the Ads dashboard instead of
+just a visit. In Google Ads: **Goals → Conversions → New conversion action →
+Website → add an action manually** (category "Phone call lead", count "One").
+Choosing the "Google tag / event snippet" option shows a tag ID
+(`AW-123456789`) and a conversion label — paste both into `googleAdsId:` and
+`googleAdsCallLabel:` in `app.js`. Every Call/Text tap then reports as a
+conversion, and you can tell campaigns to optimize for it. (It counts the
+tap, not whether the call connected — that's as close as it gets without a
+paid call-tracking number.)
+
 To make sources explicit, tag the links you control. The tags must go
 **before the `#`** in the address:
 

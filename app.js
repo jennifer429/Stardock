@@ -35,6 +35,15 @@ const CONFIG = {
   // optimize toward) ads that make the phone ring. Leave "" to skip the pixel.
   metaPixelId: "",
 
+  // Optional Google Ads conversion tracking, so the Ads dashboard shows which
+  // ad/keyword led to a phone-number click — not just a visit. In Google Ads:
+  // Goals → Conversions → New conversion action → Website → add an action
+  // manually (category "Phone call lead") → choose "Use Google tag" / event
+  // snippet. That screen shows a tag ID like "AW-123456789" and a per-action
+  // label like "AbC-DEfGhIjKLmN". Paste both below; leave "" to skip.
+  googleAdsId: "",          // e.g. "AW-123456789"
+  googleAdsCallLabel: "",   // conversion label for Call/Text taps
+
   /* --- Repair-tab options ------------------------------------------------ */
   defaultTab: "repair",             // "repair", "boats", "restoration" or "contact" — which tab shows first on the home page.
   showFinancing: true,              // Show the "50% down, installment plans" note on boat pages.
@@ -276,6 +285,22 @@ function fbTrack(eventName) {
   window.fbq("init", CONFIG.metaPixelId);
   window.fbq("track", "PageView");
 })();
+
+// Register the Google Ads tag on the gtag.js the page already loads for
+// Analytics — this is what lets Google Ads see that its ad click reached the
+// site (and measure the conversions below).
+(function initGoogleAds() {
+  if (CONFIG.googleAdsId && typeof window.gtag === "function") {
+    window.gtag("config", CONFIG.googleAdsId);
+  }
+})();
+
+// Report a Google Ads conversion (e.g. a phone-number tap). No-op until both
+// googleAdsId and the label are set in CONFIG.
+function adsConversion(label) {
+  if (!CONFIG.googleAdsId || !label || typeof window.gtag !== "function") return;
+  window.gtag("event", "conversion", { send_to: CONFIG.googleAdsId + "/" + label });
+}
 
 // Record the visit source right away — not only when something is tapped — so
 // a visitor who arrives through an ad today and calls tomorrow from a plain
@@ -1246,6 +1271,7 @@ document.addEventListener("click", (e) => {
   if (!link || !phoneRevealed) return;
   trackEvent(link.getAttribute("data-phone") === "sms" ? "text_click" : "call_click", {});
   fbTrack("Contact");
+  adsConversion(CONFIG.googleAdsCallLabel);   // the conversion Google Ads bids toward
 });
 
 window.addEventListener("hashchange", render);
