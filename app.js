@@ -186,26 +186,35 @@ function boatBySlug(slug) {
 // --- where did this visitor come from? ---------------------------------------
 // Works out the visitor's traffic source (Google Ads, Google search, Facebook,
 // Yelp, another site, or direct) from the landing URL's utm_*/click-id
-// parameters and the referrer, then remembers it in this browser. Every call
-// tap, text tap and emailed request is credited to that source — so "which ads
-// make the phone ring?" has an answer. A later visit through a *known* source
-// (say they come back via a Google ad) updates the memory; a plain direct
-// return visit doesn't erase what's already known.
+// parameters and the referrer, then remembers TWO answers in this browser:
+//   first touch — how they first discovered us
+//   last touch  — what brought them back for the visit where they called
+// Every call tap, text tap and emailed request carries both. A later visit
+// through a *known* source replaces the last touch; a plain direct return
+// visit doesn't erase it. Either memory expires after SOURCE_MAX_AGE_DAYS, so
+// an ad click from months ago can't keep claiming credit forever.
 //
-// Links you control should carry utm tags so the source is explicit. They must
-// go BEFORE the # of the address, e.g.
-//   https://stardockmarine.com/?utm_source=yelp&utm_medium=referral#/repair
+// Links you control should carry utm tags so the source is explicit — and a
+// utm_campaign on every PAID link, so ads can be compared ad-by-ad, not just
+// Facebook vs Yelp. Tags go BEFORE the # of the address, e.g.
+//   paid Facebook ad -> https://stardockmarine.com/?utm_source=facebook&utm_medium=cpc&utm_campaign=fiberglass_repair#/repair
+//   unpaid FB post   -> ...?utm_source=facebook&utm_medium=social
+//   Yelp profile     -> ...?utm_source=yelp&utm_medium=referral
 // Google Ads tags its clicks itself (gclid), so those links need nothing.
 
-const SOURCE_STORE_KEY = "stardock-visit-source";
+const SOURCE_STORE_KEY = "stardock-attribution";
+const SOURCE_MAX_AGE_DAYS = 30;   // a click stops claiming credit after this
 
 function detectVisitSource() {
   const q = new URLSearchParams(location.search);
   const utm = (q.get("utm_source") || "").toLowerCase();
   const campaign = q.get("utm_campaign") || "";
   if (utm) return { source: utm, medium: (q.get("utm_medium") || "link").toLowerCase(), campaign };
-  if (q.get("gclid"))  return { source: "google",   medium: "cpc",         campaign };
-  if (q.get("fbclid")) return { source: "facebook", medium: "paid-social", campaign };
+  if (q.get("gclid"))  return { source: "google",   medium: "cpc",    campaign };
+  // fbclid rides on ALL clicks out of Facebook, organic ones included, so on
+  // its own it only proves "came from Facebook" — paid links must say
+  // utm_medium=cpc themselves (see above) to be counted as ads.
+  if (q.get("fbclid")) return { source: "facebook", medium: "social", campaign };
   let host = "";
   try { host = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, "") : ""; } catch (e) {}
   if (host && host !== location.hostname) {
@@ -218,54 +227,63 @@ function detectVisitSource() {
   return { source: "direct", medium: "none", campaign: "" };
 }
 
-function getVisitSource() {
-  if (getVisitSource.cached) return getVisitSource.cached;
+function getAttribution() {
+  if (getAttribution.cached) return getAttribution.cached;
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(SOURCE_STORE_KEY) || "null"); } catch (e) {}
-  let record = saved && saved.source ? saved : null;
+  const fresh = r => !!(r && r.source && r.ts && Date.now() - r.ts < SOURCE_MAX_AGE_DAYS * 864e5);
   const now = detectVisitSource();
-  if (!record || now.source !== "direct") {
-    record = {
-      source: now.source, medium: now.medium, campaign: now.campaign,
-      landing: (location.pathname + location.search + location.hash).slice(0, 200),
-      date: new Date().toISOString().slice(0, 10),
-    };
-    try { localStorage.setItem(SOURCE_STORE_KEY, JSON.stringify(record)); } catch (e) {}
-  }
-  getVisitSource.cached = record;
+  // Landing page WITHOUT the query string: enough to know which page the ad
+  // opened, and it keeps raw click IDs (gclid/fbclid) out of the emails.
+  now.landing = (location.pathname.replace(/^.*\//, "/") + location.hash).slice(0, 120);
+  now.date = new Date().toISOString().slice(0, 10);
+  now.ts = Date.now();
+  const record = {
+    first: fresh(saved && saved.first) ? saved.first : now,
+    last:  (now.source !== "direct" || !fresh(saved && saved.last)) ? now : saved.last,
+  };
+  try { localStorage.setItem(SOURCE_STORE_KEY, JSON.stringify(record)); } catch (e) {}
+  getAttribution.cached = record;
   return record;
 }
 
-// Plain-English one-liner for the emailed requests, e.g.
-// "Google Ads — google / cpc, landed on /?gclid=…#/repair, 2026-09-11".
-function visitSourceLabel() {
-  const a = getVisitSource();
+// Plain-English line(s) for the emailed requests, e.g.
+//   "Google Ads (google / cpc / mobile_marine_repair), landed /#/repair, 2026-09-11"
+// or, when they discovered us one way and came back another:
+//   "first: Facebook / Instagram (…), 2026-08-20 · latest: Google Ads (…), 2026-09-11"
+function sourceLine(a) {
   const pretty =
     a.source === "google" && a.medium === "organic"     ? "Google search" :
     a.source === "google"                               ? "Google Ads" :
+    (a.source === "facebook" || a.source === "instagram") && a.medium === "cpc" ? "Facebook ad" :
     a.source === "facebook" || a.source === "instagram" ? "Facebook / Instagram" :
     a.source === "yelp"                                 ? "Yelp" :
     a.source === "direct"                               ? "Direct (typed the address, bookmark, or a text/email link)" :
     a.source;
-  const detail = [
-    a.source + " / " + a.medium,
-    a.campaign,
-    a.landing ? "landed on " + a.landing : "",
-    a.date,
-  ].filter(Boolean).join(", ");
-  return pretty + " — " + detail;
+  const inParens = [a.source + " / " + a.medium, a.campaign].filter(Boolean).join(" / ");
+  return pretty + " (" + inParens + ")" +
+    (a.landing ? ", landed " + a.landing : "") + (a.date ? ", " + a.date : "");
 }
 
-// Send a GA4 event tagged with the visitor's source, so Analytics can answer
-// "how many calls did Yelp / Facebook / the ads produce this week?". Safe
-// no-op when analytics is blocked or offline.
+function visitSourceLabel() {
+  const { first, last } = getAttribution();
+  const same = first.source === last.source && first.medium === last.medium &&
+               first.campaign === last.campaign && first.date === last.date;
+  return same ? sourceLine(first)
+              : "first: " + sourceLine(first) + " · latest: " + sourceLine(last);
+}
+
+// Send a GA4 event tagged with the visitor's sources — visit_* is the last
+// touch (what to judge ad spend by), first_source is how they discovered us.
+// Safe no-op when analytics is blocked or offline.
 function trackEvent(name, params) {
   if (typeof window.gtag !== "function") return;
-  const a = getVisitSource();
+  const { first, last } = getAttribution();
   window.gtag("event", name, Object.assign({
-    visit_source: a.source,
-    visit_medium: a.medium,
-    visit_campaign: a.campaign || "(none)",
+    visit_source: last.source,
+    visit_medium: last.medium,
+    visit_campaign: last.campaign || "(none)",
+    first_source: first.source,
   }, params || {}));
 }
 
@@ -305,7 +323,7 @@ function adsConversion(label) {
 // Record the visit source right away — not only when something is tapped — so
 // a visitor who arrives through an ad today and calls tomorrow from a plain
 // direct visit still credits the ad.
-getVisitSource();
+getAttribution();
 
 // --- icons ------------------------------------------------------------------
 const ICONS = {

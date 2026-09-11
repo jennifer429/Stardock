@@ -49,15 +49,26 @@ breaks — you just get the message a little less reliably until the key is in.
 The site works out each visitor's traffic source — **Google Ads, Google
 search, Facebook/Instagram, Yelp, another site, or direct** — from the link
 they arrived on (utm tags, Google's `gclid`, Facebook's `fbclid`) and the
-referring site, and remembers it in their browser. Then:
+referring site, and remembers **two answers** in their browser: the *first
+touch* (how they originally discovered us) and the *last touch* (what brought
+them back for the visit where they called — usually the one that should guide
+ad spend). Either memory expires after **30 days**, so an ad click from months
+ago can't keep claiming credit. Then:
 
 - **Every emailed request** (service, restoration, contact) includes a
-  "How they found us" line, e.g. `Google Ads — google / cpc, landed on …`.
+  "How they found us" line, e.g.
+  `first: Facebook ad (facebook / cpc / fiberglass_repair), 2026-08-20 · latest: Google Ads (google / cpc), landed /#/repair, 2026-09-11`
+  (a single line when both touches are the same). Landing pages are recorded
+  without query strings, so raw click IDs never appear in the emails.
 - **Every Call / Text tap and form send** is reported to Google Analytics as
   a `call_click`, `text_click` or `generate_lead` event tagged with
-  `visit_source` / `visit_medium` / `visit_campaign`. In GA4, mark
-  `call_click` and `generate_lead` as key events (Admin → Events) to see which
-  channel produces them.
+  `visit_source` / `visit_medium` / `visit_campaign` (last touch) and
+  `first_source`. In GA4, mark `call_click` and `generate_lead` as key events
+  (Admin → Events) to see which channel produces them.
+- **Matching taps to real calls:** a `call_click` proves the tap, not the
+  conversation. To confirm, line up the tap's time (in the GA4 event, or the
+  request email) with the phone log — a `call_click` at 10:52 and an incoming
+  call at 10:54 is almost certainly that lead.
 
 **Google Ads phone-click conversions (recommended):** the payoff is seeing
 *"mobile marine mechanic ad → clicked Call"* in the Ads dashboard instead of
@@ -71,9 +82,12 @@ tap, not whether the call connected — that's as close as it gets without a
 paid call-tracking number.)
 
 To make sources explicit, tag the links you control. The tags must go
-**before the `#`** in the address:
+**before the `#`** in the address, `utm_medium=cpc` means *paid*, and every
+paid link should carry a `utm_campaign` naming the ad — that's what lets you
+compare ad against ad, not just Facebook against Yelp:
 
-- Facebook page/posts: `https://stardockmarine.com/?utm_source=facebook&utm_medium=social`
+- Paid Facebook ad: `https://stardockmarine.com/?utm_source=facebook&utm_medium=cpc&utm_campaign=fiberglass_repair`
+- Unpaid Facebook post: `https://stardockmarine.com/?utm_source=facebook&utm_medium=social`
 - Yelp profile: `https://stardockmarine.com/?utm_source=yelp&utm_medium=referral`
 - Google Ads needs nothing — it tags its own clicks (keep auto-tagging on).
 
