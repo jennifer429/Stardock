@@ -61,20 +61,22 @@ const CONFIG = {
       name:   "17′ Key Largo",
       year:   "2004",
       price:  "$18,000",
+      wasPrice: "$22,500",                     // optional: shown crossed out under the price with "Recently reduced". Delete the line to show only price.
+      priceNote: "Brand-new Mercury 90 HP Command Thrust · 5 hours · 7-year transferable warranty",  // optional: the value line shown right beside the price.
       engine: "90 HP Mercury Command Thrust",
-      badge:  "For sale",
+      badge:  "Price reduced",
       hp:     "90 HP Mercury Command Thrust",
       hull:   "Center console",
       extra:  "Aluminum trailer included",
       highlights: [               // Short selling points shown on the printable "For Sale" sign.
-        "BRAND-NEW 90 HP Mercury Command Thrust",
+        "BRAND-NEW 90 HP Mercury Command Thrust · 5 hours",
         "Fully transferable 7-year warranty",
         "Lowrance GPS/fishfinder · new sound system",
         "Aluminum trailer included — turnkey",
       ],
       photos: ["images/keylargo-water-1.jpg?v=3", "images/keylargo-water-2.jpg?v=3", "images/keylargo-water-3.jpg?v=3", "images/keylargo-4.jpg?v=3", "images/keylargo-hull-warranty.jpg?v=3"],
       blurb:  "Well-kept 17-foot center console with a brand-new 90 HP Mercury and a fully transferable 7-year warranty. Turn-key and ready to fish.",
-      desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard backed by a fully transferable 7-year warranty. The boat has been professionally rewired and updated and is equipped with a Lowrance GPS/fishfinder, livewell, and a new sound system.\n\nThe console also has a convenient built-in wireless phone charger.\n\nThe boat comes on a matching aluminum trailer and is truly turnkey — there are no issues, deferred maintenance, or projects to tackle. Just hitch it up, launch it, and go fishing.\n\n$22,500 or OBO\nFinancing available.",
+      desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard backed by a fully transferable 7-year warranty. The boat has been professionally rewired and updated and is equipped with a Lowrance GPS/fishfinder, livewell, and a new sound system.\n\nThe console also has a convenient built-in wireless phone charger.\n\nThe boat comes on a matching aluminum trailer and is truly turnkey — there are no issues, deferred maintenance, or projects to tackle. Just hitch it up, launch it, and go fishing.\n\nNow $18,000 — recently reduced from $22,500. Or best offer.\nFinancing available.",
     },
     {
       slug:   "mckee-140",
@@ -422,7 +424,10 @@ function viewBoats() {
             <div class="mono" style="font-weight:600;font-size:19px;line-height:1">${esc(b.name)}</div>
             <div class="text-muted" style="font-size:12px;margin-top:3px">${esc(b.engine)}</div>
           </div>
-          <div class="mono" style="font-weight:600;font-size:${/^\s*\$/.test(b.price) ? "24px" : "16px"};color:var(--color-accent-700);white-space:nowrap">${esc(b.price)}</div>
+          <div style="text-align:right">
+            <div class="mono" style="font-weight:600;font-size:${/^\s*\$/.test(b.price) ? "24px" : "16px"};color:var(--color-accent-700);white-space:nowrap">${esc(b.price)}</div>
+            ${b.wasPrice ? `<div style="font-size:11.5px;white-space:nowrap;margin-top:2px"><span class="mono text-muted" style="text-decoration:line-through">${esc(b.wasPrice)}</span> <span style="color:var(--color-accent-700);font-weight:600">Recently reduced</span></div>` : ""}
+          </div>
         </div>
         <p class="text-muted" style="font-size:13px;margin:0;line-height:1.45">${esc(b.blurb)}</p>
         <div style="margin-top:2px">${callTextButtons("Hi Stardock — is the " + b.name + " still available?", false)}</div>
@@ -475,6 +480,8 @@ function viewDetail(boat) {
         ${boat.year ? `<div class="text-muted mono" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">${esc(boat.year)}</div>` : ""}
         <h2 style="margin:2px 0 4px">${esc(boat.name)}</h2>
         <div class="mono" style="font-weight:600;font-size:34px;color:var(--color-accent-700);line-height:1">${esc(boat.price)}</div>
+        ${boat.wasPrice ? `<div style="margin-top:6px;font-size:15px"><span class="mono text-muted" style="text-decoration:line-through">${esc(boat.wasPrice)}</span> <span style="color:var(--color-accent-700);font-weight:600">Recently reduced</span></div>` : ""}
+        ${boat.priceNote ? `<div style="margin-top:6px;font-size:13.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 75%,transparent)">${esc(boat.priceNote)}</div>` : ""}
       </div>
 
       <div style="display:flex;flex-direction:column;border-top:1px solid var(--color-divider)">
@@ -514,7 +521,8 @@ function viewSign(boat) {
 
         <div class="mono" style="font-weight:600;font-size:48px;color:var(--color-accent-700);margin:10px 0 0;line-height:.9">FOR SALE</div>
         <div class="mono" style="font-weight:600;font-size:22px;line-height:1.05;margin-top:8px">${esc([boat.year, boat.name].filter(Boolean).join(" "))}</div>
-        <div class="mono" style="font-weight:600;font-size:38px;color:var(--color-text);margin:2px 0 2px">${esc(boat.price)}</div>
+        <div class="mono" style="font-weight:600;font-size:38px;color:var(--color-text);margin:2px 0 0">${esc(boat.price)}</div>
+        ${boat.wasPrice ? `<div class="mono" style="font-size:16px;margin:2px 0 2px">Recently reduced from <span style="text-decoration:line-through">${esc(boat.wasPrice)}</span></div>` : ""}
 
         ${(boat.highlights && boat.highlights.length)
           ? `<ul style="list-style:none;margin:14px auto 4px;padding:0;max-width:320px;text-align:left;display:flex;flex-direction:column;gap:6px">
@@ -1145,10 +1153,12 @@ function currentRoute() {
   if (parts[0] === "restoration") return { tab: "restoration" };
   if (parts[0] === "repair") return { tab: "repair" };
   if (parts[0] === "contact") return { tab: "contact" };
-  if (parts[0] === "boats") return { tab: "repair" };   // boat sales removed — old links and printed QR signs land on repair
+  if (parts[0] === "boats" && parts[1] && parts[2] === "sign") return { tab: "boats", boat: parts[1], sign: true };
+  if (parts[0] === "boats" && parts[1]) return { tab: "boats", boat: parts[1] };
+  if (parts[0] === "boats") return { tab: "boats" };
   // default / empty hash
   const d = CONFIG.defaultTab;
-  return { tab: (d === "repair" || d === "restoration" || d === "contact") ? d : "repair" };
+  return { tab: (d === "repair" || d === "restoration" || d === "contact" || d === "boats") ? d : "repair" };
 }
 
 function tabStyle(active) {
