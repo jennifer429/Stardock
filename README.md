@@ -44,6 +44,33 @@ location, boat, and problem description.
 opening the visitor's own email app, pre-addressed to `notifyEmail`. Nothing
 breaks — you just get the message a little less reliably until the key is in.
 
+## Knowing where visitors (and callers) come from
+
+The site works out each visitor's traffic source — **Google Ads, Google
+search, Facebook/Instagram, Yelp, another site, or direct** — from the link
+they arrived on (utm tags, Google's `gclid`, Facebook's `fbclid`) and the
+referring site, and remembers it in their browser. Then:
+
+- **Every emailed request** (service, restoration, contact) includes a
+  "How they found us" line, e.g. `Google Ads — google / cpc, landed on …`.
+- **Every Call / Text tap and form send** is reported to Google Analytics as
+  a `call_click`, `text_click` or `generate_lead` event tagged with
+  `visit_source` / `visit_medium` / `visit_campaign`. In GA4, mark
+  `call_click` and `generate_lead` as key events (Admin → Events) to see which
+  channel produces them.
+
+To make sources explicit, tag the links you control. The tags must go
+**before the `#`** in the address:
+
+- Facebook page/posts: `https://stardockmarine.com/?utm_source=facebook&utm_medium=social`
+- Yelp profile: `https://stardockmarine.com/?utm_source=yelp&utm_medium=referral`
+- Google Ads needs nothing — it tags its own clicks (keep auto-tagging on).
+
+**Meta Pixel (optional):** to count Facebook-ad results inside Meta too, get
+your Pixel ID from Meta Events Manager and paste it into `metaPixelId:` in
+`app.js`. The site then reports `PageView`, `Contact` (call/text taps) and
+`Lead` (form sends) to Meta. Leave it `""` and no pixel loads.
+
 ## Printable "For Sale" signs
 
 On any boat's detail page, tap **"Printable 'For Sale' sign & QR"**, then

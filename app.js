@@ -28,6 +28,13 @@ const CONFIG = {
   // as the reply-to on relayed messages.
   notifyEmail: "info@starling-enterprises-inc.com",
 
+  /* --- Ad & visit tracking ------------------------------------------------ */
+  // Optional Meta (Facebook) Pixel ID — the plain number from Meta Events
+  // Manager, e.g. "1234567890123456". With it set, the site counts Facebook-ad
+  // visitors and the calls/texts/requests they make, so Meta can report (and
+  // optimize toward) ads that make the phone ring. Leave "" to skip the pixel.
+  metaPixelId: "",
+
   /* --- Repair-tab options ------------------------------------------------ */
   defaultTab: "repair",             // "repair", "boats", "restoration" or "contact" — which tab shows first on the home page.
   showFinancing: true,              // Show the "50% down, installment plans" note on boat pages.
@@ -166,6 +173,114 @@ function esc(s) {
 function boatBySlug(slug) {
   return CONFIG.boats.find(b => b.slug === slug) || null;
 }
+
+// --- where did this visitor come from? ---------------------------------------
+// Works out the visitor's traffic source (Google Ads, Google search, Facebook,
+// Yelp, another site, or direct) from the landing URL's utm_*/click-id
+// parameters and the referrer, then remembers it in this browser. Every call
+// tap, text tap and emailed request is credited to that source — so "which ads
+// make the phone ring?" has an answer. A later visit through a *known* source
+// (say they come back via a Google ad) updates the memory; a plain direct
+// return visit doesn't erase what's already known.
+//
+// Links you control should carry utm tags so the source is explicit. They must
+// go BEFORE the # of the address, e.g.
+//   https://stardockmarine.com/?utm_source=yelp&utm_medium=referral#/repair
+// Google Ads tags its clicks itself (gclid), so those links need nothing.
+
+const SOURCE_STORE_KEY = "stardock-visit-source";
+
+function detectVisitSource() {
+  const q = new URLSearchParams(location.search);
+  const utm = (q.get("utm_source") || "").toLowerCase();
+  const campaign = q.get("utm_campaign") || "";
+  if (utm) return { source: utm, medium: (q.get("utm_medium") || "link").toLowerCase(), campaign };
+  if (q.get("gclid"))  return { source: "google",   medium: "cpc",         campaign };
+  if (q.get("fbclid")) return { source: "facebook", medium: "paid-social", campaign };
+  let host = "";
+  try { host = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, "") : ""; } catch (e) {}
+  if (host && host !== location.hostname) {
+    if (/yelp\./.test(host) || host === "yelp.com")     return { source: "yelp",     medium: "referral", campaign: "" };
+    if (/facebook|fb\.com|instagram/.test(host))        return { source: "facebook", medium: "social",   campaign: "" };
+    if (/google\./.test(host))                          return { source: "google",   medium: "organic",  campaign: "" };
+    if (/bing\.|duckduckgo\.|yahoo\./.test(host))       return { source: host.split(".")[0], medium: "organic", campaign: "" };
+    return { source: host, medium: "referral", campaign: "" };
+  }
+  return { source: "direct", medium: "none", campaign: "" };
+}
+
+function getVisitSource() {
+  if (getVisitSource.cached) return getVisitSource.cached;
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(SOURCE_STORE_KEY) || "null"); } catch (e) {}
+  let record = saved && saved.source ? saved : null;
+  const now = detectVisitSource();
+  if (!record || now.source !== "direct") {
+    record = {
+      source: now.source, medium: now.medium, campaign: now.campaign,
+      landing: (location.pathname + location.search + location.hash).slice(0, 200),
+      date: new Date().toISOString().slice(0, 10),
+    };
+    try { localStorage.setItem(SOURCE_STORE_KEY, JSON.stringify(record)); } catch (e) {}
+  }
+  getVisitSource.cached = record;
+  return record;
+}
+
+// Plain-English one-liner for the emailed requests, e.g.
+// "Google Ads — google / cpc, landed on /?gclid=…#/repair, 2026-09-11".
+function visitSourceLabel() {
+  const a = getVisitSource();
+  const pretty =
+    a.source === "google" && a.medium === "organic"     ? "Google search" :
+    a.source === "google"                               ? "Google Ads" :
+    a.source === "facebook" || a.source === "instagram" ? "Facebook / Instagram" :
+    a.source === "yelp"                                 ? "Yelp" :
+    a.source === "direct"                               ? "Direct (typed the address, bookmark, or a text/email link)" :
+    a.source;
+  const detail = [
+    a.source + " / " + a.medium,
+    a.campaign,
+    a.landing ? "landed on " + a.landing : "",
+    a.date,
+  ].filter(Boolean).join(", ");
+  return pretty + " — " + detail;
+}
+
+// Send a GA4 event tagged with the visitor's source, so Analytics can answer
+// "how many calls did Yelp / Facebook / the ads produce this week?". Safe
+// no-op when analytics is blocked or offline.
+function trackEvent(name, params) {
+  if (typeof window.gtag !== "function") return;
+  const a = getVisitSource();
+  window.gtag("event", name, Object.assign({
+    visit_source: a.source,
+    visit_medium: a.medium,
+    visit_campaign: a.campaign || "(none)",
+  }, params || {}));
+}
+
+// Mirror key actions to the Meta Pixel (only when CONFIG.metaPixelId is set).
+function fbTrack(eventName) {
+  if (typeof window.fbq === "function") window.fbq("track", eventName);
+}
+
+(function initMetaPixel() {
+  if (!CONFIG.metaPixelId) return;
+  !(function (f, b, e, v, n, t, s) {
+    if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+    if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = "2.0"; n.queue = [];
+    t = b.createElement(e); t.async = !0; t.src = v;
+    s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+  })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+  window.fbq("init", CONFIG.metaPixelId);
+  window.fbq("track", "PageView");
+})();
+
+// Record the visit source right away — not only when something is tapped — so
+// a visitor who arrives through an ad today and calls tomorrow from a plain
+// direct visit still credits the ad.
+getVisitSource();
 
 // --- icons ------------------------------------------------------------------
 const ICONS = {
@@ -524,6 +639,8 @@ function wireRestoration() {
   if (slider) slider.addEventListener("input", updateBudget);
 
   function showSuccess() {
+    trackEvent("generate_lead", { form: "restoration" });
+    fbTrack("Lead");
     mount.innerHTML = `
       <div class="blueprint" style="padding:24px 18px;text-align:center;background:color-mix(in srgb,var(--color-accent) 6%,transparent)">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
@@ -576,7 +693,9 @@ function wireRestoration() {
         const body = ["Name: " + (data.name || ""), "Phone: " + (data.phone || ""),
           "Preferred contact: " + (data.contact || ""), data.email ? "Email: " + data.email : "",
           "Boat location: " + (data.location || ""), "Boat & engine: " + (data.boat || ""),
-          budget ? "Budget: " + budget : "", "", "What they want:", data.wish || ""]
+          budget ? "Budget: " + budget : "",
+          "How they found us: " + visitSourceLabel(),
+          "", "What they want:", data.wish || ""]
           .filter(Boolean).join("\n");
         window.location.href = "mailto:" + CONFIG.notifyEmail + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
         showSuccess(); return;
@@ -593,6 +712,7 @@ function wireRestoration() {
             name: data.name, phone: data.phone, preferred_contact: data.contact,
             email: data.email || "", boat_location: data.location, boat_and_engine: data.boat,
             budget: budget || "n/a", what_they_want: data.wish,
+            how_they_found_us: visitSourceLabel(),
           }),
         });
         const json = await res.json();
@@ -673,10 +793,13 @@ function wireForm(mount) {
         `Preferred contact: ${data.contact || ""}\n` +
         (data.email ? `Email: ${data.email}\n` : "") +
         `Boat location: ${data.location || ""}\n` +
-        `Boat & engine: ${data.boat || ""}\n\n` +
+        `Boat & engine: ${data.boat || ""}\n` +
+        `How they found us: ${visitSourceLabel()}\n\n` +
         `Problem:\n${data.problem || ""}\n`;
       window.location.href = `mailto:${CONFIG.notifyEmail}` +
         `?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      trackEvent("generate_lead", { form: "service_request" });
+      fbTrack("Lead");
       mount.innerHTML = formSuccessHtml();
       mount.querySelector("#send-another").addEventListener("click", () => wireForm(mount));
       return;
@@ -701,10 +824,13 @@ function wireForm(mount) {
           boat_location: data.location,
           boat_and_engine: data.boat,
           problem: data.problem,
+          how_they_found_us: visitSourceLabel(),
         }),
       });
       const json = await res.json();
       if (json.success) {
+        trackEvent("generate_lead", { form: "service_request" });
+        fbTrack("Lead");
         mount.innerHTML = formSuccessHtml();
         mount.querySelector("#send-another").addEventListener("click", () => wireForm(mount));
       } else {
@@ -749,6 +875,8 @@ function wireContact() {
   if (!mount) return;
 
   function showSuccess() {
+    trackEvent("generate_lead", { form: "contact" });
+    fbTrack("Lead");
     mount.innerHTML = `
       <div class="blueprint" style="padding:24px 18px;text-align:center;background:color-mix(in srgb,var(--color-accent) 6%,transparent)">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
@@ -846,6 +974,7 @@ function wireContact() {
           phone ? "Phone: " + phone + " (prefers " + phonePref.toLowerCase() + ")" : "",
           email ? "Email: " + email : "",
           "Best way to reach: " + reach,
+          "How they found us: " + visitSourceLabel(),
           "", "Message:", data.message || ""].filter(Boolean).join("\n");
         window.location.href = "mailto:" + CONFIG.notifyEmail + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
         showSuccess(); return;
@@ -863,6 +992,7 @@ function wireContact() {
             phone: phone || "", phone_preference: phone ? phonePref : "",
             email: email || "", best_way_to_reach: reach,
             message: data.message,
+            how_they_found_us: visitSourceLabel(),
           }),
         });
         const json = await res.json();
@@ -1105,6 +1235,17 @@ document.addEventListener("click", (e) => {
   e.preventDefault();
   phoneRevealed = true;
   refreshPhoneLinks();
+});
+
+// Count every live Call / Text tap, labeled with the visitor's traffic source,
+// so GA4 (and the Meta Pixel, when configured) can report which channel makes
+// the phone ring. tel:/sms: links leave the page, but sending the event and
+// following the link race safely — gtag queues the hit before navigation.
+document.addEventListener("click", (e) => {
+  const link = e.target.closest(".phone-link");
+  if (!link || !phoneRevealed) return;
+  trackEvent(link.getAttribute("data-phone") === "sms" ? "text_click" : "call_click", {});
+  fbTrack("Contact");
 });
 
 window.addEventListener("hashchange", render);
