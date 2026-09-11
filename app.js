@@ -62,14 +62,14 @@ const CONFIG = {
       year:   "2004",
       price:  "$18,000",
       wasPrice: "$22,500",                     // optional: shown crossed out under the price with "Recently reduced". Delete the line to show only price.
-      priceNote: "Brand-new Mercury 90 HP Command Thrust · 5 hours · 7-year transferable warranty",  // optional: the value line shown right beside the price.
-      engine: "90 HP Mercury Command Thrust",
+      priceNote: "Brand-new Mercury 90 HP Command Thrust · 5 hours · 7-year transferable warranty",  // optional: the value line shown at the top, above the price.
+      engine: "Brand-new Mercury 90 HP Command Thrust",
       badge:  "Price reduced",
       hp:     "90 HP Mercury Command Thrust",
       hull:   "Center console",
       extra:  "Aluminum trailer included",
       highlights: [               // Short selling points shown on the printable "For Sale" sign.
-        "BRAND-NEW 90 HP Mercury Command Thrust · 5 hours",
+        "Just 5 hours on the new engine",
         "Fully transferable 7-year warranty",
         "Lowrance GPS/fishfinder · new sound system",
         "Aluminum trailer included — turnkey",
@@ -82,7 +82,7 @@ const CONFIG = {
       slug:   "mckee-140",
       name:   "14′ McKee Craft",
       year:   "1977",
-      price:  "$15,000",
+      price:  "$8,000",
       engine: "50 HP Mariner FourStroke BigFoot",
       badge:  "For sale",
       hp:     "50 HP Mariner BigFoot 4-stroke (1997)",
@@ -479,9 +479,9 @@ function viewDetail(boat) {
       <div>
         ${boat.year ? `<div class="text-muted mono" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">${esc(boat.year)}</div>` : ""}
         <h2 style="margin:2px 0 4px">${esc(boat.name)}</h2>
+        ${boat.priceNote ? `<div class="mono" style="margin:2px 0 8px;font-weight:600;font-size:16px;line-height:1.35;color:var(--color-accent-700)">${esc(boat.priceNote)}</div>` : ""}
         <div class="mono" style="font-weight:600;font-size:34px;color:var(--color-accent-700);line-height:1">${esc(boat.price)}</div>
         ${boat.wasPrice ? `<div style="margin-top:6px;font-size:15px"><span class="mono text-muted" style="text-decoration:line-through">${esc(boat.wasPrice)}</span> <span style="color:var(--color-accent-700);font-weight:600">Recently reduced</span></div>` : ""}
-        ${boat.priceNote ? `<div style="margin-top:6px;font-size:13.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 75%,transparent)">${esc(boat.priceNote)}</div>` : ""}
       </div>
 
       <div style="display:flex;flex-direction:column;border-top:1px solid var(--color-divider)">
@@ -521,6 +521,7 @@ function viewSign(boat) {
 
         <div class="mono" style="font-weight:600;font-size:48px;color:var(--color-accent-700);margin:10px 0 0;line-height:.9">FOR SALE</div>
         <div class="mono" style="font-weight:600;font-size:22px;line-height:1.05;margin-top:8px">${esc([boat.year, boat.name].filter(Boolean).join(" "))}</div>
+        ${boat.engine ? `<div class="mono" style="font-weight:600;font-size:16px;letter-spacing:.03em;text-transform:uppercase;color:var(--color-accent-700);margin-top:5px">${esc(boat.engine)}</div>` : ""}
         <div class="mono" style="font-weight:600;font-size:38px;color:var(--color-text);margin:2px 0 0">${esc(boat.price)}</div>
         ${boat.wasPrice ? `<div class="mono" style="font-size:16px;margin:2px 0 2px">Recently reduced from <span style="text-decoration:line-through">${esc(boat.wasPrice)}</span></div>` : ""}
 
