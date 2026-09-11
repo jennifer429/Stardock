@@ -41,7 +41,7 @@ const CONFIG = {
   // manually (category "Phone call lead") → choose "Use Google tag" / event
   // snippet. That screen shows a tag ID like "AW-123456789" and a per-action
   // label like "AbC-DEfGhIjKLmN". Paste both below; leave "" to skip.
-  googleAdsId: "",          // e.g. "AW-123456789"
+  googleAdsId: "AW-18361242363",   // "Stardock Inc" Google Ads tag
   googleAdsCallLabel: "",   // conversion label for Call/Text taps
 
   /* --- Repair-tab options ------------------------------------------------ */
