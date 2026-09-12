@@ -98,7 +98,7 @@ const CONFIG = {
       ],
       photos: ["images/mckee-8.jpg", "images/mckee-6.jpeg", "images/mckee-7.jpeg", "images/mckee-4.jpg?v=3", "images/mckee-brochure.jpg?v=3"],
       blurb:  "A classic 1977 McKee Craft — the legendary “unsinkable” skiff, lovingly restored. 60 HP Mercury two-stroke, hydraulic steering, Bose marine sound, Garmin depth finder — with bimini, cover and an updated trailer.",
-      desc:   "A true Florida classic. From the 1960s on, McKee Craft earned its nickname — “The Unsinkables” — with a double-hull, full-foam-flotation design that keeps the boat afloat even when swamped, built over a cathedral hull that runs dry and stable in a chop. Decades later they're still prized as tough, safe, seaworthy boats that punch well above their size.\n\nThis 1977 14-footer has been lovingly restored — original, beautifully finished woodwork blended with modern updates throughout, including a Garmin depth finder. Power is a 60 HP Mercury two-stroke outboard, with hydraulic steering, a new Bose marine sound system, and professionally rewired electrics. A Yeti cooler seat, bimini top and full cover are included. It's been fully serviced and inspected by a certified outboard technician, with strong compression. Light, unsinkable by design, and easy to launch — a one-of-a-kind first boat, backwater skiff or weekend fishing rig. Comes on an updated galvanized trailer with new rollers and bunks.",
+      desc:   "This classic 1977 14-foot McKee Craft has been fully restored and updated for modern use. It features a Garmin depth finder, new Bose marine sound system, professionally rewired electrical, a new Yeti cooler seat, and a bimini top for shade.\n\nPowered by a 60 HP Mercury two-stroke outboard with hydraulic steering, it has been fully serviced and inspected by a certified outboard technician, with strong compression. Light, easy to launch, and built with McKee Craft’s famously unsinkable design, it runs shallow enough for rivers and backwater while still being capable of handling rougher water.\n\nA great first boat, fishing skiff, or weekend runabout. Comes on an updated galvanized trailer with new rollers and bunks.",
     },
   ],
 
@@ -1264,6 +1264,10 @@ function docTitleFor(route) {
 // section people land on (Boats for Sale / Restoration / Contact) and which
 // individual boat they open. Safe no-op if analytics isn't loaded.
 function trackPageview(route) {
+  // Mirror the navigation to the Meta Pixel first, so Facebook counts a
+  // PageView per view (tab or boat) just like Google Analytics does. The
+  // initial load's PageView is sent by the pixel init, not here.
+  fbTrack("PageView");
   if (typeof window.gtag !== "function") return;
   let path = "/boats", title = "Boats for Sale";
   if (route.tab === "restoration") { path = "/restoration"; title = "Restoration"; }
