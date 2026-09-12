@@ -181,9 +181,13 @@ function boatUrl(slug) {
 }
 // Turn any YouTube link (watch, share, youtu.be, Short) into an embeddable
 // player address. Returns "" if the link isn't recognizably YouTube.
-function youtubeEmbed(url) {
+// Pass autoplay=true to have it start playing on its own — muted (browsers
+// require that) and looping; the visitor taps the speaker icon for sound.
+function youtubeEmbed(url, autoplay) {
   const m = String(url || "").match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,20})/);
-  return m ? "https://www.youtube-nocookie.com/embed/" + m[1] : "";
+  if (!m) return "";
+  const base = "https://www.youtube-nocookie.com/embed/" + m[1];
+  return autoplay ? base + "?autoplay=1&mute=1&loop=1&playlist=" + m[1] + "&playsinline=1" : base;
 }
 function esc(s) {
   return String(s == null ? "" : s).replace(/[&<>"']/g, c =>
@@ -418,9 +422,10 @@ function photoBlock(boat, height) {
 // --- views ------------------------------------------------------------------
 function viewBoats() {
   const cards = CONFIG.boats.map(b => {
-    // With a video: the card leads with the playable video (same as the boat's
-    // own page). Without one: the first photo, linked to the boat's page.
-    const embed = youtubeEmbed(b.video);
+    // With a video: the card leads with the video, auto-playing muted so it
+    // catches the eye without a tap. Without one: the first photo, linked to
+    // the boat's page.
+    const embed = youtubeEmbed(b.video, true);
     const portrait = /\/shorts\//.test(b.video || "");
     const media = embed
       ? `<div style="position:relative;display:flex;justify-content:center;background:var(--color-accent-900);border-bottom:1px solid var(--color-divider)">
