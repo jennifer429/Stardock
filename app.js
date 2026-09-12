@@ -96,7 +96,7 @@ const CONFIG = {
         "Legendary “unsinkable” McKee hull",
         "Updated galvanized trailer — new rollers & bunks",
       ],
-      photos: ["images/mckee-6.jpeg", "images/mckee-8.jpg", "images/mckee-7.jpeg", "images/mckee-4.jpg?v=3", "images/mckee-brochure.jpg?v=3"],
+      photos: ["images/mckee-8.jpg", "images/mckee-6.jpeg", "images/mckee-7.jpeg", "images/mckee-4.jpg?v=3", "images/mckee-brochure.jpg?v=3"],
       blurb:  "A classic 1977 McKee Craft — the legendary “unsinkable” skiff, lovingly restored. 60 HP Mercury two-stroke, hydraulic steering, Bose marine sound, Garmin depth finder — with bimini, cover and an updated trailer.",
       desc:   "A true Florida classic. From the 1960s on, McKee Craft earned its nickname — “The Unsinkables” — with a double-hull, full-foam-flotation design that keeps the boat afloat even when swamped, built over a cathedral hull that runs dry and stable in a chop. Decades later they're still prized as tough, safe, seaworthy boats that punch well above their size.\n\nThis 1977 14-footer has been lovingly restored — original, beautifully finished woodwork blended with modern updates throughout, including a Garmin depth finder. Power is a 60 HP Mercury two-stroke outboard, with hydraulic steering, a new Bose marine sound system, and professionally rewired electrics. A Yeti cooler seat, bimini top and full cover are included. It's been fully serviced and inspected by a certified outboard technician, with strong compression. Light, unsinkable by design, and easy to launch — a one-of-a-kind first boat, backwater skiff or weekend fishing rig. Comes on an updated galvanized trailer with new rollers and bunks.",
     },
