@@ -75,7 +75,7 @@ const CONFIG = {
         "Aluminum trailer included — turnkey",
       ],
       video:  "https://youtube.com/shorts/c78nFR0dZkY", // optional: YouTube link (regular video or Short). Shown at the top of the boat's page, photos below it.
-      photos: ["images/keylargo-water-1.jpg?v=3", "images/keylargo-water-2.jpg?v=3", "images/keylargo-water-3.jpg?v=3", "images/keylargo-6.jpeg", "images/keylargo-7.jpeg", "images/keylargo-4.jpg?v=3", "images/keylargo-hull-warranty.jpg?v=3"],
+      photos: ["images/keylargo-water-1.jpg?v=3", "images/keylargo-water-2.jpg?v=3", "images/keylargo-water-3.jpg?v=3", "images/keylargo-4.jpg?v=3", "images/keylargo-hull-warranty.jpg?v=3"],
       blurb:  "Well-kept 17-foot center console with a brand-new 90 HP Mercury and a fully transferable 7-year warranty. Turn-key and ready to fish.",
       desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard backed by a fully transferable 7-year warranty. The boat has been professionally rewired and updated and is equipped with a Lowrance GPS/fishfinder, livewell, and a new sound system.\n\nThe console also has a convenient built-in wireless phone charger.\n\nThe boat comes on a matching aluminum trailer and is truly turnkey — there are no issues, deferred maintenance, or projects to tackle. Just hitch it up, launch it, and go fishing.\n\nNow $18,000 — recently reduced from $22,500. Or best offer.\nFinancing available.",
     },
