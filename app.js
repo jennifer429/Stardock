@@ -1264,6 +1264,10 @@ function docTitleFor(route) {
 // section people land on (Boats for Sale / Restoration / Contact) and which
 // individual boat they open. Safe no-op if analytics isn't loaded.
 function trackPageview(route) {
+  // Mirror the navigation to the Meta Pixel first, so Facebook counts a
+  // PageView per view (tab or boat) just like Google Analytics does. The
+  // initial load's PageView is sent by the pixel init, not here.
+  fbTrack("PageView");
   if (typeof window.gtag !== "function") return;
   let path = "/boats", title = "Boats for Sale";
   if (route.tab === "restoration") { path = "/restoration"; title = "Restoration"; }
