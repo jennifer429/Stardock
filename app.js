@@ -74,7 +74,8 @@ const CONFIG = {
         "Lowrance GPS/fishfinder · new sound system",
         "Aluminum trailer included — turnkey",
       ],
-      photos: ["images/keylargo-water-1.jpg?v=3", "images/keylargo-water-2.jpg?v=3", "images/keylargo-water-3.jpg?v=3", "images/keylargo-4.jpg?v=3", "images/keylargo-hull-warranty.jpg?v=3"],
+      video:  "https://youtube.com/shorts/c78nFR0dZkY", // optional: YouTube link (regular video or Short). Shown at the top of the boat's page, photos below it.
+      photos: ["images/keylargo-water-1.jpg?v=3", "images/keylargo-water-2.jpg?v=3", "images/keylargo-water-3.jpg?v=3", "images/keylargo-6.jpeg", "images/keylargo-7.jpeg", "images/keylargo-4.jpg?v=3", "images/keylargo-hull-warranty.jpg?v=3"],
       blurb:  "Well-kept 17-foot center console with a brand-new 90 HP Mercury and a fully transferable 7-year warranty. Turn-key and ready to fish.",
       desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard backed by a fully transferable 7-year warranty. The boat has been professionally rewired and updated and is equipped with a Lowrance GPS/fishfinder, livewell, and a new sound system.\n\nThe console also has a convenient built-in wireless phone charger.\n\nThe boat comes on a matching aluminum trailer and is truly turnkey — there are no issues, deferred maintenance, or projects to tackle. Just hitch it up, launch it, and go fishing.\n\nNow $18,000 — recently reduced from $22,500. Or best offer.\nFinancing available.",
     },
@@ -176,6 +177,12 @@ function smsHref(body) {
 function boatUrl(slug) {
   const base = CONFIG.websiteUrl.replace(/\/$/, "");
   return base + "/#/boats/" + slug;
+}
+// Turn any YouTube link (watch, share, youtu.be, Short) into an embeddable
+// player address. Returns "" if the link isn't recognizably YouTube.
+function youtubeEmbed(url) {
+  const m = String(url || "").match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,20})/);
+  return m ? "https://www.youtube-nocookie.com/embed/" + m[1] : "";
 }
 function esc(s) {
   return String(s == null ? "" : s).replace(/[&<>"']/g, c =>
@@ -467,6 +474,27 @@ function viewDetail(boat) {
     <main class="view-narrow" style="padding:14px 18px 26px;display:flex;flex-direction:column;gap:16px">
       <a href="#/boats" class="btn btn-ghost" style="align-self:flex-start;padding-left:0">${BACK_SVG} All boats</a>
 
+      ${(() => {
+        // With a video: the video leads, and the photos become a swipeable
+        // carousel below it. Without one: the classic hero photo + thumbnails.
+        const embed = youtubeEmbed(boat.video);
+        if (embed) {
+          const portrait = /\/shorts\//.test(boat.video || "");
+          const slides = (boat.photos || []).map(p =>
+            `<img src="${esc(p)}" alt="${esc(boat.name)}" loading="lazy" style="flex:none;width:86%;max-width:430px;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:center;border:1px solid var(--color-divider);background:var(--color-neutral-200)">`).join("");
+          return `
+      <figure class="blueprint" style="margin:0;display:flex;justify-content:center;background:var(--color-accent-900)">
+        <iframe src="${esc(embed)}" title="${esc(boat.name)} — video" loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="display:block;border:0;width:100%;${portrait ? "max-width:330px;aspect-ratio:9/16" : "aspect-ratio:16/9"}"></iframe>
+      </figure>
+      ${slides ? `<div>
+        <div style="display:flex;overflow-x:auto;gap:8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch">${slides}</div>
+        <div class="text-muted" style="font-size:11.5px;text-align:center;margin-top:6px">Swipe for more photos →</div>
+      </div>` : ""}`;
+        }
+        return `
       <figure class="blueprint" style="margin:0">
         ${boat.photos && boat.photos.length
           ? `<img id="detail-hero" src="${esc(boat.photos[0])}" alt="${esc(boat.name)}" style="width:100%;max-height:74vh;object-fit:contain;display:block;background:var(--color-neutral-200)">`
@@ -474,7 +502,8 @@ function viewDetail(boat) {
       </figure>
       ${boat.photos && boat.photos.length > 1
         ? `<div style="display:flex;flex-wrap:wrap;gap:8px">${boat.photos.map(p => `<img src="${esc(p)}" alt="" loading="lazy" onclick="var h=document.getElementById('detail-hero');if(h)h.src=this.src" style="width:74px;height:56px;object-fit:cover;object-position:center 60%;border:1px solid var(--color-divider);cursor:pointer;background:var(--color-neutral-200)">`).join("")}</div>`
-        : ""}
+        : ""}`;
+      })()}
 
       <div>
         ${boat.year ? `<div class="text-muted mono" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">${esc(boat.year)}</div>` : ""}
