@@ -33,7 +33,7 @@ const CONFIG = {
   // Manager, e.g. "1234567890123456". With it set, the site counts Facebook-ad
   // visitors and the calls/texts/requests they make, so Meta can report (and
   // optimize toward) ads that make the phone ring. Leave "" to skip the pixel.
-  metaPixelId: "",
+  metaPixelId: "4496419627291949",
 
   // Optional Google Ads conversion tracking, so the Ads dashboard shows which
   // ad/keyword led to a phone-number click — not just a visit. In Google Ads:

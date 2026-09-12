@@ -109,6 +109,11 @@
   </style>
 </head>
 <body>
+  <!-- Meta Pixel fallback for visitors with JavaScript off (the pixel itself
+       is loaded by app.js from CONFIG.metaPixelId) -->
+  <noscript><img height="1" width="1" style="display:none" alt=""
+    src="https://www.facebook.com/tr?id=4496419627291949&ev=PageView&noscript=1"
+  /></noscript>
   <div class="bg">
     <div class="shell">
       <!-- Header -->
@@ -156,6 +161,6 @@
   <!-- Vendored QR generator (no external dependency) -->
   <script src="qrcode.js?v=51"></script>
   <!-- Site logic + everything you'd edit lives in app.js -->
-  <script src="app.js?v=58"></script>
+  <script src="app.js?v=59"></script>
 </body>
 </html>
