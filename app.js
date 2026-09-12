@@ -417,15 +417,29 @@ function photoBlock(boat, height) {
 
 // --- views ------------------------------------------------------------------
 function viewBoats() {
-  const cards = CONFIG.boats.map(b => `
-    <article class="blueprint" style="padding:0;background:transparent">
-      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-      <a href="#/boats/${esc(b.slug)}" style="display:block;text-decoration:none;color:inherit">
+  const cards = CONFIG.boats.map(b => {
+    // With a video: the card leads with the playable video (same as the boat's
+    // own page). Without one: the first photo, linked to the boat's page.
+    const embed = youtubeEmbed(b.video);
+    const portrait = /\/shorts\//.test(b.video || "");
+    const media = embed
+      ? `<div style="position:relative;display:flex;justify-content:center;background:var(--color-accent-900);border-bottom:1px solid var(--color-divider)">
+          <iframe src="${esc(embed)}" title="${esc(b.name)} — video" loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            style="display:block;border:0;width:100%;${portrait ? "max-width:240px;aspect-ratio:9/16" : "aspect-ratio:16/9"}"></iframe>
+          <span class="tag tag-outline" style="position:absolute;top:10px;left:10px;background:var(--color-bg)">${esc(b.badge)}</span>
+        </div>`
+      : `<a href="#/boats/${esc(b.slug)}" style="display:block;text-decoration:none;color:inherit">
         <div style="position:relative">
           ${photoBlock(b, 186)}
           <span class="tag tag-outline" style="position:absolute;top:10px;left:10px;background:var(--color-bg)">${esc(b.badge)}</span>
         </div>
-      </a>
+      </a>`;
+    return `
+    <article class="blueprint" style="padding:0;background:transparent">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      ${media}
       <div style="padding:13px 14px 15px;display:flex;flex-direction:column;gap:9px">
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
           <div>
@@ -441,7 +455,8 @@ function viewBoats() {
         <div style="margin-top:2px">${callTextButtons("Hi Stardock — is the " + b.name + " still available?", false)}</div>
         <a class="btn btn-secondary btn-block" href="#/boats/${esc(b.slug)}" style="margin-top:8px;text-align:center;justify-content:center">View details</a>
       </div>
-    </article>`).join("");
+    </article>`;
+  }).join("");
 
   return `
     <main style="padding:0 0 26px">
