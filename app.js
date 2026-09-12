@@ -33,7 +33,7 @@ const CONFIG = {
   // Manager, e.g. "1234567890123456". With it set, the site counts Facebook-ad
   // visitors and the calls/texts/requests they make, so Meta can report (and
   // optimize toward) ads that make the phone ring. Leave "" to skip the pixel.
-  metaPixelId: "",
+  metaPixelId: "4496419627291949",
 
   // Optional Google Ads conversion tracking, so the Ads dashboard shows which
   // ad/keyword led to a phone-number click — not just a visit. In Google Ads:
@@ -75,7 +75,7 @@ const CONFIG = {
         "Aluminum trailer included — turnkey",
       ],
       video:  "https://youtube.com/shorts/c78nFR0dZkY", // optional: YouTube link (regular video or Short). Shown at the top of the boat's page, photos below it.
-      photos: ["images/keylargo-water-1.jpg?v=3", "images/keylargo-water-2.jpg?v=3", "images/keylargo-water-3.jpg?v=3", "images/keylargo-6.jpeg", "images/keylargo-7.jpeg", "images/keylargo-4.jpg?v=3", "images/keylargo-hull-warranty.jpg?v=3"],
+      photos: ["images/keylargo-water-1.jpg?v=3", "images/keylargo-water-2.jpg?v=3", "images/keylargo-water-3.jpg?v=3", "images/keylargo-4.jpg?v=3", "images/keylargo-hull-warranty.jpg?v=3"],
       blurb:  "Well-kept 17-foot center console with a brand-new 90 HP Mercury and a fully transferable 7-year warranty. Turn-key and ready to fish.",
       desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard backed by a fully transferable 7-year warranty. The boat has been professionally rewired and updated and is equipped with a Lowrance GPS/fishfinder, livewell, and a new sound system.\n\nThe console also has a convenient built-in wireless phone charger.\n\nThe boat comes on a matching aluminum trailer and is truly turnkey — there are no issues, deferred maintenance, or projects to tackle. Just hitch it up, launch it, and go fishing.\n\nNow $18,000 — recently reduced from $22,500. Or best offer.\nFinancing available.",
     },
@@ -95,7 +95,7 @@ const CONFIG = {
         "Legendary “unsinkable” McKee hull",
         "Galvanized trailer included",
       ],
-      photos: ["images/mckee-5.jpg?v=3", "images/mckee-3.jpg?v=3", "images/mckee-4.jpg?v=3", "images/mckee-brochure.jpg?v=3"],
+      photos: ["images/mckee-6.jpeg", "images/mckee-7.jpeg", "images/mckee-5.jpg?v=3", "images/mckee-3.jpg?v=3", "images/mckee-4.jpg?v=3", "images/mckee-brochure.jpg?v=3"],
       blurb:  "A classic 1977 McKee Craft — the legendary “unsinkable” skiff, lovingly restored. 1997 Mariner 50 BigFoot four-stroke, hydraulic steering, Bose sound & GPS.",
       desc:   "A true Florida classic. From the 1960s on, McKee Craft earned its nickname — “The Unsinkables” — with a double-hull, full-foam-flotation design that keeps the boat afloat even when swamped, built over a cathedral hull that runs dry and stable in a chop. Decades later they're still prized as tough, safe, seaworthy boats that punch well above their size.\n\nThis 1977 14-footer has been lovingly restored — original, beautifully finished woodwork blended with modern upgrades throughout. Power is a 1997 50 HP Mariner FourStroke BigFoot outboard, with hydraulic steering, a new Bose sound system, GPS and fishfinder, and professionally rewired electrics. It's been fully serviced and inspected by a certified outboard technician, with strong compression on all four cylinders. Light, unsinkable by design, and easy to launch — a one-of-a-kind first boat, backwater skiff or weekend fishing rig. Comes on a galvanized trailer.",
     },
