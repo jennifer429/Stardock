@@ -95,7 +95,7 @@ const CONFIG = {
         "Legendary “unsinkable” McKee hull",
         "Galvanized trailer included",
       ],
-      photos: ["images/mckee-5.jpg?v=3", "images/mckee-3.jpg?v=3", "images/mckee-4.jpg?v=3", "images/mckee-brochure.jpg?v=3"],
+      photos: ["images/mckee-6.jpeg", "images/mckee-7.jpeg", "images/mckee-5.jpg?v=3", "images/mckee-3.jpg?v=3", "images/mckee-4.jpg?v=3", "images/mckee-brochure.jpg?v=3"],
       blurb:  "A classic 1977 McKee Craft — the legendary “unsinkable” skiff, lovingly restored. 1997 Mariner 50 BigFoot four-stroke, hydraulic steering, Bose sound & GPS.",
       desc:   "A true Florida classic. From the 1960s on, McKee Craft earned its nickname — “The Unsinkables” — with a double-hull, full-foam-flotation design that keeps the boat afloat even when swamped, built over a cathedral hull that runs dry and stable in a chop. Decades later they're still prized as tough, safe, seaworthy boats that punch well above their size.\n\nThis 1977 14-footer has been lovingly restored — original, beautifully finished woodwork blended with modern upgrades throughout. Power is a 1997 50 HP Mariner FourStroke BigFoot outboard, with hydraulic steering, a new Bose sound system, GPS and fishfinder, and professionally rewired electrics. It's been fully serviced and inspected by a certified outboard technician, with strong compression on all four cylinders. Light, unsinkable by design, and easy to launch — a one-of-a-kind first boat, backwater skiff or weekend fishing rig. Comes on a galvanized trailer.",
     },
