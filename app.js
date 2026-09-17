@@ -60,8 +60,8 @@ const CONFIG = {
       slug:   "key-largo-176",                 // short id used in the web address (letters/numbers/dashes)
       name:   "17′ Key Largo",
       year:   "2004",
-      price:  "$18,000",
-      wasPrice: "$22,500",                     // optional: shown crossed out under the price with "Recently reduced". Delete the line to show only price.
+      price:  "$15,000",
+      wasPrice: "$18,000",                     // optional: shown crossed out under the price with "Recently reduced". Delete the line to show only price.
       priceNote: "Brand-new Mercury 90 HP Command Thrust · 5 hours · 7-year transferable warranty",  // optional: the value line shown at the top, above the price.
       engine: "Brand-new Mercury 90 HP Command Thrust",
       badge:  "Price reduced",
@@ -77,7 +77,7 @@ const CONFIG = {
       video:  "https://youtube.com/shorts/c78nFR0dZkY", // optional: YouTube link (regular video or Short). Shown at the top of the boat's page, photos below it.
       photos: ["images/keylargo-water-1.jpg?v=3", "images/keylargo-water-2.jpg?v=3", "images/keylargo-water-3.jpg?v=3", "images/keylargo-4.jpg?v=3", "images/keylargo-hull-warranty.jpg?v=3"],
       blurb:  "Well-kept 17-foot center console with a brand-new 90 HP Mercury and a fully transferable 7-year warranty. Turn-key and ready to fish.",
-      desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard backed by a fully transferable 7-year warranty. The boat has been professionally rewired and updated and is equipped with a Lowrance GPS/fishfinder, livewell, and a new sound system.\n\nThe console also has a convenient built-in wireless phone charger.\n\nThe boat comes on a matching aluminum trailer and is truly turnkey — there are no issues, deferred maintenance, or projects to tackle. Just hitch it up, launch it, and go fishing.\n\nNow $18,000 — recently reduced from $22,500. Or best offer.",
+      desc:   "A well-kept 17-foot Key Largo center console with a brand-new, just-installed 90 HP Mercury Command Thrust outboard backed by a fully transferable 7-year warranty. The boat has been professionally rewired and updated and is equipped with a Lowrance GPS/fishfinder, livewell, and a new sound system.\n\nThe console also has a convenient built-in wireless phone charger.\n\nThe boat comes on a matching aluminum trailer and is truly turnkey — there are no issues, deferred maintenance, or projects to tackle. Just hitch it up, launch it, and go fishing.\n\nNow $15,000 — recently reduced from $18,000. Or best offer.",
     },
     {
       slug:   "mckee-140",
