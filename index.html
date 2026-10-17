@@ -13,7 +13,78 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mobile Marine Mechanic | Mercury & Yamaha Outboard Repair | Stardock Marine</title>
-  <meta name="description" content="Mercury & Yamaha outboard repair, gelcoat and ding repair, fiberglass and custom starboard across Central-East Florida. We come to you — call or text.">
+  <meta name="description" content="Mobile boat mechanic serving New Smyrna Beach, Daytona Beach, Titusville and all of Volusia & Brevard County. Mercury & Yamaha outboard repair, no-starts, tilt and trim, fuel systems, bilge pumps, jet skis, gelcoat and fiberglass. We come to you — call or text (386) 227-6883.">
+  <link rel="canonical" href="https://stardockmarine.com/">
+  <meta name="geo.region" content="US-FL">
+  <meta name="geo.placename" content="New Smyrna Beach, Florida">
+
+  <!-- Social previews (Facebook, iMessage, etc.) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Stardock Marine">
+  <meta property="og:title" content="Mobile Marine Mechanic | Mercury & Yamaha Outboard Repair | Stardock Marine">
+  <meta property="og:description" content="Mobile boat repair at your dock, driveway or ramp across Volusia & Brevard County — New Smyrna Beach, Daytona Beach, Titusville and more. Call or text (386) 227-6883.">
+  <meta property="og:url" content="https://stardockmarine.com/">
+  <meta property="og:image" content="https://stardockmarine.com/images/repair-mobile-boat.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Structured data: tells Google this is a local marine-repair business,
+       what it fixes, and which towns it serves. Edit the towns here AND in
+       the "Where we go" section further down when the service area changes. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://stardockmarine.com/#business",
+    "name": "Stardock Marine",
+    "alternateName": "Stardock Incorporated",
+    "url": "https://stardockmarine.com/",
+    "telephone": "+1-386-227-6883",
+    "image": "https://stardockmarine.com/images/repair-mobile-boat.jpg",
+    "logo": "https://stardockmarine.com/images/stardock-logo.png",
+    "description": "Mobile marine mechanic. Mercury & Yamaha outboard repair, no-start troubleshooting, tilt and trim, fuel systems, electrical, bilge pumps, jet ski repair, gelcoat and fiberglass repair at your dock, driveway or ramp across Volusia and Brevard County, Florida.",
+    "priceRange": "$$",
+    "address": { "@type": "PostalAddress", "addressLocality": "New Smyrna Beach", "addressRegion": "FL", "addressCountry": "US" },
+    "areaServed": [
+      { "@type": "AdministrativeArea", "name": "Volusia County, FL" },
+      { "@type": "AdministrativeArea", "name": "Brevard County, FL" },
+      { "@type": "City", "name": "New Smyrna Beach, FL" },
+      { "@type": "City", "name": "Edgewater, FL" },
+      { "@type": "City", "name": "Oak Hill, FL" },
+      { "@type": "City", "name": "Port Orange, FL" },
+      { "@type": "City", "name": "Ponce Inlet, FL" },
+      { "@type": "City", "name": "South Daytona, FL" },
+      { "@type": "City", "name": "Daytona Beach, FL" },
+      { "@type": "City", "name": "Daytona Beach Shores, FL" },
+      { "@type": "City", "name": "Ormond Beach, FL" },
+      { "@type": "City", "name": "DeLand, FL" },
+      { "@type": "City", "name": "Titusville, FL" },
+      { "@type": "City", "name": "Mims, FL" },
+      { "@type": "City", "name": "Cocoa, FL" },
+      { "@type": "City", "name": "Cocoa Beach, FL" },
+      { "@type": "City", "name": "Merritt Island, FL" },
+      { "@type": "City", "name": "Cape Canaveral, FL" },
+      { "@type": "City", "name": "Rockledge, FL" },
+      { "@type": "City", "name": "Melbourne, FL" }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Mobile marine repair services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Mercury & Yamaha outboard repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Boat won't start troubleshooting" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Power tilt and trim repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fuel system repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Boat electrical and rewiring" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bilge pump and float switch replacement" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Battery and charging system replacement" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jet ski and PWC repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Gelcoat and ding repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fiberglass and custom starboard work" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Boat restoration and repowers" } }
+      ]
+    }
+  }
+  </script>
 
   <link rel="stylesheet" href="styles.css?v=51">
   <style>
@@ -142,8 +213,210 @@
         <a href="#/contact" data-tab="contact" class="mono">Contact</a>
       </div>
 
-      <!-- Views render here -->
-      <div id="app"></div>
+      <!-- Views render here. The Mobile Repair page (the home page) is written
+           out in full below, so search engines and no-JS visitors get the
+           services, service area and phone number without running app.js.
+           app.js reuses this exact markup for the Mobile Repair tab, so this
+           is THE place to edit repair-page copy and services. -->
+      <div id="app" data-prerendered="repair">
+    <main style="padding:0 0 30px">
+
+      <!-- Hero: the trailer shot is the proof of "we come to you" -->
+      <section class="hero-split" style="background:var(--color-accent-900);color:var(--color-bg)">
+        <div style="padding:22px 18px 20px">
+          <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">We come to you</div>
+          <h1 style="margin:6px 0 10px;color:var(--color-bg);font-size:27px;line-height:1.08;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Mobile Marine Mechanic<br>Mercury &amp; Yamaha Outboard Repair</h1>
+          <p style="font-size:14px;line-height:1.5;margin:0 0 10px;opacity:.85">Mobile boat mechanic serving New Smyrna Beach, Edgewater, Port Orange, Daytona Beach, Titusville and the rest of Volusia &amp; Brevard County. We fix your boat at your dock, driveway or ramp: Mercury &amp; Yamaha outboard repair, boats that won&#39;t start, tilt and trim, fuel systems, electrical and wiring, bilge pumps, batteries, jet skis — plus gelcoat and ding repair, fiberglass and custom starboard.</p>
+          <div style="display:flex;gap:8px">
+      <a class="btn btn-primary phone-link" data-phone="tel" href="tel:+13862276883" style="flex:1;background:var(--color-bg);color:var(--color-accent-900);border-color:var(--color-bg)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call</a>
+      <a class="btn phone-link" data-phone="sms" data-sms-body="Hi Stardock — I&#39;ve got a boat that needs service." href="sms:+13862276883?&body=Hi%20Stardock%20%E2%80%94%20I%27ve%20got%20a%20boat%20that%20needs%20service." style="flex:1;background:transparent;color:var(--color-bg);border-color:var(--color-bg)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Text</a>
+    </div>
+          <div class="phone-out" style="display:none;font-size:13px;text-align:center;color:var(--color-bg);opacity:.85"></div>
+        </div>
+        <figure class="hero-media" style="margin:0;position:relative;overflow:hidden">
+          <img src="images/repair-mobile-boat.jpg?v=3" alt="Mobile marine service — we come to your dock, driveway or ramp" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;background:var(--color-neutral-200)">
+          <figcaption class="mono" style="position:absolute;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px">We bring the shop to you — dock, driveway or ramp.</figcaption>
+        </figure>
+      </section>
+
+      <!-- Gelcoat: the damage photo is the proof of craft -->
+      <section style="padding:24px 18px 0;max-width:980px;margin-inline:auto">
+        <div class="split2" style="border:1px solid var(--color-divider);background:var(--color-bg)">
+          <figure style="margin:0;position:relative;overflow:hidden;min-height:220px">
+            <img src="images/repair-fiberglass-damage.jpg?v=3" alt="A ding in a boat hull — an example of the damage we come out to repair" loading="lazy" onerror="var f=this.closest('figure');if(f)f.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 34%;background:var(--color-neutral-200)">
+          </figure>
+          <div style="padding:20px 18px 22px">
+            <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">An example of what we come out to fix</div>
+            <h2 style="margin:6px 0 8px;font-size:23px;line-height:1.12">Gelcoat &amp; ding repair,<br>color-matched to your hull</h2>
+            <p class="text-muted" style="font-size:13.5px;line-height:1.55;margin:0 0 10px">Chips, scratches, dings and gouges get filled, faired and blended until the repair disappears. We mix gelcoat to your hull&#39;s exact color on site.</p>
+            <div style="border-top:1px solid var(--color-divider);margin-bottom:16px">
+        <div style="display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--color-divider)">
+          <span class="mono" style="flex:none;font-weight:600;font-size:13px;color:var(--color-accent-700)">01</span>
+          <span style="font-size:13px;line-height:1.45">Grind out the crack and remove every soft edge</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--color-divider)">
+          <span class="mono" style="flex:none;font-weight:600;font-size:13px;color:var(--color-accent-700)">02</span>
+          <span style="font-size:13px;line-height:1.45">Fill, fair and sand flush with the surrounding surface</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--color-divider)">
+          <span class="mono" style="flex:none;font-weight:600;font-size:13px;color:var(--color-accent-700)">03</span>
+          <span style="font-size:13px;line-height:1.45">Match the gelcoat, spray, wet-sand and buff to gloss</span>
+        </div></div>
+            <a class="btn btn-primary phone-link" data-phone="sms" data-sms-body="Hi Stardock — here's a photo of the damage on my boat. What would it take to fix?" href="sms:+13862276883?&body=Hi%20Stardock%20%E2%80%94%20here%27s%20a%20photo%20of%20the%20damage%20on%20my%20boat.%20What%20would%20it%20take%20to%20fix%3F" style="width:100%"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Text us a photo for a quote</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services: the powerhead shot is the proof of specialty -->
+      <section style="padding:28px 18px 6px;max-width:980px;margin-inline:auto">
+        <div style="display:flex;flex-wrap:wrap;gap:6px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:14px">
+          <div>
+            <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">What we do</div>
+            <h2 style="margin:4px 0 0;font-size:25px">Marine repair services</h2>
+          </div>
+          <p class="text-muted" style="font-size:13px;margin:0;line-height:1.5;max-width:300px">Mercury &amp; Yamaha outboard specialists. Everything below happens where your boat sits — or we can bring it into our shop if the job needs it.</p>
+        </div>
+
+        <div class="split2" style="background:var(--color-accent-900);color:var(--color-bg);margin-bottom:12px">
+          <div style="padding:22px 18px 24px">
+            <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">What we&#39;re known for</div>
+            <h3 style="margin:6px 0 8px;color:var(--color-bg);font-size:22px;line-height:1.1;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Mercury &amp; Yamaha Outboard Repair</h3>
+            <p style="font-size:13.5px;line-height:1.5;margin:0;opacity:.85">Mobile repair, maintenance, tune-ups, fuel-system issues and repowering.</p>
+          </div>
+          <figure style="margin:0;position:relative;overflow:hidden;min-height:170px">
+            <img src="images/repair-engine-wide.jpg" alt="Mercury outboard powerhead repair in our shop" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;background:var(--color-neutral-200)">
+          </figure>
+        </div>
+
+        <div class="svc-grid">
+    <div class="blueprint" style="padding:13px 12px 14px">
+      <div style="color:var(--color-accent)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg></div>
+      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">Boat &amp; Outboard Won&#39;t Start?</div>
+      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">Fuel, spark or electrical problem? We troubleshoot the cause and repair it on-site when possible.</p>
+    </div>
+    <div class="blueprint" style="padding:13px 12px 14px">
+      <div style="color:var(--color-accent)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19h18"/><path d="M6.5 19c1.2-4.2 2.9-6.3 5.2-6.3s4 2.1 5.2 6.3"/><path d="M12 3v2.6"/><path d="m8.8 4.4 1.2 2"/><path d="m15.2 4.4-1.2 2"/></svg></div>
+      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">Gelcoat &amp; Ding Repair</div>
+      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">Chips, scratches, dings and gouges filled, faired and blended with color-matched gelcoat until the repair disappears.</p>
+    </div>
+    <div class="blueprint" style="padding:13px 12px 14px">
+      <div style="color:var(--color-accent)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-2.2 7.5a3 3 0 0 1-2.85 2.05H8.05A3 3 0 0 1 5.2 16.5z"/><path d="m12.4 9.6-1.5 2.5 2.5.5-1.2 2.4"/></svg></div>
+      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">Fiberglass, Body &amp; Starboard Work</div>
+      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">Cracks, holes and soft spots cut back and rebuilt in glass. Plus custom starboard — consoles, hatches, seat bases and brackets cut to your measurements, DIY-ready or fitted by us.</p>
+    </div>
+    <div class="blueprint" style="padding:13px 12px 14px">
+      <div style="color:var(--color-accent)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></div>
+      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">Electrical, Rewiring &amp; Nav Lights</div>
+      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">Boat electrical repair — rewires and wiring updates, navigation lights, gauges and electrical troubleshooting.</p>
+    </div>
+    <div class="blueprint" style="padding:13px 12px 14px">
+      <div style="color:var(--color-accent)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="14"/><line x1="6" y1="11" x2="6" y2="13"/><line x1="10" y1="11" x2="10" y2="13"/></svg></div>
+      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">Battery, Charging &amp; Tilt/Trim Repair</div>
+      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">Battery and charging-system replacement, plus power trim and tilt repair.</p>
+    </div>
+    <div class="blueprint" style="padding:13px 12px 14px">
+      <div style="color:var(--color-accent)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">Dockside &amp; On-Site Service</div>
+      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">Stuck at the ramp or marina and can&#39;t go? We come to you and get you running on the spot when we can.</p>
+    </div>
+    <div class="blueprint" style="padding:13px 12px 14px">
+      <div style="color:var(--color-accent)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5S5 13 5 15a7 7 0 0 0 7 7z"/></svg></div>
+      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">Bilge Pumps &amp; Float Switches</div>
+      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">Bilge pump and float-switch replacement so your boat stays dry and safe.</p>
+    </div>
+    <div class="blueprint" style="padding:13px 12px 14px">
+      <div style="color:var(--color-accent)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">Service &amp; Maintenance</div>
+      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">Routine service, tune-ups and pre-trip checks.</p>
+    </div>
+    <div class="blueprint" style="padding:13px 12px 14px">
+      <div style="color:var(--color-accent)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg></div>
+      <div class="mono" style="font-weight:600;font-size:15px;margin-top:9px;line-height:1.1">Jet Ski &amp; PWC Repair</div>
+      <p class="text-muted" style="font-size:12px;margin:5px 0 0;line-height:1.4">Personal-watercraft service and repair too.</p>
+    </div></div>
+      </section>
+
+      <!-- Service area: the towns and waters people actually search for.
+           Plain HTML on purpose, so search engines read it without running JS. -->
+      <section id="service-area" style="padding:28px 18px 6px;max-width:980px;margin-inline:auto">
+        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">Where we go</div>
+        <h2 style="margin:4px 0 8px;font-size:25px">Mobile boat repair across Volusia &amp; Brevard County</h2>
+        <p class="text-muted" style="font-size:13.5px;line-height:1.55;margin:0 0 16px;max-width:620px">We&#39;re based on the Central-East Florida coast and work the Intracoastal, the Halifax River, Mosquito Lagoon and the Indian River. If your boat sits at a dock, in a driveway, at a marina or on a trailer at the ramp in one of these towns, we come to it.</p>
+        <div class="split2" style="gap:12px">
+          <div class="blueprint" style="padding:14px 14px 16px">
+            <div class="mono" style="font-weight:600;font-size:16px;line-height:1.1">Volusia County</div>
+            <ul style="margin:8px 0 0;padding-left:18px;font-size:13.5px;line-height:1.7;columns:2;column-gap:18px">
+              <li>New Smyrna Beach</li>
+              <li>Edgewater</li>
+              <li>Oak Hill</li>
+              <li>Port Orange</li>
+              <li>Ponce Inlet</li>
+              <li>South Daytona</li>
+              <li>Daytona Beach</li>
+              <li>Daytona Beach Shores</li>
+              <li>Ormond Beach</li>
+              <li>DeLand</li>
+            </ul>
+          </div>
+          <div class="blueprint" style="padding:14px 14px 16px">
+            <div class="mono" style="font-weight:600;font-size:16px;line-height:1.1">Brevard County</div>
+            <ul style="margin:8px 0 0;padding-left:18px;font-size:13.5px;line-height:1.7;columns:2;column-gap:18px">
+              <li>Titusville</li>
+              <li>Mims</li>
+              <li>Cocoa</li>
+              <li>Cocoa Beach</li>
+              <li>Merritt Island</li>
+              <li>Cape Canaveral</li>
+              <li>Rockledge</li>
+              <li>Melbourne</li>
+            </ul>
+          </div>
+        </div>
+        <p class="text-muted" style="font-size:12.5px;line-height:1.5;margin:12px 0 0">Somewhere nearby that isn&#39;t listed? Text us your location — we cover most of the coast between Flagler and Melbourne.</p>
+      </section>
+
+      <!-- Common calls: the problems people type into Google, answered plainly. -->
+      <section id="common-problems" style="padding:28px 18px 6px;max-width:980px;margin-inline:auto">
+        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">Common calls we get</div>
+        <h2 style="margin:4px 0 14px;font-size:25px">Boat problems we fix on site</h2>
+        <div style="border-top:1px solid var(--color-divider)">
+          <div style="padding:12px 0;border-bottom:1px solid var(--color-divider)">
+            <h3 class="mono" style="margin:0 0 4px;font-size:16px;font-weight:600;line-height:1.1">Boat won&#39;t start or won&#39;t turn over</h3>
+            <p class="text-muted" style="font-size:13.5px;line-height:1.5;margin:0">Usually fuel, spark, a dead battery or a bad connection. We troubleshoot Mercury and Yamaha outboards at the dock and fix the cause on the spot when we can, so you&#39;re not towing the boat to a shop.</p>
+          </div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--color-divider)">
+            <h3 class="mono" style="margin:0 0 4px;font-size:16px;font-weight:600;line-height:1.1">Tilt and trim not working</h3>
+            <p class="text-muted" style="font-size:13.5px;line-height:1.5;margin:0">Power trim and tilt repair: motors, relays, switches, hydraulic pumps and leaking rams. A stuck-down outboard is one of our most common mobile calls.</p>
+          </div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--color-divider)">
+            <h3 class="mono" style="margin:0 0 4px;font-size:16px;font-weight:600;line-height:1.1">Bilge pump or float switch failed</h3>
+            <p class="text-muted" style="font-size:13.5px;line-height:1.5;margin:0">Bilge pump and float switch replacement, plus the wiring that usually failed with them, so the boat stays dry on the lift or at the dock.</p>
+          </div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--color-divider)">
+            <h3 class="mono" style="margin:0 0 4px;font-size:16px;font-weight:600;line-height:1.1">Fuel system problems: stalling, surging, bad gas</h3>
+            <p class="text-muted" style="font-size:13.5px;line-height:1.5;margin:0">Ethanol-damaged lines, clogged filters, primer bulbs, fuel pumps, carburetor and injector service. We clean up the fuel system and get the outboard running clean again.</p>
+          </div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--color-divider)">
+            <h3 class="mono" style="margin:0 0 4px;font-size:16px;font-weight:600;line-height:1.1">Jet ski or PWC repair</h3>
+            <p class="text-muted" style="font-size:13.5px;line-height:1.5;margin:0">Personal watercraft service and repair at your house or dock: no-starts, fuel, batteries, cooling and seasonal service.</p>
+          </div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--color-divider)">
+            <h3 class="mono" style="margin:0 0 4px;font-size:16px;font-weight:600;line-height:1.1">Hull dings, gelcoat chips and fiberglass cracks</h3>
+            <p class="text-muted" style="font-size:13.5px;line-height:1.5;margin:0">Color-matched gelcoat repair and fiberglass work done where the boat sits. Text us a photo of the damage and we&#39;ll tell you what it takes.</p>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-top:26px;padding:26px 18px 24px;background:var(--color-accent-900);color:var(--color-bg);text-align:center">
+        <h2 style="margin:0 0 8px;color:var(--color-bg);font-size:24px;line-height:1.1;font-family:var(--font-heading);font-weight:var(--font-heading-weight)">Need help with your boat?</h2>
+        <p style="font-size:14px;line-height:1.5;margin:0 auto 16px;max-width:420px;opacity:.9">Call or text Stardock Marine — we&#39;ll come to your dock, driveway or ramp anywhere from Ormond Beach to Melbourne, including New Smyrna Beach, Daytona Beach and Titusville. Send a photo and we&#39;ll tell you what it takes.</p>
+        <div class="view-narrow"><div style="display:flex;gap:8px">
+      <a class="btn btn-primary phone-link" data-phone="tel" href="tel:+13862276883" style="flex:1;background:var(--color-bg);color:var(--color-accent-900);border-color:var(--color-bg)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call</a>
+      <a class="btn phone-link" data-phone="sms" data-sms-body="Hi Stardock — I&#39;ve got a boat that needs service." href="sms:+13862276883?&body=Hi%20Stardock%20%E2%80%94%20I%27ve%20got%20a%20boat%20that%20needs%20service." style="flex:1;background:transparent;color:var(--color-bg);border-color:var(--color-bg)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Text</a>
+    </div></div>
+      </section>
+    </main>
+      </div>
 
       <!-- Sticky call bar -->
       <div class="callbar no-print">
@@ -161,6 +434,6 @@
   <!-- Vendored QR generator (no external dependency) -->
   <script src="qrcode.js?v=51"></script>
   <!-- Site logic + everything you'd edit lives in app.js -->
-  <script src="app.js?v=65"></script>
+  <script src="app.js?v=66"></script>
 </body>
 </html>
