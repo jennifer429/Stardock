@@ -1,15 +1,23 @@
-# Cloudflare Pages / Netlify rewrites.
-# Serve the Mobile Repair page at a real address, stardockmarine.com/repair,
-# without a redirect (status 200 = rewrite, the URL stays /repair). The page
-# itself is index.html; its <link rel="canonical"> names /repair as the one
-# URL search engines should index for the repair content. /repair/ (with a
-# slash) redirects to /repair so the page's relative image/script paths resolve.
-/repair   /index.html   200
-/repair/  /repair        301
+# Cloudflare Pages / Netlify rules. Every section of the site is a real
+# address served from its own HTML file:
+#   /repair       index.html   (rewritten below; also the home page, /)
+#   /boats        boats.html   (clean URLs: the host serves boats.html at /boats)
+#   /restoration  restoration.html
+#   /contact      contact.html
+# Status 200 = rewrite (the address stays as typed); 301 = redirect.
+
+# The Mobile Repair page is index.html; /repair is its canonical address.
+/repair          /index.html    200
+/repair/         /repair        301
+
+# One boat (and its printable sign): /boats/<slug>, /boats/<slug>/sign.
+# boats.html reads the address and renders that boat.
+/boats/*         /boats.html    200
+/restoration/    /restoration   301
+/contact/        /contact       301
 
 # Old / stray addresses. Without a 404.html the host served index.html at ANY
-# path (so /boat-repair/outboard showed the page with broken CSS and images,
-# because its relative asset links resolved under /boat-repair/). Send the
-# known old paths to /repair; everything else now gets the real 404 page.
-/boat-repair/*   /repair   301
-/boat-repair     /repair   301
+# path (so /boat-repair/outboard showed the page with broken CSS and images).
+# Send the known old paths to /repair; everything else gets the real 404 page.
+/boat-repair/*   /repair        301
+/boat-repair     /repair        301
