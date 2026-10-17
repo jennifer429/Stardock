@@ -3,6 +3,8 @@
 # immediately instead of being served stale from the browser cache.
 /index.html
   Cache-Control: no-cache
+/repair
+  Cache-Control: no-cache
 /app.js
   Cache-Control: no-cache
 /styles.css

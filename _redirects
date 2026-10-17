@@ -1,0 +1,8 @@
+# Cloudflare Pages / Netlify rewrites.
+# Serve the Mobile Repair page at a real address, stardockmarine.com/repair,
+# without a redirect (status 200 = rewrite, the URL stays /repair). The page
+# itself is index.html; its <link rel="canonical"> names /repair as the one
+# URL search engines should index for the repair content. /repair/ (with a
+# slash) redirects to /repair so the page's relative image/script paths resolve.
+/repair   /index.html   200
+/repair/  /repair        301

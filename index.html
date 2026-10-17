@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mobile Marine Mechanic | Mercury & Yamaha Outboard Repair | Stardock Marine</title>
   <meta name="description" content="Mobile boat mechanic serving New Smyrna Beach, Daytona Beach, Titusville and all of Volusia & Brevard County. Mercury & Yamaha outboard repair, no-starts, tilt and trim, fuel systems, bilge pumps, jet skis, gelcoat and fiberglass. We come to you — call or text (386) 227-6883.">
-  <link rel="canonical" href="https://stardockmarine.com/">
+  <link rel="canonical" href="https://stardockmarine.com/repair">
   <meta name="geo.region" content="US-FL">
   <meta name="geo.placename" content="New Smyrna Beach, Florida">
 
@@ -23,11 +23,12 @@
   <meta property="og:site_name" content="Stardock Marine">
   <meta property="og:title" content="Mobile Marine Mechanic | Mercury & Yamaha Outboard Repair | Stardock Marine">
   <meta property="og:description" content="Mobile boat repair at your dock, driveway or ramp across Volusia & Brevard County — New Smyrna Beach, Daytona Beach, Titusville and more. Call or text (386) 227-6883.">
-  <meta property="og:url" content="https://stardockmarine.com/">
+  <meta property="og:url" content="https://stardockmarine.com/repair">
   <meta property="og:image" content="https://stardockmarine.com/images/repair-mobile-boat.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Structured data: tells Google this is a local marine-repair business,
+  <!-- Structured data (the business "url" is the /repair page, which is the
+       canonical home of the repair content). Tells Google this is a local marine-repair business,
        what it fixes, and which towns it serves. Edit the towns here AND in
        the "Where we go" section further down when the service area changes. -->
   <script type="application/ld+json">
@@ -37,7 +38,7 @@
     "@id": "https://stardockmarine.com/#business",
     "name": "Stardock Marine",
     "alternateName": "Stardock Incorporated",
-    "url": "https://stardockmarine.com/",
+    "url": "https://stardockmarine.com/repair",
     "telephone": "+1-386-227-6883",
     "image": "https://stardockmarine.com/images/repair-mobile-boat.jpg",
     "logo": "https://stardockmarine.com/images/stardock-logo.png",
@@ -190,7 +191,7 @@
       <!-- Header -->
       <header class="site">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
-          <a href="#/repair" style="text-decoration:none;display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto">
+          <a href="/repair" style="text-decoration:none;display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto">
             <img src="images/stardock-logo.png?v=3" alt="Stardock" style="height:clamp(40px,12vw,54px);width:auto;flex:none">
             <span style="text-align:left;min-width:0">
               <span class="mono" style="display:block;font-weight:600;font-size:clamp(17px,5.2vw,23px);line-height:.95;letter-spacing:-.01em;color:var(--color-text)">STARDOCK<br>INCORPORATED</span>
@@ -205,12 +206,14 @@
         <a href="tel:+13862276883" class="mono" style="display:block;text-align:right;margin-top:6px;font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--color-text);text-decoration:none">Call or text (386) 227-6883</a>
       </header>
 
-      <!-- Tabs -->
+      <!-- Tabs. "Mobile Repair" is a real page at /repair (served from this
+           same file by the _redirects rule), so search engines score it as its
+           own URL. The other sections stay in-page hash routes on /. -->
       <div class="tabs no-print">
-        <a href="#/repair" data-tab="repair" class="mono">Mobile Repair</a>
-        <a href="#/boats"  data-tab="boats"  class="mono">Boats for Sale</a>
-        <a href="#/restoration" data-tab="restoration" class="mono">Restoration</a>
-        <a href="#/contact" data-tab="contact" class="mono">Contact</a>
+        <a href="/repair" data-tab="repair" class="mono">Mobile Repair</a>
+        <a href="/#/boats"  data-tab="boats"  class="mono">Boats for Sale</a>
+        <a href="/#/restoration" data-tab="restoration" class="mono">Restoration</a>
+        <a href="/#/contact" data-tab="contact" class="mono">Contact</a>
       </div>
 
       <!-- Views render here. The Mobile Repair page (the home page) is written
@@ -434,6 +437,6 @@
   <!-- Vendored QR generator (no external dependency) -->
   <script src="qrcode.js?v=51"></script>
   <!-- Site logic + everything you'd edit lives in app.js -->
-  <script src="app.js?v=66"></script>
+  <script src="app.js?v=67"></script>
 </body>
 </html>

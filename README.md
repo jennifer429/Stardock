@@ -12,7 +12,8 @@ Plain HTML/CSS/JavaScript — **no build step, no server, no database.** Open
 | `app.js` | **The only file you'll normally edit.** All settings + content live in the `CONFIG` block at the very top. |
 | `styles.css` | The "Industry" design system (colors, fonts, components). Don't hand-edit unless restyling. |
 | `qrcode.js` | Bundled QR-code generator (used by the printable signs). No internet needed. |
-| `robots.txt`, `sitemap.xml` | Tell search engines the site is open to crawl and where the home page is. |
+| `_redirects`, `_headers` | Cloudflare Pages / Netlify config. `_redirects` serves `index.html` at **`/repair`** so the Mobile Repair page has a real address search engines can rank on its own; `_headers` keeps the HTML and code files from being cached stale. |
+| `robots.txt`, `sitemap.xml` | Tell search engines the site is open to crawl and that `/repair` is the page to index. |
 
 ## Editing content (no coding needed)
 
@@ -24,7 +25,9 @@ Open `app.js` and change the values inside the `CONFIG = { ... }` block at the t
 - **Financing note / default tab** — `showFinancing`, `defaultTab`.
 
 The **Mobile Repair page** is the one exception: its copy lives in
-`index.html` inside `<div id="app">`, not in `app.js`. That's deliberate —
+`index.html` inside `<div id="app">`, not in `app.js`. It is served at both
+`stardockmarine.com/` and `stardockmarine.com/repair`; the `/repair` address is
+the canonical one (the one Google indexes), so use it in ads and profiles. That's deliberate —
 it's the home page, and keeping it as plain HTML is what lets Google read the
 services, the towns we serve and the phone number without running JavaScript.
 To change it, edit the text there:
@@ -125,8 +128,8 @@ laminate/zip-tie it to the boat at the dock.
 
 It's static files, so any of these work:
 
-- **Netlify / Cloudflare Pages** — drag the folder onto their dashboard, or connect the repo.
-- **GitHub Pages** — push the folder and enable Pages.
+- **Netlify / Cloudflare Pages** — drag the folder onto their dashboard, or connect the repo. Both honor the `_redirects` and `_headers` files, so `/repair` works out of the box.
+- **GitHub Pages** — push the folder and enable Pages. (No `_redirects` support, so `/repair` would 404 there; the home page still shows the repair content.)
 - Any web host — upload the files.
 
 No environment variables, no secrets in the code except the Web3Forms key,
