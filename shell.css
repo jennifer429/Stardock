@@ -54,11 +54,15 @@ header.site {
    side on desktop. Each photo backs one claim — hero (we come to you),
    gelcoat (proof of craft), outboard band (proof of specialty). */
 .hero-split { display: grid; grid-template-columns: 1fr; }
-.hero-split .hero-media { min-height: 185px; }
+/* The hero photo is a square crop (engine cowl down to the scan tool), so
+   the frame is square too instead of cover-cropping it to a thin band. */
+.hero-split .hero-media { aspect-ratio: 1 / 1; min-height: 185px; }
 .split2 { display: grid; grid-template-columns: 1fr; }
 .svc-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
 @media (min-width: 860px) {
   .hero-split { grid-template-columns: 1.15fr 1fr; }
+  /* The square photo sets the row height; center the headline beside it. */
+  .hero-split > div:first-child { display: flex; flex-direction: column; justify-content: center; }
   .split2 { grid-template-columns: 1fr 1fr; }
   .svc-grid { grid-template-columns: repeat(3, 1fr); }
 }
