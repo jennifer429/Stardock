@@ -13,6 +13,7 @@ Plain HTML/CSS/JavaScript — **no build step, no server, no database.** Open
 | `styles.css` | The "Industry" design system (colors, fonts, components). Don't hand-edit unless restyling. |
 | `qrcode.js` | Bundled QR-code generator (used by the printable signs). No internet needed. |
 | `_redirects`, `_headers` | Cloudflare Pages / Netlify config. `_redirects` serves `index.html` at **`/repair`** so the Mobile Repair page has a real address search engines can rank on its own; `_headers` keeps the HTML and code files from being cached stale. |
+| `404.html` | The not-found page. It exists so the host returns a real 404 for stray addresses instead of serving the home page with broken styling at any path. |
 | `robots.txt`, `sitemap.xml` | Tell search engines the site is open to crawl and that `/repair` is the page to index. |
 
 ## Editing content (no coding needed)
