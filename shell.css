@@ -54,14 +54,17 @@ header.site {
    side on desktop. Each photo backs one claim — hero (we come to you),
    gelcoat (proof of craft), outboard band (proof of specialty). */
 .hero-split { display: grid; grid-template-columns: 1fr; }
-/* The hero photo is a square crop (engine cowl down to the scan tool), so
-   the frame is square too instead of cover-cropping it to a thin band. */
-.hero-split .hero-media { aspect-ratio: 1 / 1; min-height: 185px; }
+/* The hero is a portrait video still (scan tool in the foreground, engine
+   behind). On phones it fills the width at 3:4, anchored to the bottom so
+   the tool and its screen are always in frame. */
+.hero-split .hero-media { aspect-ratio: 3 / 4; min-height: 185px; }
 .split2 { display: grid; grid-template-columns: 1fr; }
 .svc-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
 @media (min-width: 860px) {
-  .hero-split { grid-template-columns: 1.15fr 1fr; }
-  /* The square photo sets the row height; center the headline beside it. */
+  .hero-split { grid-template-columns: 1.1fr 1fr; }
+  /* Desktop: show the whole 9:16 still, centered in the navy band like a
+     phone frame, and center the headline beside it. */
+  .hero-split .hero-media { aspect-ratio: 9 / 16; height: 560px; width: 315px; justify-self: center; align-self: center; }
   .hero-split > div:first-child { display: flex; flex-direction: column; justify-content: center; }
   .split2 { grid-template-columns: 1fr 1fr; }
   .svc-grid { grid-template-columns: repeat(3, 1fr); }
