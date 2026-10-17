@@ -62,9 +62,9 @@ header.site {
 .svc-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
 @media (min-width: 860px) {
   .hero-split { grid-template-columns: 1.1fr 1fr; }
-  /* Desktop: show the whole 9:16 still, centered in the navy band like a
-     phone frame, and center the headline beside it. */
-  .hero-split .hero-media { aspect-ratio: 9 / 16; height: 560px; width: 315px; justify-self: center; align-self: center; }
+  /* Desktop: the still fills its whole column edge to edge, cropped to the
+     bottom of the frame so the scan tool and its readings fill the photo. */
+  .hero-split .hero-media { aspect-ratio: auto; min-height: 400px; }
   .hero-split > div:first-child { display: flex; flex-direction: column; justify-content: center; }
   .split2 { grid-template-columns: 1fr 1fr; }
   .svc-grid { grid-template-columns: repeat(3, 1fr); }
