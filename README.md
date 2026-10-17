@@ -1,18 +1,34 @@
 # Stardock Marine — website
 
 A mobile-first site for a Florida boat sales + mobile marine repair business.
-Plain HTML/CSS/JavaScript — **no build step, no server, no database.** Open
-`index.html` in a browser and it runs.
+Plain HTML/CSS/JavaScript — **no build step, no server, no database.** To
+preview it locally run `python3 -m http.server` in this folder and open
+<http://localhost:8000/> (links and images use site-absolute paths such as
+`/images/…`, so opening the files straight from disk won't show them).
 
 ## What's in here
 
-| File | What it is |
-|------|-----------|
-| `index.html` | Page shell (header, tabs, sticky call bar) **plus the full Mobile Repair page** — hero copy, services grid, service-area towns, "common calls" list and the search-engine metadata (description, structured data). It's written out in plain HTML so Google reads it without running JavaScript. |
-| `app.js` | **The only file you'll normally edit.** All settings + content live in the `CONFIG` block at the very top. |
-| `styles.css` | The "Industry" design system (colors, fonts, components). Don't hand-edit unless restyling. |
-| `qrcode.js` | Bundled QR-code generator (used by the printable signs). No internet needed. |
-| `robots.txt`, `sitemap.xml` | Tell search engines the site is open to crawl and where the home page is. |
+Every section of the site is its own HTML file and real address:
+
+| Address | File | What it is |
+|---------|------|-----------|
+| `/` and `/repair` | `index.html` | **Mobile Repair** — the home page. The full page (hero, services, service-area towns, "common calls", weekend/emergency callout) is written in plain HTML so Google reads it without running JavaScript. `/repair` is the canonical address. |
+| `/boats`, `/boats/<slug>`, `/boats/<slug>/sign` | `boats.html` | **Boats for Sale.** The hero is plain HTML; the listing, each boat's page and its printable sign are filled in by `app.js` from the `boats` list, so prices never go stale. |
+| `/restoration` | `restoration.html` | **Restoration** — copy, "What we do" list, before/after photos, all plain HTML. `app.js` wires the estimate/budget toggle and the form. |
+| `/contact` | `contact.html` | **Contact** — static hero; `app.js` renders the message form. |
+| — | `app.js` | Settings + the boats list in the `CONFIG` block at the top, then the site machinery (routing, forms, tracking, QR signs). |
+| — | `styles.css` | The "Industry" design system (colors, fonts, components). Don't hand-edit unless restyling. |
+| — | `shell.css` | Page layout shared by every page (header, tabs, call bar, section bands). |
+| — | `qrcode.js` | Bundled QR-code generator (used by the printable signs). No internet needed. |
+| — | `404.html` | The not-found page, so stray addresses get a real 404 instead of a broken copy of the home page. |
+| — | `_redirects`, `_headers` | Cloudflare Pages / Netlify config: serves `index.html` at `/repair` and `boats.html` at `/boats/<slug>`, redirects old addresses, and keeps HTML/code files from caching stale. |
+| — | `robots.txt`, `sitemap.xml` | Tell search engines the site is open to crawl and which four addresses to index. |
+
+The header, tabs and call bar are repeated in each HTML file (there's no
+build step to share them), so a change to those goes in all four.
+
+Old-style links (`/#/repair`, `/#/boats/key-largo-176`, …) still work: the
+page redirects them to the new addresses, so printed QR signs stay valid.
 
 ## Editing content (no coding needed)
 
@@ -23,10 +39,13 @@ Open `app.js` and change the values inside the `CONFIG = { ... }` block at the t
 - **Boat photos** — put image files in an `images/` folder next to this site, then list them in a boat's `photos: [ "images/my-boat.jpg" ]`. Empty `[]` shows a placeholder.
 - **Financing note / default tab** — `showFinancing`, `defaultTab`.
 
-The **Mobile Repair page** is the one exception: its copy lives in
-`index.html` inside `<div id="app">`, not in `app.js`. That's deliberate —
-it's the home page, and keeping it as plain HTML is what lets Google read the
-services, the towns we serve and the phone number without running JavaScript.
+The **Mobile Repair, Restoration and Contact pages** are the exception: their
+copy lives in `index.html`, `restoration.html` and `contact.html` inside
+`<div id="app">`, not in `app.js`. That's deliberate — keeping them as plain
+HTML is what lets Google read the services, the towns we serve and the phone
+number without running JavaScript. (`index.html` is served at both
+`stardockmarine.com/` and `stardockmarine.com/repair`; `/repair` is the
+canonical address, so use it in ads and profiles.)
 To change it, edit the text there:
 
 - **Service cards** — each `<div class="blueprint">` under "Marine repair services".
@@ -72,7 +91,7 @@ ago can't keep claiming credit. Then:
 
 - **Every emailed request** (service, restoration, contact) includes a
   "How they found us" line, e.g.
-  `first: Facebook ad (facebook / cpc / fiberglass_repair), 2026-08-20 · latest: Google Ads (google / cpc), landed /#/repair, 2026-09-11`
+  `first: Facebook ad (facebook / cpc / fiberglass_repair), 2026-08-20 · latest: Google Ads (google / cpc), landed /repair, 2026-09-11`
   (a single line when both touches are the same). Landing pages are recorded
   without query strings, so raw click IDs never appear in the emails.
 - **Every Call / Text tap and form send** is reported to Google Analytics as
@@ -96,12 +115,11 @@ conversion, and you can tell campaigns to optimize for it. (It counts the
 tap, not whether the call connected — that's as close as it gets without a
 paid call-tracking number.)
 
-To make sources explicit, tag the links you control. The tags must go
-**before the `#`** in the address, `utm_medium=cpc` means *paid*, and every
+To make sources explicit, tag the links you control. `utm_medium=cpc` means *paid*, and every
 paid link should carry a `utm_campaign` naming the ad — that's what lets you
 compare ad against ad, not just Facebook against Yelp:
 
-- Paid Facebook ad: `https://stardockmarine.com/?utm_source=facebook&utm_medium=cpc&utm_campaign=fiberglass_repair`
+- Paid Facebook ad: `https://stardockmarine.com/repair?utm_source=facebook&utm_medium=cpc&utm_campaign=fiberglass_repair`
 - Unpaid Facebook post: `https://stardockmarine.com/?utm_source=facebook&utm_medium=social`
 - Yelp profile: `https://stardockmarine.com/?utm_source=yelp&utm_medium=referral`
 - Google Ads needs nothing — it tags its own clicks (keep auto-tagging on).
@@ -118,15 +136,16 @@ On any boat's detail page, tap **"Printable 'For Sale' sign & QR"**, then
 code** that scans to that exact boat's page. Print at letter size and
 laminate/zip-tie it to the boat at the dock.
 
-> The QR encodes `websiteUrl + /#/boats/<slug>`, so set `websiteUrl` in CONFIG
-> to your real live address before printing signs.
+> The QR encodes `websiteUrl + /boats/<slug>`, so set `websiteUrl` in CONFIG
+> to your real live address before printing signs. Signs printed earlier with
+> the old `/#/boats/<slug>` address still work.
 
 ## Publishing it (free options)
 
 It's static files, so any of these work:
 
-- **Netlify / Cloudflare Pages** — drag the folder onto their dashboard, or connect the repo.
-- **GitHub Pages** — push the folder and enable Pages.
+- **Netlify / Cloudflare Pages** — drag the folder onto their dashboard, or connect the repo. Both honor the `_redirects` and `_headers` files, so `/repair` works out of the box.
+- **GitHub Pages** — not recommended: it has no `_redirects` support, so `/repair` and `/boats/<slug>` would 404 there.
 - Any web host — upload the files.
 
 No environment variables, no secrets in the code except the Web3Forms key,

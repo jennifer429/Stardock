@@ -102,15 +102,10 @@ const CONFIG = {
     },
   ],
 
-  /* --- Restoration: what you do (the "What we do" list on the Restoration tab) --- */
-  restorationWork: [
-    { title: "Fiberglass",          body: "Hull repair, stringers, transom rebuilds and gelcoat." },
-    { title: "Paint & finish",      body: "Full repaints, buffing, boot stripes and lettering." },
-    { title: "Electrical",          body: "New panels, gauges, lighting, pumps and electronics." },
-    { title: "Rewiring",            body: "Complete rewire to modern standards — no patchwork." },
-    { title: "Mechanical",          body: "Controls, cables, steering, fuel systems and plumbing." },
-    { title: "Full engine service", body: "Rebuilds, repowers and certified outboard engine work." },
-  ],
+  /* --- Restoration page -----------------------------------------------------
+     The Restoration page's copy, "What we do" list, before/after photos and
+     certification box live in restoration.html (plain HTML, so search
+     engines read them). Only the budget-slider tiers below stay here. */
 
   /* --- Restoration budget tiers (shown by the "Name your budget" slider) ---
      max = the top of that budget band; body = what it typically covers. */
@@ -121,27 +116,15 @@ const CONFIG = {
     { max: Infinity, name: "RestoMod",            body: "A full restoration plus a repower with a new outboard, modern electronics, and a layout reworked the way you actually use the boat." },
   ],
 
-  /* --- Restoration gallery (photos of work you've done) ------------------
-     Add entries to fill the "Our work" gallery on the Restoration tab.
-     Each entry: { src, label } — label is "Before" or "After" (shown as a
-     small tag on the photo). Drop the files in the images folder.
-     Leave it empty ([]) and the tab shows a friendly "coming soon" note. */
-  restorationPhotos: [
-    { src: "images/restore-before-1-crop.jpg?v=3", label: "Before" },
-    { src: "images/restore-before-2.jpg?v=3", label: "Before" },
-    { src: "images/restore-after-2.jpg?v=3",  label: "After"  },
-    { src: "images/restore-after.jpg?v=3",    label: "After"  },
-  ],
-
-  /* Certification badge shown in the credentials box on the Restoration tab.
-     Point this at a (non–brand-specific) badge image in images/ to show it,
-     or leave "" to use the clean drawn "certified" seal. */
-  certifiedBadge: "",
-
-  /* --- Mobile Repair page -------------------------------------------------
-     The repair page (services grid, service-area towns, "common calls" list,
-     hero copy) is written directly in index.html, inside <div id="app">, so
-     search engines read it without running JavaScript. Edit it there. */
+  /* --- Pages ---------------------------------------------------------------
+     Every section is its own HTML file and real address:
+       /repair       index.html       (also the home page, /)
+       /boats        boats.html       (+ /boats/<slug> and /boats/<slug>/sign)
+       /restoration  restoration.html
+       /contact      contact.html
+     The repair, restoration and contact copy is written directly in those
+     files, so search engines read it without running JavaScript. Edit it
+     there. Boats are listed from the `boats` block above. */
 };
 
 /* ============================================================================
@@ -162,7 +145,13 @@ function smsHref(body) {
 }
 function boatUrl(slug) {
   const base = CONFIG.websiteUrl.replace(/\/$/, "");
-  return base + "/#/boats/" + slug;
+  return base + "/boats/" + slug;
+}
+// Image/file paths in CONFIG are written relative to the site ("images/x.jpg").
+// Pages live at nested addresses (/boats/<slug>), so make them root-absolute.
+function asset(src) {
+  const s = String(src || "");
+  return esc(!s || /^(\/|https?:|data:)/.test(s) ? s : "/" + s);
 }
 // Turn any YouTube link (watch, share, youtu.be, Short) into an embeddable
 // player address. Returns "" if the link isn't recognizably YouTube.
@@ -192,7 +181,7 @@ function boatBySlug(slug) {
 // Links you control should carry utm tags so the source is explicit — and a
 // utm_campaign on every PAID link, so ads can be compared ad-by-ad, not just
 // Facebook vs Yelp. Tags go BEFORE the # of the address, e.g.
-//   paid Facebook ad -> https://stardockmarine.com/?utm_source=facebook&utm_medium=cpc&utm_campaign=fiberglass_repair#/repair
+//   paid Facebook ad -> https://stardockmarine.com/?utm_source=facebook&utm_medium=cpc&utm_campaign=fiberglass_repair
 //   unpaid FB post   -> ...?utm_source=facebook&utm_medium=social
 //   Yelp profile     -> ...?utm_source=yelp&utm_medium=referral
 // Google Ads tags its clicks itself (gclid), so those links need nothing.
@@ -230,7 +219,7 @@ function getAttribution() {
   const now = detectVisitSource();
   // Landing page WITHOUT the query string: enough to know which page the ad
   // opened, and it keeps raw click IDs (gclid/fbclid) out of the emails.
-  now.landing = (location.pathname.replace(/^.*\//, "/") + location.hash).slice(0, 120);
+  now.landing = (location.pathname + location.hash).slice(0, 120);
   now.date = new Date().toISOString().slice(0, 10);
   now.ts = Date.now();
   const record = {
@@ -243,7 +232,7 @@ function getAttribution() {
 }
 
 // Plain-English line(s) for the emailed requests, e.g.
-//   "Google Ads (google / cpc / mobile_marine_repair), landed /#/repair, 2026-09-11"
+//   "Google Ads (google / cpc / mobile_marine_repair), landed /repair, 2026-09-11"
 // or, when they discovered us one way and came back another:
 //   "first: Facebook / Instagram (…), 2026-08-20 · latest: Google Ads (…), 2026-09-11"
 function sourceLine(a) {
@@ -389,7 +378,7 @@ function qrSvg(text, size) {
 // --- photo block (real <img> if provided, else the blueprint placeholder) ---
 function photoBlock(boat, height) {
   if (boat.photos && boat.photos.length) {
-    return `<img src="${esc(boat.photos[0])}" alt="${esc(boat.name)}" loading="lazy" style="width:100%;height:${height}px;object-fit:cover;object-position:center 60%;display:block;border-bottom:1px solid var(--color-divider)">`;
+    return `<img src="${asset(boat.photos[0])}" alt="${esc(boat.name)}" loading="lazy" style="width:100%;height:${height}px;object-fit:cover;object-position:center 60%;display:block;border-bottom:1px solid var(--color-divider)">`;
   }
   return `
     <div style="height:${height}px;border-bottom:1px solid var(--color-divider);display:grid;place-items:center;position:relative;background:color-mix(in srgb,var(--color-accent) 6%,transparent)">
@@ -405,7 +394,7 @@ function viewBoats() {
   const cards = CONFIG.boats.map(b => `
     <article class="blueprint" style="padding:0;background:transparent">
       <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-      <a href="#/boats/${esc(b.slug)}" style="display:block;text-decoration:none;color:inherit">
+      <a href="/boats/${esc(b.slug)}" style="display:block;text-decoration:none;color:inherit">
         <div style="position:relative">
           ${photoBlock(b, 186)}
           <span class="tag tag-outline" style="position:absolute;top:10px;left:10px;background:var(--color-bg)">${esc(b.badge)}</span>
@@ -424,28 +413,18 @@ function viewBoats() {
         </div>
         <p class="text-muted" style="font-size:13px;margin:0;line-height:1.45">${esc(b.blurb)}</p>
         <div style="margin-top:2px">${callTextButtons("Hi Stardock — is the " + b.name + " still available?", false)}</div>
-        <a class="btn btn-secondary btn-block" href="#/boats/${esc(b.slug)}" style="margin-top:8px;text-align:center;justify-content:center">View details</a>
+        <a class="btn btn-secondary btn-block" href="/boats/${esc(b.slug)}" style="margin-top:8px;text-align:center;justify-content:center">View details</a>
       </div>
     </article>`).join("");
 
+  // The page hero is static in boats.html; this is just the "Available now" grid.
   return `
-    <main style="padding:0 0 26px">
-      <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
-        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Boat sales &amp; restoration · Florida</div>
-        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Boats for sale</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Clean, well-kept boats ready to fish. Call or text to come take a look — every boat has its own page and QR code.</p>
-        <div class="phone-out" style="display:none;font-size:15px;color:var(--color-bg);opacity:.95;margin-top:12px;font-weight:600"></div>
-      </section>
-
-      <section style="padding:22px 18px 6px">
         <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px">
-          <h3 style="margin:0">Available now</h3>
+          <h2 style="margin:0;font-size:21px">Available now</h2>
           <span class="text-muted" style="font-size:12px">${CONFIG.boats.length} boats</span>
         </div>
         <div class="boat-grid">${cards}</div>
-        <p class="text-muted" style="font-size:12px;text-align:center;line-height:1.5;margin:22px 0 0">See one at the dock? Scan its sign to open that exact boat.</p>
-      </section>
-    </main>`;
+        <p class="text-muted" style="font-size:12px;text-align:center;line-height:1.5;margin:22px 0 0">See one at the dock? Scan its sign to open that exact boat.</p>`;
 }
 
 function viewDetail(boat) {
@@ -458,7 +437,7 @@ function viewDetail(boat) {
 
   return `
     <main class="view-narrow" style="padding:14px 18px 26px;display:flex;flex-direction:column;gap:16px">
-      <a href="#/boats" class="btn btn-ghost" style="align-self:flex-start;padding-left:0">${BACK_SVG} All boats</a>
+      <a href="/boats" class="btn btn-ghost" style="align-self:flex-start;padding-left:0">${BACK_SVG} All boats</a>
 
       ${(() => {
         // With a video: the video leads, and the photos become a swipeable
@@ -467,10 +446,10 @@ function viewDetail(boat) {
         if (embed) {
           const portrait = /\/shorts\//.test(boat.video || "");
           const slides = (boat.photos || []).map(p =>
-            `<img src="${esc(p)}" alt="${esc(boat.name)}" loading="lazy" style="flex:none;width:86%;max-width:430px;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:center;border:1px solid var(--color-divider);background:var(--color-neutral-200)">`).join("");
+            `<img src="${asset(p)}" alt="${esc(boat.name)}" loading="lazy" style="flex:none;width:86%;max-width:430px;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:center;border:1px solid var(--color-divider);background:var(--color-neutral-200)">`).join("");
           return `
       <figure class="blueprint" style="margin:0;display:flex;justify-content:center;background:var(--color-accent-900)">
-        <iframe src="${esc(embed)}" title="${esc(boat.name)} — video" loading="lazy"
+        <iframe src="${asset(embed)}" title="${esc(boat.name)} — video" loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
           style="display:block;border:0;width:100%;${portrait ? "max-width:330px;aspect-ratio:9/16" : "aspect-ratio:16/9"}"></iframe>
@@ -483,17 +462,17 @@ function viewDetail(boat) {
         return `
       <figure class="blueprint" style="margin:0">
         ${boat.photos && boat.photos.length
-          ? `<img id="detail-hero" src="${esc(boat.photos[0])}" alt="${esc(boat.name)}" style="width:100%;max-height:74vh;object-fit:contain;display:block;background:var(--color-neutral-200)">`
+          ? `<img id="detail-hero" src="${asset(boat.photos[0])}" alt="${esc(boat.name)}" style="width:100%;max-height:74vh;object-fit:contain;display:block;background:var(--color-neutral-200)">`
           : `<div style="height:230px;display:grid;place-items:center;background:color-mix(in srgb,var(--color-accent) 8%,transparent)"><span class="text-muted mono" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase">Hero Photo</span></div>`}
       </figure>
       ${boat.photos && boat.photos.length > 1
-        ? `<div style="display:flex;flex-wrap:wrap;gap:8px">${boat.photos.map(p => `<img src="${esc(p)}" alt="" loading="lazy" onclick="var h=document.getElementById('detail-hero');if(h)h.src=this.src" style="width:74px;height:56px;object-fit:cover;object-position:center 60%;border:1px solid var(--color-divider);cursor:pointer;background:var(--color-neutral-200)">`).join("")}</div>`
+        ? `<div style="display:flex;flex-wrap:wrap;gap:8px">${boat.photos.map(p => `<img src="${asset(p)}" alt="" loading="lazy" onclick="var h=document.getElementById('detail-hero');if(h)h.src=this.src" style="width:74px;height:56px;object-fit:cover;object-position:center 60%;border:1px solid var(--color-divider);cursor:pointer;background:var(--color-neutral-200)">`).join("")}</div>`
         : ""}`;
       })()}
 
       <div>
         ${boat.year ? `<div class="text-muted mono" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">${esc(boat.year)}</div>` : ""}
-        <h2 style="margin:2px 0 4px">${esc(boat.name)}</h2>
+        <h1 style="margin:2px 0 4px;font-size:30px;line-height:1.02">${esc(boat.name)}</h1>
         ${boat.priceNote ? `<div class="mono" style="margin:2px 0 8px;font-weight:600;font-size:16px;line-height:1.35;color:var(--color-accent-700)">${esc(boat.priceNote)}</div>` : ""}
         <div class="mono" style="font-weight:600;font-size:34px;color:var(--color-accent-700);line-height:1">${esc(boat.price)}</div>
         ${boat.wasPrice ? `<div style="margin-top:6px;font-size:15px"><span class="mono text-muted" style="text-decoration:line-through">${esc(boat.wasPrice)}</span> <span style="color:var(--color-accent-700);font-weight:600">Recently reduced</span></div>` : ""}
@@ -510,7 +489,7 @@ function viewDetail(boat) {
 
       ${callTextButtons("Hi Stardock — is the " + boat.name + " still available?", false)}
       ${phoneOut(false)}
-      <a class="btn btn-ghost btn-block" href="#/boats/${esc(boat.slug)}/sign" style="margin-top:0">Printable "For Sale" sign &amp; QR</a>
+      <a class="btn btn-ghost btn-block" href="/boats/${esc(boat.slug)}/sign" style="margin-top:0">Printable "For Sale" sign &amp; QR</a>
     </main>`;
 }
 
@@ -518,7 +497,7 @@ function viewSign(boat) {
   const url = boatUrl(boat.slug);
   return `
     <main class="view-narrow" style="padding:14px 18px 26px;display:flex;flex-direction:column;gap:14px">
-      <a href="#/boats/${esc(boat.slug)}" class="btn btn-ghost no-print" style="align-self:flex-start;padding-left:0">${BACK_SVG} Back to listing</a>
+      <a href="/boats/${esc(boat.slug)}" class="btn btn-ghost no-print" style="align-self:flex-start;padding-left:0">${BACK_SVG} Back to listing</a>
       <div class="text-muted no-print" style="font-size:12px;line-height:1.5">
         Print this at roughly letter size — the QR ends up about 4×4 in, readable from several feet. Zip-tie or laminate it to the boat.
         <button onclick="window.print()" class="btn btn-secondary btn-block" style="margin-top:10px">Print this sign</button>
@@ -529,7 +508,7 @@ function viewSign(boat) {
 
         <div style="text-align:center;margin-bottom:6px">
           ${CONFIG.logo
-            ? `<img src="${esc(CONFIG.logo)}" alt="${esc(CONFIG.businessName)}" style="height:104px;width:auto;display:block;margin:0 auto" onerror="this.remove();var f=document.getElementById('sign-brand-fb');if(f)f.style.display='inline-block'">
+            ? `<img src="${asset(CONFIG.logo)}" alt="${esc(CONFIG.businessName)}" style="height:104px;width:auto;display:block;margin:0 auto" onerror="this.remove();var f=document.getElementById('sign-brand-fb');if(f)f.style.display='inline-block'">
                <div id="sign-brand-fb" class="mono" style="display:none;border:2px solid var(--color-text);padding:6px 12px;font-weight:600;font-size:15px;letter-spacing:.08em">${esc(CONFIG.businessName).toUpperCase()}</div>`
             : `<div class="mono" style="border:2px solid var(--color-text);padding:6px 12px;font-weight:600;font-size:15px;letter-spacing:.08em;display:inline-block">${esc(CONFIG.businessName).toUpperCase()}</div>`}
         </div>
@@ -554,114 +533,6 @@ function viewSign(boat) {
         <div style="display:flex;justify-content:center">${qrSvg(url, 180)}</div>
         <div class="mono" style="font-weight:600;font-size:20px;margin-top:14px">Call or Text ${esc(CONFIG.phone)}</div>
         <div class="mono" style="font-weight:600;font-size:15px;color:var(--color-accent-700)">${esc(url.replace(/^https?:\/\//, ""))}</div>
-      </div>
-    </main>`;
-}
-
-function viewRestoration() {
-  const restoreSms = "Hi Stardock — I've got a boat I'd like to restore. Here's a bit about it and my budget:";
-
-  const caps = (CONFIG.restorationWork || []).map(c => `
-        <div style="display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;padding:13px 2px 14px;border-bottom:1px solid var(--color-divider)">
-          <div class="mono" style="font-weight:600;font-size:18px;line-height:1.1;min-width:150px">${esc(c.title)}</div>
-          <p class="text-muted" style="font-size:13.5px;margin:0;line-height:1.45;flex:1;min-width:180px">${esc(c.body)}</p>
-        </div>`).join("");
-
-  const photos = CONFIG.restorationPhotos || [];
-  // Normalize (support legacy plain-string entries too) and split by label.
-  const norm = photos.map(p => typeof p === "string" ? { src: p, label: "" } : p);
-  const befores = norm.filter(p => /before/i.test(p.label || ""));
-  const afters  = norm.filter(p => /after/i.test(p.label || ""));
-  const tag = (l) => l
-    ? `<figcaption class="mono" style="position:absolute;top:0;left:0;padding:4px 10px;background:var(--color-accent-900);color:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase">${esc(l)}</figcaption>`
-    : "";
-  const frame = (p, ratio) => `<figure class="blueprint" style="margin:0;position:relative;overflow:hidden"><img src="${esc(p.src)}" alt="${esc(p.label || "Restoration work")}" loading="lazy" style="display:block;width:100%;aspect-ratio:${ratio};object-fit:cover;background:var(--color-neutral-200)">${tag(p.label)}</figure>`;
-  const emptyFrame = (l) => `<figure class="blueprint" style="margin:0;position:relative;overflow:hidden"><div style="aspect-ratio:4/3;background:color-mix(in srgb,var(--color-accent) 7%,transparent)"></div>${tag(l)}</figure>`;
-  // Show each restoration as a Before → After pair, side by side (not stacked).
-  const pairCount = Math.max(befores.length, afters.length);
-  let pairs = "";
-  for (let i = 0; i < pairCount; i++) {
-    pairs += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">${befores[i] ? frame(befores[i], "4/3") : emptyFrame("Before")}${afters[i] ? frame(afters[i], "4/3") : emptyFrame("After")}</div>`;
-  }
-  const ourWork = norm.length
-    ? `${pairs}<div class="text-muted" style="font-size:12px;text-align:center;margin-top:6px">A recent restoration — torn down up north, rebuilt and back on the water in Florida.</div>`
-    : `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${emptyFrame("Before")}${emptyFrame("After")}</div>
-       <div class="text-muted" style="font-size:11.5px;text-align:center;margin-top:8px">Before/after photos of finished restorations coming soon.</div>`;
-
-  return `
-    <main style="padding:0 0 26px">
-      <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
-        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Restoration &amp; RestoMods · Florida</div>
-        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Have a beloved boat with some years on it?</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">We restore and <b>RestoMod</b> classic boats — we keep the soul of your sweetheart and bring it up to date, so a vintage boat gives you a modern boat feel and experience. Tell us what you're after and we'll work up an estimate, or name a budget and we'll lay out what we can do for it, as options.</p>
-        ${phoneOut(true)}
-      </section>
-
-      <div class="view-narrow">
-      <section style="padding:20px 18px 2px">
-        <div class="blueprint" style="padding:18px 16px;background:color-mix(in srgb,var(--color-accent) 9%,transparent);display:flex;gap:16px;align-items:center">
-          ${CONFIG.certifiedBadge
-            ? `<img src="${esc(CONFIG.certifiedBadge)}" alt="Certified outboard technician" width="82" height="82" style="flex:none;width:82px;height:82px;border-radius:50%;object-fit:cover">`
-            : `<svg width="72" height="72" viewBox="0 0 100 100" fill="none" style="flex:none">
-            <circle cx="50" cy="50" r="46" stroke="var(--color-accent-700)" stroke-width="2.5"/>
-            <circle cx="50" cy="50" r="37" stroke="var(--color-accent-700)" stroke-width="1"/>
-            <path d="M33 51 l11 11 l23 -25" stroke="var(--color-accent-700)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>`}
-          <div>
-            <div class="mono" style="font-weight:600;font-size:24px;line-height:1.05">Certified Outboard Mechanic</div>
-          </div>
-        </div>
-      </section>
-      </div>
-
-      <section style="padding:26px 18px 2px">
-        <div class="resto-work">
-          <div>
-            <h3 style="margin:0 0 12px">Our work</h3>
-            ${ourWork}
-          </div>
-          <div>
-            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2px">
-              <h3 style="margin:0">What we do</h3>
-              <span class="text-muted mono" style="font-size:12px;letter-spacing:.1em;text-transform:uppercase">All in-house</span>
-            </div>
-            <div style="display:flex;flex-direction:column;margin-top:12px;border-top:1px solid var(--color-divider)">${caps}</div>
-          </div>
-        </div>
-      </section>
-
-      <div class="view-narrow">
-      <section style="padding:28px 18px 6px">
-        <h3 style="margin:0 0 4px">Two ways to start</h3>
-        <p class="text-muted" style="font-size:13px;margin:0 0 14px;line-height:1.5">Tell us the boat and what you'd like done and we'll work up a plan and a price — or name a budget and we'll lay out what we can do for it, as options.</p>
-
-        <div id="resto-toggle" style="display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--color-divider);margin-bottom:16px">
-          <button type="button" class="resto-mode" data-mode="estimate" style="border:0;cursor:pointer">
-            <span class="mono" style="display:block;font-weight:600;font-size:16px">Get an estimate</span>
-            <span style="display:block;font-size:11.5px;opacity:.75;line-height:1.3">Tell us what you want done</span>
-          </button>
-          <button type="button" class="resto-mode" data-mode="budget" style="border:0;border-left:1px solid var(--color-divider);cursor:pointer">
-            <span class="mono" style="display:block;font-weight:600;font-size:16px">Name your budget</span>
-            <span style="display:block;font-size:11.5px;opacity:.75;line-height:1.3">We'll lay out the options</span>
-          </button>
-        </div>
-
-        <div id="budget-panel" class="blueprint" style="display:none;padding:17px 16px 19px;margin-bottom:16px">
-          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
-            <span id="budget-amount" class="mono" style="font-weight:600;font-size:34px;color:var(--color-accent-700);line-height:1">$18,000</span>
-            <span class="mono text-muted" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase">Your budget</span>
-          </div>
-          <input id="budget-slider" type="range" min="5000" max="60000" step="1000" value="18000" style="width:100%;accent-color:var(--color-accent);margin:14px 0 4px">
-          <div class="text-muted" style="display:flex;justify-content:space-between;font-size:11px"><span>$5k</span><span>$60k+</span></div>
-          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--color-divider)">
-            <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">Typically covers</div>
-            <div id="tier-name" class="mono" style="font-weight:600;font-size:20px;line-height:1.05;margin-top:5px"></div>
-            <p id="tier-body" class="text-muted" style="font-size:13px;margin:7px 0 0;line-height:1.55"></p>
-          </div>
-        </div>
-
-        <div id="resto-mount"></div>
-      </section>
       </div>
     </main>`;
 }
@@ -913,28 +784,6 @@ function wireForm(mount) {
 }
 
 // --- contact tab ------------------------------------------------------------
-// The number is written into the page by JS (this function runs at render
-// time), so bots that fetch the static index.html never see a dialable number
-// or a tel:/sms: link — same anti-scrape guarantee as the rest of the site —
-// while real visitors get it right up front, the way a contact page should.
-function viewContact() {
-  return `
-    <main style="padding:0 0 30px">
-      <section style="padding:22px 18px 20px;background:var(--color-accent-900);color:var(--color-bg)">
-        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7">Get in touch</div>
-        <h2 style="margin:6px 0 8px;color:var(--color-bg);font-size:30px;line-height:1.02">Texting is the fastest way to reach us</h2>
-        <p style="font-size:14px;line-height:1.5;margin:0;opacity:.85">Or send a quick message below and we'll get right back to you. Serving central-east Florida.</p>
-        ${phoneOut(true)}
-      </section>
-
-      <div class="view-narrow">
-        <section style="padding:24px 18px 2px">
-          <div id="contact-mount"></div>
-        </section>
-      </div>
-    </main>`;
-}
-
 // Contact: one simple message form — name, how to reach you, message. Emails
 // you via Web3Forms, with a mailto fallback.
 function wireContact() {
@@ -1076,32 +925,43 @@ function wireContact() {
 }
 
 
-// --- Mobile Repair tab ------------------------------------------------------
-// The repair page is pre-rendered in index.html (inside <div id="app">) so
-// crawlers see the services, towns and phone number in plain HTML. Capture
-// that markup once, before any other view replaces it, and hand it back
-// whenever the visitor returns to the Mobile Repair tab.
-const REPAIR_HTML = (function () {
+// --- static pages -------------------------------------------------------------
+// The repair, restoration, contact and boats pages are pre-rendered in their
+// own HTML files (inside <div id="app" data-prerendered="...">) so crawlers
+// see the real content. Capture that markup once, before any other view
+// replaces it, so it can be put back if the visitor returns to it in-page.
+const STATIC_TAB = (function () {
   const app = document.getElementById("app");
-  return app && app.getAttribute("data-prerendered") === "repair" ? app.innerHTML : "";
+  return app ? (app.getAttribute("data-prerendered") || "") : "";
 })();
-function viewRepair() {
-  return REPAIR_HTML || `<main style="padding:24px 18px"><p>Mobile Repair content is missing from index.html.</p></main>`;
+const STATIC_HTML = STATIC_TAB ? document.getElementById("app").innerHTML : "";
+function missingView(tab) {
+  return `<main style="padding:28px 18px"><p>This section lives at <a href="/${esc(tab)}">stardockmarine.com/${esc(tab)}</a>.</p></main>`;
 }
 
 // --- router -----------------------------------------------------------------
+// Every section is a real address: /repair (also the home page, /), /boats,
+// /boats/<slug>, /boats/<slug>/sign, /restoration and /contact. Each is its
+// own HTML file; /boats/<slug> is served from boats.html by _redirects. The
+// old "#/..." addresses still work: they are redirected to the new ones, so
+// printed QR signs and shared links keep landing on the right page.
+const TABS = ["repair", "boats", "restoration", "contact"];
+function pathSegments() {
+  return location.pathname.replace(/\.html$/, "").split("/").filter(s => s && s !== "index");
+}
+// "/boats/key-largo-176" for a legacy "#/boats/key-largo-176" hash, else "".
+function legacyHashPath() {
+  const parts = location.hash.replace(/^#/, "").split("/").filter(Boolean);
+  if (!parts.length) return "";
+  if (parts[0] === "boats") return "/boats" + (parts[1] ? "/" + parts[1] + (parts[2] === "sign" ? "/sign" : "") : "");
+  return TABS.includes(parts[0]) ? "/" + parts[0] : "";
+}
 function currentRoute() {
-  const hash = location.hash.replace(/^#/, "");
-  const parts = hash.split("/").filter(Boolean); // e.g. ["boats","key-largo-176","sign"]
-  if (parts[0] === "restoration") return { tab: "restoration" };
-  if (parts[0] === "repair") return { tab: "repair" };
-  if (parts[0] === "contact") return { tab: "contact" };
-  if (parts[0] === "boats" && parts[1] && parts[2] === "sign") return { tab: "boats", boat: parts[1], sign: true };
-  if (parts[0] === "boats" && parts[1]) return { tab: "boats", boat: parts[1] };
-  if (parts[0] === "boats") return { tab: "boats" };
-  // default / empty hash
+  const seg = pathSegments();
+  if (seg[0] === "boats") return { tab: "boats", boat: seg[1] || null, sign: seg[2] === "sign" };
+  if (TABS.includes(seg[0])) return { tab: seg[0] };
   const d = CONFIG.defaultTab;
-  return { tab: (d === "repair" || d === "restoration" || d === "contact" || d === "boats") ? d : "repair" };
+  return { tab: TABS.includes(d) ? d : "repair" };
 }
 
 function tabStyle(active) {
@@ -1118,6 +978,11 @@ function tabStyle(active) {
 }
 
 function render() {
+  // An old "#/..." address: send it to the real one (not possible when the
+  // files are opened straight from disk, so those keep rendering in place).
+  const legacy = legacyHashPath();
+  if (legacy && /^https?:$/.test(location.protocol)) { location.replace(legacy); return; }
+
   const route = currentRoute();
   const app = document.getElementById("app");
 
@@ -1131,23 +996,19 @@ function render() {
     el.setAttribute("style", tabStyle(el.getAttribute("data-tab") === route.tab));
   });
 
-  if (route.tab === "restoration") {
-    app.innerHTML = viewRestoration();
-    wireRestoration();
-  } else if (route.tab === "repair") {
-    // First paint of the home page: the markup is already there from
-    // index.html, so leave it (no image reload, no flash).
-    if (!render.gaInitDone && app.getAttribute("data-prerendered") === "repair") { /* keep as-is */ }
-    else app.innerHTML = viewRepair();
-  } else if (route.tab === "contact") {
-    app.innerHTML = viewContact();
-    wireContact();
-  } else if (route.boat) {
+  if (route.tab === "boats" && route.boat) {
     const boat = boatBySlug(route.boat);
-    if (!boat) { location.hash = "#/boats"; return; }
+    if (!boat) { location.replace("/boats"); return; }
     app.innerHTML = route.sign ? viewSign(boat) : viewDetail(boat);
+  } else if (STATIC_TAB === route.tab) {
+    // This page's own pre-rendered markup. On first paint it's already
+    // there (no image reload, no flash); afterwards put it back.
+    if (render.done) app.innerHTML = STATIC_HTML;
+    if (route.tab === "boats") document.getElementById("boat-list").innerHTML = viewBoats();
+    if (route.tab === "restoration") wireRestoration();
+    if (route.tab === "contact") wireContact();
   } else {
-    app.innerHTML = viewBoats();
+    app.innerHTML = missingView(route.tab);
   }
 
   refreshPhoneLinks();   // wire freshly-rendered Call/Text buttons to the reveal state
@@ -1156,8 +1017,8 @@ function render() {
   // gtag('config') already counts the first page_view (and is what Google's
   // tag detector looks for). From the first in-app navigation onward, send a
   // labeled page_view per view (tab or boat) so nothing is double-counted.
-  if (render.gaInitDone) trackPageview(route);
-  render.gaInitDone = true;
+  if (render.done) trackPageview(route);
+  render.done = true;
 }
 
 // Per-view browser/tab title (helps SEO + shared links). Repair is the home
