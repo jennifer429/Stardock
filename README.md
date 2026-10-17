@@ -8,10 +8,11 @@ Plain HTML/CSS/JavaScript — **no build step, no server, no database.** Open
 
 | File | What it is |
 |------|-----------|
-| `index.html` | Page shell (header, tabs, sticky call bar). |
+| `index.html` | Page shell (header, tabs, sticky call bar) **plus the full Mobile Repair page** — hero copy, services grid, service-area towns, "common calls" list and the search-engine metadata (description, structured data). It's written out in plain HTML so Google reads it without running JavaScript. |
 | `app.js` | **The only file you'll normally edit.** All settings + content live in the `CONFIG` block at the very top. |
 | `styles.css` | The "Industry" design system (colors, fonts, components). Don't hand-edit unless restyling. |
 | `qrcode.js` | Bundled QR-code generator (used by the printable signs). No internet needed. |
+| `robots.txt`, `sitemap.xml` | Tell search engines the site is open to crawl and where the home page is. |
 
 ## Editing content (no coding needed)
 
@@ -20,8 +21,22 @@ Open `app.js` and change the values inside the `CONFIG = { ... }` block at the t
 - **Phone number** — `phone:` — powers every "Call / Text" button *and* the QR signs.
 - **Boats for sale** — `boats: [ ... ]` — copy a `{ ... }` block to add a boat, delete one to remove it. Prices, specs, and descriptions are plain text.
 - **Boat photos** — put image files in an `images/` folder next to this site, then list them in a boat's `photos: [ "images/my-boat.jpg" ]`. Empty `[]` shows a placeholder.
-- **Repair services** — `services: [ ... ]`.
 - **Financing note / default tab** — `showFinancing`, `defaultTab`.
+
+The **Mobile Repair page** is the one exception: its copy lives in
+`index.html` inside `<div id="app">`, not in `app.js`. That's deliberate —
+it's the home page, and keeping it as plain HTML is what lets Google read the
+services, the towns we serve and the phone number without running JavaScript.
+To change it, edit the text there:
+
+- **Service cards** — each `<div class="blueprint">` under "Marine repair services".
+- **Towns / counties** — the two lists under "Where we go". Change the same
+  towns in the `"areaServed"` list of the structured-data block in `<head>`
+  (and the `<meta name="description">` if you move the headline towns).
+- **"Common calls we get"** — the question-and-answer list; each is an `<h3>`
+  plus a paragraph. These exist to match what people type into Google
+  ("boat won't start", "tilt and trim", "bilge pump", "jet ski repair"), so
+  keep the plain-English problem names in the headings.
 
 ## The "Call / Text" button
 
