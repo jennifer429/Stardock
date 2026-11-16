@@ -4,4 +4,5 @@
   <url><loc>https://stardockmarine.com/boats</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://stardockmarine.com/restoration</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://stardockmarine.com/contact</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://stardockmarine.com/privacy</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
 </urlset>
