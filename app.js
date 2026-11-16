@@ -945,7 +945,7 @@ function missingView(tab) {
 // own HTML file; /boats/<slug> is served from boats.html by _redirects. The
 // old "#/..." addresses still work: they are redirected to the new ones, so
 // printed QR signs and shared links keep landing on the right page.
-const TABS = ["repair", "boats", "restoration", "contact"];
+const TABS = ["repair", "boats", "restoration", "contact", "privacy"];  // "privacy" has no tab button; it is linked from the footer.
 function pathSegments() {
   return location.pathname.replace(/\.html$/, "").split("/").filter(s => s && s !== "index");
 }

@@ -16,13 +16,14 @@ Every section of the site is its own HTML file and real address:
 | `/boats`, `/boats/<slug>`, `/boats/<slug>/sign` | `boats.html` | **Boats for Sale.** The hero is plain HTML; the listing, each boat's page and its printable sign are filled in by `app.js` from the `boats` list, so prices never go stale. |
 | `/restoration` | `restoration.html` | **Restoration** — copy, "What we do" list, before/after photos, all plain HTML. `app.js` wires the estimate/budget toggle and the form. |
 | `/contact` | `contact.html` | **Contact** — static hero; `app.js` renders the message form. |
+| `/privacy` | `privacy.html` | **Privacy Policy** — plain HTML, linked from the footer of every page. This is the URL to give Google Ads lead forms. Edit the text in the file. |
 | — | `app.js` | Settings + the boats list in the `CONFIG` block at the top, then the site machinery (routing, forms, tracking, QR signs). |
 | — | `styles.css` | The "Industry" design system (colors, fonts, components). Don't hand-edit unless restyling. |
 | — | `shell.css` | Page layout shared by every page (header, tabs, call bar, section bands). |
 | — | `qrcode.js` | Bundled QR-code generator (used by the printable signs). No internet needed. |
 | — | `404.html` | The not-found page, so stray addresses get a real 404 instead of a broken copy of the home page. |
 | — | `_redirects`, `_headers` | Cloudflare Pages / Netlify config: serves `index.html` at `/repair` and `boats.html` at `/boats/<slug>`, redirects old addresses, and keeps HTML/code files from caching stale. |
-| — | `robots.txt`, `sitemap.xml` | Tell search engines the site is open to crawl and which four addresses to index. |
+| — | `robots.txt`, `sitemap.xml` | Tell search engines the site is open to crawl and which addresses to index. |
 
 The header, tabs and call bar are repeated in each HTML file (there's no
 build step to share them), so a change to those goes in all four.

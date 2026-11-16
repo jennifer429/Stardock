@@ -15,6 +15,8 @@
 /boats/*         /boats.html    200
 /restoration/    /restoration   301
 /contact/        /contact       301
+/privacy/        /privacy       301
+/privacy-policy  /privacy       301
 
 # Old / stray addresses. Without a 404.html the host served index.html at ANY
 # path (so /boat-repair/outboard showed the page with broken CSS and images).
