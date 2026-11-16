@@ -12,7 +12,7 @@ Every section of the site is its own HTML file and real address:
 
 | Address | File | What it is |
 |---------|------|-----------|
-| `/` and `/repair` | `index.html` | **Mobile Repair** — the home page. The full page (hero, services, service-area towns, "common calls", weekend/emergency callout) is written in plain HTML so Google reads it without running JavaScript. `/repair` is the canonical address. |
+| `/` and `/repair` | `index.html` | **Mobile Repair** — the home page. The full page (hero, services, service-area towns, "common calls", after-hours/weekend callout) is written in plain HTML so Google reads it without running JavaScript. `/repair` is the canonical address. |
 | `/boats`, `/boats/<slug>`, `/boats/<slug>/sign` | `boats.html` | **Boats for Sale.** The hero is plain HTML; the listing, each boat's page and its printable sign are filled in by `app.js` from the `boats` list, so prices never go stale. |
 | `/restoration` | `restoration.html` | **Restoration** — copy, "What we do" list, before/after photos, all plain HTML. `app.js` wires the estimate/budget toggle and the form. |
 | `/contact` | `contact.html` | **Contact** — static hero; `app.js` renders the message form. |
