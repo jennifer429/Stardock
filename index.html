@@ -154,9 +154,16 @@
       <!-- Gelcoat: the damage photo is the proof of craft -->
       <section style="padding:24px 18px 0;max-width:980px;margin-inline:auto">
         <div class="split2" style="border:1px solid var(--color-divider);background:var(--color-bg)">
-          <figure style="margin:0;position:relative;overflow:hidden;min-height:220px">
-            <img src="/images/repair-fiberglass-damage.jpg?v=3" alt="A ding in a boat hull — an example of the damage we come out to repair" loading="lazy" onerror="var f=this.closest('figure');if(f)f.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 34%;background:var(--color-neutral-200)">
-          </figure>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;min-height:240px;background:var(--color-divider)">
+            <figure style="margin:0;position:relative;overflow:hidden">
+              <img src="/images/repair-fiberglass-damage.jpg?v=3" alt="A ding in a boat hull — an example of the damage we come out to repair" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 34%;background:var(--color-neutral-200)">
+              <figcaption class="mono" style="position:absolute;left:0;top:0;padding:4px 10px;background:var(--color-accent-900);color:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase">The damage</figcaption>
+            </figure>
+            <figure style="margin:0;position:relative;overflow:hidden">
+              <img src="/images/repair-fiberglass-keel-chip.jpg" alt="A chip worn through the gelcoat on the keel of a trailered boat — fiberglass damage we repair" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:40% 78%;background:var(--color-neutral-200)">
+              <figcaption class="mono" style="position:absolute;left:0;top:0;padding:4px 10px;background:var(--color-accent-900);color:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase">Keel chip</figcaption>
+            </figure>
+          </div>
           <div style="padding:20px 18px 22px">
             <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">An example of what we come out to fix</div>
             <h2 style="margin:6px 0 8px;font-size:23px;line-height:1.12">Gelcoat &amp; ding repair,<br>color-matched to your hull</h2>
@@ -175,6 +182,29 @@
           <span style="font-size:13px;line-height:1.45">Match the gelcoat, spray, wet-sand and buff to gloss</span>
         </div></div>
             <a class="btn btn-primary phone-link" data-phone="sms" data-sms-body="Hi Stardock — here's a photo of the damage on my boat. What would it take to fix?" href="sms:+13862276883?&body=Hi%20Stardock%20%E2%80%94%20here%27s%20a%20photo%20of%20the%20damage%20on%20my%20boat.%20What%20would%20it%20take%20to%20fix%3F" style="width:100%"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Text us a photo for a quote</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent repair projects: one card per job. Copy a <div class="split2"> card to add a
+           project; when a job is finished, add its finished photo beside the in-progress one. -->
+      <section id="recent-projects" style="padding:28px 18px 0;max-width:980px;margin-inline:auto">
+        <div class="mono" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700)">From the shop</div>
+        <h2 style="margin:4px 0 12px;font-size:25px">Recent repair projects</h2>
+        <div style="border:1px solid var(--color-divider);background:var(--color-bg)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--color-divider)">
+            <figure style="margin:0;position:relative;overflow:hidden">
+              <img src="/images/repair-fiberglass-shop.jpg" alt="Fiberglass and transom repair under way on a customer's boat — the lower transom ground out and filled" loading="lazy" style="display:block;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center 18%;background:var(--color-neutral-200)">
+              <figcaption class="mono" style="position:absolute;left:0;top:0;padding:4px 10px;background:var(--color-accent-900);color:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase">Filled</figcaption>
+            </figure>
+            <figure style="margin:0;position:relative;overflow:hidden">
+              <img src="/images/repair-transom-coated.jpg" alt="The same transom later — sanded fair and coated white, outboard still hung, tools laid out on the shop floor" loading="lazy" style="display:block;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center 35%;background:var(--color-neutral-200)">
+              <figcaption class="mono" style="position:absolute;left:0;top:0;padding:4px 10px;background:var(--color-accent-900);color:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase">Faired &amp; coated</figcaption>
+            </figure>
+          </div>
+          <div style="padding:18px 18px 20px">
+            <h3 style="margin:0 0 8px;font-size:21px;line-height:1.15">Fiberglass &amp; Transom Repair — Work in Progress</h3>
+            <p class="text-muted" style="font-size:13.5px;line-height:1.55;margin:0">Fiberglass repair underway on a customer&#39;s boat, including surface preparation and reinforcement work.</p>
           </div>
         </div>
       </section>
@@ -258,6 +288,16 @@
           <img src="/images/repair-mobile-boat.jpg?v=3" alt="Mobile marine service — our truck and a customer's boat on its trailer at dusk" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%">
           <figcaption class="mono" style="position:absolute;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--color-accent-900) 82%,transparent);color:var(--color-bg);font-size:12px;letter-spacing:.02em;padding:7px 12px">We bring the shop to you — dock, driveway or ramp.</figcaption>
         </figure>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px">
+          <figure style="margin:0;position:relative;overflow:hidden">
+            <img src="/images/repair-at-the-dock.jpg" alt="A Mercury outboard tilted up for service on a boat at its dock, drain bucket underneath" loading="lazy" style="display:block;width:100%;aspect-ratio:4/5;max-height:440px;object-fit:cover;object-position:center 40%;background:var(--color-neutral-200)">
+            <figcaption class="mono" style="position:absolute;left:0;top:0;padding:4px 10px;background:var(--color-accent-900);color:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase">At the dock</figcaption>
+          </figure>
+          <figure style="margin:0;position:relative;overflow:hidden">
+            <img src="/images/repair-in-the-driveway.jpg" alt="A Mercury 60 FourStroke on a pontoon boat in a customer's driveway with our diagnostic scan tool plugged in" loading="lazy" style="display:block;width:100%;aspect-ratio:4/5;max-height:440px;object-fit:cover;object-position:center 30%;background:var(--color-neutral-200)">
+            <figcaption class="mono" style="position:absolute;left:0;top:0;padding:4px 10px;background:var(--color-accent-900);color:var(--color-bg);font-size:11px;letter-spacing:.14em;text-transform:uppercase">In the driveway</figcaption>
+          </figure>
+        </div>
         <div class="split2" style="gap:12px">
           <div class="blueprint" style="padding:14px 14px 16px">
             <div class="mono" style="font-weight:600;font-size:16px;line-height:1.1">Volusia County</div>
